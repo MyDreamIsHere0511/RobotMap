@@ -19,28 +19,39 @@
 
     .map-container {
       position: relative;
-      width: 800px; /* Giữ kích thước bản đồ theo màn hình web */
-      height: 800px; /* Giữ tỉ lệ chiều cao */
+      width: 800px; /* Giữ kích thước bản đồ */
+      height: 800px; /* Giữ kích thước bản đồ */
       border: 2px solid #000;
-      resize: both; /* Cho phép thay đổi kích thước bản đồ */
+      resize: both;
       overflow: hidden;
     }
 
     .map-container img.map {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Giữ tỷ lệ cho ảnh map */
+      object-fit: contain; /* Giữ tỉ lệ cho ảnh map */
     }
 
     .robot {
       position: absolute;
-      width: 10%; /* Robot chiếm tỉ lệ 10% chiều rộng bản đồ */
+      width: 12%; /* Robot giữ kích thước gốc trên bản đồ */
       height: auto;
       left: 50%; /* Tính vị trí robot */
       top: 50%;
       transform: translate(-50%, -50%); /* Để robot luôn nằm ở vị trí chính giữa */
       display: none;
       transition: top 0.2s, left 0.2s, transform 0.3s ease-in-out;
+    }
+
+    .controls-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
 
     button {
@@ -55,29 +66,26 @@
       position: absolute;
       bottom: 0;
       right: 0;
-      cursor: nwse-resize; /* Biểu tượng kéo */
+      cursor: nwse-resize;
       background-color: rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
 <body>
-  <div class="controls">
-    <label>
-      <input type="checkbox" id="toggleRobot" />
-      Hiện robot
-    </label>
-    <button onclick="move('up')">W</button>
-    <button onclick="move('left')">A</button>
-    <button onclick="move('down')">S</button>
-    <button onclick="move('right')">D</button>
-    <button onclick="rotateRobot('left')">J (Quay trái)</button>
-    <button onclick="rotateRobot('right')">K (Quay phải)</button>
-  </div>
-
   <div class="map-container" id="mapArea">
     <img src="map.png" alt="Map" class="map">
     <img src="robot.png" alt="Robot" id="robot" class="robot">
     <div class="resize-control" id="resizeHandle"></div>
+  </div>
+
+  <!-- Thêm ô điều khiển -->
+  <div class="controls-container">
+    <button onclick="move('up')">Tiến (W)</button>
+    <button onclick="move('down')">Lùi (S)</button>
+    <button onclick="move('left')">Trái (A)</button>
+    <button onclick="move('right')">Phải (D)</button>
+    <button onclick="rotateRobot('left')">Quay trái (J)</button>
+    <button onclick="rotateRobot('right')">Quay phải (K)</button>
   </div>
 
   <script>
@@ -87,7 +95,7 @@
     const mapArea = document.getElementById('mapArea');
     let x = 50, y = 50; // Vị trí ban đầu robot (tính theo % của bản đồ)
     let rotation = 0; // Góc quay robot
-    const step = 1; // Khoảng cách mỗi lần di chuyển (tính theo %)
+    const step = 2; // Khoảng cách mỗi lần di chuyển (tính theo %)
 
     const mapWidthInCm = 120; // Kích thước bản đồ (cm)
     const mapHeightInCm = 120; // Kích thước bản đồ (cm)
@@ -134,12 +142,13 @@
 
     function rotateRobot(direction) {
       if (direction === 'left') {
-        rotation -= 90;
+        rotation -= 2; // Mỗi lần quay 2 độ
       } else if (direction === 'right') {
-        rotation += 90;
+        rotation += 2; // Mỗi lần quay 2 độ
       }
 
-      robot.style.transform = `rotate(${rotation}deg)`;
+      // Quay robot từ tâm
+      robot.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
     }
 
     // Resize map bằng cách kéo

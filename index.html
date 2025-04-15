@@ -1,4 +1,3 @@
-CODERNIGHT\code htlm\index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +46,7 @@ CODERNIGHT\code htlm\index.html
     
     #robot {
       position: absolute;
-      width: 50px;
+      width: 50px; /* Kích thước mặc định */
       transform-origin: center center;
       transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
     }
@@ -105,13 +104,13 @@ CODERNIGHT\code htlm\index.html
     /* Phân khu 2: Lập trình khối */
     #block-programming {
       padding: 10px;
-      flex: 1;
       border-bottom: 1px solid #ddd;
     }
     
     .block-container {
       display: flex;
       margin-bottom: 10px;
+      max-height: 250px; /* Giới hạn chiều cao để vừa màn hình */
     }
     
     .block-library {
@@ -120,7 +119,6 @@ CODERNIGHT\code htlm\index.html
       border-radius: 4px;
       padding: 8px;
       background-color: white;
-      min-height: 300px;
       overflow-y: auto;
     }
     
@@ -130,25 +128,25 @@ CODERNIGHT\code htlm\index.html
       border-radius: 4px;
       padding: 8px;
       background-color: white;
-      min-height: 300px;
       margin-left: 10px;
       overflow-y: auto;
     }
     
     .command-block {
-      margin: 5px 0;
-      padding: 8px;
+      margin: 3px 0;
+      padding: 5px;
       background-color: #f0f0f0;
       border: 1px solid #ddd;
       border-radius: 4px;
       cursor: move;
       display: flex;
       align-items: center;
+      font-size: 0.9em;
     }
     
     .command-block input {
-      width: 50px;
-      margin-left: 10px;
+      width: 40px;
+      margin-left: 5px;
       text-align: center;
     }
     
@@ -164,6 +162,20 @@ CODERNIGHT\code htlm\index.html
     .command-block.rotate-left { background-color: #ffccd5; }
     .command-block.rotate-right { background-color: #c9f7f5; }
     
+    .robot-resize-controls {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    
+    .robot-resize-controls label {
+      margin-right: 10px;
+    }
+    
+    .robot-resize-controls input {
+      width: 100%;
+    }
+    
     .run-program {
       display: block;
       width: 100%;
@@ -178,6 +190,19 @@ CODERNIGHT\code htlm\index.html
     
     .run-program:hover {
       background-color: #45a049;
+    }
+    
+    /* Điểm resize cho robot */
+    .resize-handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ff5252;
+      border-radius: 50%;
+      bottom: -5px;
+      right: -5px;
+      cursor: nwse-resize;
+      z-index: 10;
     }
   </style>
 </head>
@@ -202,10 +227,16 @@ CODERNIGHT\code htlm\index.html
       <div class="rotation-controls">
         <button onclick="rotate(-2)">⟲ Quay Trái (Q)</button>
         <button onclick="rotate(2)">⟳ Quay Phải (E)</button>
+        <button onclick="centerRobot()">⟴ Reset</button>
       </div>
       
       <div class="toggle-robot">
         <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
+      </div>
+      
+      <div class="robot-resize-controls">
+        <label>Kích thước robot:</label>
+        <input type="range" id="robot-size" min="20" max="150" value="50" oninput="resizeRobot(this.value)">
       </div>
     </div>
     
@@ -228,16 +259,16 @@ CODERNIGHT\code htlm\index.html
             Phải <input type="number" value="1" min="1">
           </div>
           <div class="command-block move-upleft" draggable="true" data-command="upleft">
-            Tiến lên hướng trái <input type="number" value="1" min="1">
+            Chéo trái lên <input type="number" value="1" min="1">
           </div>
           <div class="command-block move-upright" draggable="true" data-command="upright">
-            Tiến lên hướng phải <input type="number" value="1" min="1">
+            Chéo phải lên <input type="number" value="1" min="1">
           </div>
           <div class="command-block move-downleft" draggable="true" data-command="downleft">
-            Lùi xuống hướng trái <input type="number" value="1" min="1">
+            Chéo trái xuống <input type="number" value="1" min="1">
           </div>
           <div class="command-block move-downright" draggable="true" data-command="downright">
-            Lùi xuống hướng phải <input type="number" value="1" min="1">
+            Chéo phải xuống <input type="number" value="1" min="1">
           </div>
           <div class="command-block spin" draggable="true" data-command="spin">
             Xoay tròn <input type="number" value="1" min="1">
@@ -264,53 +295,54 @@ CODERNIGHT\code htlm\index.html
     <div id="map-container">
       <img id="map" src="map.png" alt="Map" />
     </div>
-    <img id="robot" src="robot.png" alt="Robot" />
+    <div id="robot-container">
+      <img id="robot" src="robot.png" alt="Robot" />
+      <div class="resize-handle" id="resize-handle"></div>
+    </div>
   </div>
 
   <script>
     const robot = document.getElementById("robot");
     const mapImg = document.getElementById("map");
+    const resizeHandle = document.getElementById("resize-handle");
     let x = 100, y = 100, angle = 0;
-    let robotScale = 1.0;
+    let robotSize = 50; // Kích thước mặc định của robot
     let isProgramRunning = false;
     let programQueue = [];
     
-    // Đảm bảo robot được đặt đúng vị trí khi trang tải xong
+    // Đảm bảo map được đặt đúng kích thước khi trang tải xong
     window.addEventListener('load', function() {
-      adjustRobotScale();
+      // Xóa dòng tiêu đề thừa ở đầu file
+      let title = document.querySelector('title').innerText;
+      if (title.includes('CODERNIGHT')) {
+        document.querySelector('title').innerText = 'Robot Map Interface';
+      }
+      
       centerRobot();
+      positionResizeHandle();
     });
     
-    // Điều chỉnh kích thước khi cửa sổ thay đổi
+    // Điều chỉnh khi cửa sổ thay đổi
     window.addEventListener('resize', function() {
-      adjustRobotScale();
-      updateRobot();
+      centerRobot();
+      positionResizeHandle();
     });
     
-    function adjustRobotScale() {
-      // Tính toán tỷ lệ thu phóng của map
-      const mapRect = mapImg.getBoundingClientRect();
-      const displayArea = document.getElementById("display-area");
-      const displayRect = displayArea.getBoundingClientRect();
-      
-      // Tỷ lệ thu phóng = min(chiều rộng hiển thị / chiều rộng ảnh, chiều cao hiển thị / chiều cao ảnh)
-      const widthRatio = displayRect.width / mapImg.naturalWidth;
-      const heightRatio = displayRect.height / mapImg.naturalHeight;
-      
-      // Chọn tỷ lệ nhỏ hơn để đảm bảo hình ảnh vừa khớp với khung hiển thị
-      robotScale = Math.min(widthRatio, heightRatio);
-      
-      // Cập nhật kích thước robot tương ứng với tỷ lệ của map
-      robot.style.width = (50 * robotScale) + 'px';
+    function resizeRobot(size) {
+      robotSize = size;
+      robot.style.width = `${robotSize}px`;
+      positionResizeHandle();
+      updateRobot();
     }
     
     function centerRobot() {
       const mapRect = mapImg.getBoundingClientRect();
-      const robotRect = robot.getBoundingClientRect();
+      const displayArea = document.getElementById("display-area");
+      const displayRect = displayArea.getBoundingClientRect();
       
       // Đặt robot ở giữa map
-      x = mapRect.left + (mapRect.width / 2) - (robotRect.width / 2);
-      y = mapRect.top + (mapRect.height / 2) - (robotRect.height / 2);
+      x = mapRect.left + (mapRect.width / 2) - (robotSize / 2);
+      y = mapRect.top + (mapRect.height / 2) - (robotSize / 2);
       
       updateRobot();
     }
@@ -319,30 +351,32 @@ CODERNIGHT\code htlm\index.html
       robot.style.left = `${x}px`;
       robot.style.top = `${y}px`;
       robot.style.transform = `rotate(${angle}deg)`;
+      positionResizeHandle();
+    }
+    
+    function positionResizeHandle() {
+      const robotRect = robot.getBoundingClientRect();
+      resizeHandle.style.left = (robotRect.right - 5) + 'px';
+      resizeHandle.style.top = (robotRect.bottom - 5) + 'px';
     }
     
     function move(dx, dy) {
-      // Chuyển độ sang radian
-      const rad = angle * Math.PI / 180;
-      
-      // Di chuyển theo hướng của robot
+      const moveAmount = 5; // Tốc độ di chuyển cố định
       if (dx !== 0) {
-        // Di chuyển sang trái hoặc phải
-        x += dx * robotScale;
+        x += dx * moveAmount;
       }
       
       if (dy !== 0) {
-        // Di chuyển lên hoặc xuống
-        y += dy * robotScale;
+        y += dy * moveAmount;
       }
       
       updateRobot();
     }
     
     function moveDiagonal(dx, dy) {
-      // Di chuyển theo đường chéo
-      x += dx * robotScale;
-      y += dy * robotScale;
+      const moveAmount = 3; // Tốc độ di chuyển đường chéo
+      x += dx * moveAmount;
+      y += dy * moveAmount;
       updateRobot();
     }
     
@@ -373,6 +407,7 @@ CODERNIGHT\code htlm\index.html
     
     function toggleRobot() {
       robot.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
+      resizeHandle.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
     }
     
     // Xử lý kéo thả các khối lệnh
@@ -422,6 +457,45 @@ CODERNIGHT\code htlm\index.html
           programArea.appendChild(newBlock);
         }
       }
+    });
+    
+    // Xử lý kéo thả resize robot
+    let isResizing = false;
+    
+    resizeHandle.addEventListener('mousedown', function(e) {
+      isResizing = true;
+      e.preventDefault();
+    });
+    
+    document.addEventListener('mousemove', function(e) {
+      if (!isResizing) return;
+      
+      const robotRect = robot.getBoundingClientRect();
+      const displayRect = document.getElementById('display-area').getBoundingClientRect();
+      
+      // Tính toán kích thước mới dựa trên vị trí chuột
+      const newWidth = e.clientX - robotRect.left;
+      const newHeight = e.clientY - robotRect.top;
+      
+      // Giữ tỷ lệ khung hình 1:1
+      const newSize = Math.max(Math.min(newWidth, newHeight), 20);
+      
+      // Cập nhật kích thước robot
+      robotSize = newSize;
+      robot.style.width = `${robotSize}px`;
+      
+      // Cập nhật giá trị thanh trượt
+      document.getElementById('robot-size').value = robotSize;
+      
+      // Cập nhật vị trí nút resize
+      positionResizeHandle();
+      
+      // Cập nhật vị trí robot để giữ nguyên vị trí trung tâm
+      updateRobot();
+    });
+    
+    document.addEventListener('mouseup', function() {
+      isResizing = false;
     });
     
     function runProgram() {
@@ -507,6 +581,7 @@ CODERNIGHT\code htlm\index.html
         case 'q': rotate(-2); break;
         case 'e': rotate(2); break;
         case ' ': spinRobot(); break;
+        case 'r': centerRobot(); break;
       }
     });
     

@@ -49,23 +49,34 @@
       position: relative;
       background-color: #fff;
       border: 2px solid #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .map-container img.map {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: contain; /* Đảm bảo giữ tỷ lệ đúng cho ảnh */
     }
 
     .robot {
       position: absolute;
-      width: 12%; /* Kích thước robot cố định */
+      width: 10%; /* Kích thước robot cố định */
       height: auto;
-      left: 50%; /* Robot ở giữa */
-      top: 50%; /* Robot ở giữa */
-      transform: translate(-50%, -50%); /* Căn chỉnh robot vào chính giữa */
+      transform-origin: center center; /* Đặt tâm quay ở giữa robot */
       display: none; /* Robot ẩn mặc định */
-      transition: top 0.2s, left 0.2s, transform 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out, top 0.2s, left 0.2s;
+    }
+
+    /* Sử dụng media queries để thay đổi layout khi màn hình nhỏ hơn */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .controls, .input-container, .map-container {
+        width: 100%;
+      }
     }
 
   </style>
@@ -116,6 +127,7 @@
       const mapWidth = mapArea.offsetWidth;
       const mapHeight = mapArea.offsetHeight;
 
+      // Tính toán lại kích thước robot theo tỉ lệ
       const robotWidth = (mapWidth * (robotWidthInCm / mapWidthInCm));
       const robotHeight = (mapHeight * (robotHeightInCm / mapHeightInCm));
 
@@ -129,7 +141,7 @@
 
     // Di chuyển robot
     function move(direction) {
-      if (!robot.style.display || robot.style.display === 'none') return;
+      if (robot.style.display === 'none') return;
 
       switch (direction) {
         case 'up': y = Math.max(0, y - step); break;

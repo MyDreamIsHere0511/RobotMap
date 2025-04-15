@@ -1,185 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Robot Control and Map Viewer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robot Map Control</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      display: flex;
-      justify-content: space-between;
-      height: 100vh;
       margin: 0;
-    }
-
-    /* Phân khu 1: Điều khiển */
-    .controls {
-      width: 25%;
-      padding: 10px;
-      background-color: #f0f0f0;
+      padding: 0;
+      font-family: Arial, sans-serif;
       display: flex;
-      flex-direction: column;
-      gap: 15px;
+      height: 100vh;
     }
-
-    .controls button {
-      padding: 10px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    /* Phân khu 2: Nhập liệu */
-    .input-container {
-      width: 25%;
-      padding: 10px;
-      background-color: #f0f0f0;
+    .container {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .input-container input {
-      padding: 8px;
-      font-size: 16px;
-    }
-
-    /* Phân khu 3: Hiển thị bản đồ và robot */
-    .map-container {
-      width: 50%;
-      height: 100%;
-      position: relative;
-      background-color: #fff;
-      border: 2px solid #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .map-container img.map {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Đảm bảo giữ tỷ lệ đúng cho ảnh */
     }
-
-    .robot {
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 250px;
+      padding: 10px;
+      gap: 20px;
+      background-color: #f0f0f0;
+    }
+    .controls, .inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .controls button, .inputs button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .map-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #robot {
       position: absolute;
-      width: 10%; /* Kích thước robot cố định */
-      height: auto;
-      transform-origin: center center; /* Đặt tâm quay ở giữa robot */
-      display: none; /* Robot ẩn mặc định */
-      transition: transform 0.3s ease-in-out, top 0.2s, left 0.2s;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transform-origin: center center;
     }
-
-    /* Sử dụng media queries để thay đổi layout khi màn hình nhỏ hơn */
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      .controls, .input-container, .map-container {
-        width: 100%;
-      }
-    }
-
   </style>
 </head>
 <body>
-
-  <!-- Phân khu 1: Điều khiển -->
-  <div class="controls">
-    <h3>Điều khiển Robot</h3>
-    <button onclick="move('up')">Tiến (W)</button>
-    <button onclick="move('down')">Lùi (S)</button>
-    <button onclick="move('left')">Trái (A)</button>
-    <button onclick="move('right')">Phải (D)</button>
-    <button onclick="toggleRobotVisibility()">Ẩn/Hiện Robot</button>
-  </div>
-
-  <!-- Phân khu 2: Nhập liệu -->
-  <div class="input-container">
-    <h3>Nhập liệu</h3>
-    <div>
-      <label for="rotateInput">Nhập góc quay (độ): </label>
-      <input type="number" id="rotateInput" placeholder="Góc quay" />
-      <button onclick="rotateRobot()">Quay Robot</button>
+  <div class="container">
+    <div class="left-panel">
+      <div class="controls">
+        <button id="forward">Tiến (W)</button>
+        <button id="backward">Lùi (S)</button>
+        <button id="left">Trái (A)</button>
+        <button id="right">Phải (D)</button>
+        <button id="rotateLeft">Quay Trái (J)</button>
+        <button id="rotateRight">Quay Phải (K)</button>
+      </div>
+      <div class="inputs">
+        <input type="number" id="angleInput" placeholder="Nhập góc quay (°)" />
+        <button onclick="rotateByInput(true)">Quay Trái</button>
+        <button onclick="rotateByInput(false)">Quay Phải</button>
+      </div>
+    </div>
+    <div class="map-area">
+      <img id="map" src="map.png" alt="Map" onload="updateRobotSize()" />
+      <img id="robot" src="robot.png" alt="Robot" />
     </div>
   </div>
-
-  <!-- Phân khu 3: Hiển thị bản đồ và robot -->
-  <div class="map-container">
-    <img src="map.png" alt="Map" class="map">
-    <img src="robot.png" alt="Robot" id="robot" class="robot">
-  </div>
-
   <script>
-    // Đặt biến ban đầu cho robot và các khu vực
-    const robot = document.getElementById('robot');
-    const mapArea = document.querySelector('.map-container');
-    let x = 50, y = 50; // Vị trí ban đầu robot (theo %)
-    let rotation = 0; // Góc quay robot
-    const step = 2; // Khoảng di chuyển mỗi lần
+    const robot = document.getElementById("robot");
+    const map = document.getElementById("map");
+    let angle = 0;
 
-    const robotWidthInCm = 12; // Kích thước robot (cm)
-    const robotHeightInCm = 16; // Kích thước robot (cm)
-    const mapWidthInCm = 120; // Kích thước bản đồ (cm)
-    const mapHeightInCm = 120; // Kích thước bản đồ (cm)
-
-    // Cập nhật kích thước robot để phù hợp với bản đồ
     function updateRobotSize() {
-      const mapWidth = mapArea.offsetWidth;
-      const mapHeight = mapArea.offsetHeight;
-
-      // Tính toán lại kích thước robot theo tỉ lệ
-      const robotWidth = (mapWidth * (robotWidthInCm / mapWidthInCm));
-      const robotHeight = (mapHeight * (robotHeightInCm / mapHeightInCm));
-
-      robot.style.width = robotWidth + 'px';
-      robot.style.height = robotHeight + 'px';
+      const mapWidth = map.clientWidth;
+      const mapHeight = map.clientHeight;
+      // Giả định tỉ lệ robot 12x16 cm, map 120x120 cm
+      const scaleX = mapWidth * (12 / 120);
+      const scaleY = mapHeight * (16 / 120);
+      robot.style.width = `${scaleX}px`;
+      robot.style.height = `${scaleY}px`;
     }
 
-    // Cập nhật lại kích thước robot mỗi khi load
-    window.onload = updateRobotSize;
-    window.onresize = updateRobotSize;
-
-    // Di chuyển robot
-    function move(direction) {
-      if (robot.style.display === 'none') return;
-
-      switch (direction) {
-        case 'up': y = Math.max(0, y - step); break;
-        case 'down': y = Math.min(100, y + step); break;
-        case 'left': x = Math.max(0, x - step); break;
-        case 'right': x = Math.min(100, x + step); break;
-      }
-
-      robot.style.left = `${x}%`;
-      robot.style.top = `${y}%`;
+    function rotate(deg) {
+      angle = (angle + deg) % 360;
+      robot.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
     }
 
-    // Quay robot
-    function rotateRobot() {
-      const angle = parseInt(document.getElementById('rotateInput').value);
-      if (isNaN(angle)) return;
-      rotation = angle;
-      robot.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-    }
-
-    // Ẩn/hiện robot
-    function toggleRobotVisibility() {
-      if (robot.style.display === 'none') {
-        robot.style.display = 'block';
-      } else {
-        robot.style.display = 'none';
+    function rotateByInput(isLeft) {
+      const value = parseFloat(document.getElementById("angleInput").value);
+      if (!isNaN(value)) {
+        rotate(isLeft ? -value : value);
       }
     }
 
-    // Điều khiển robot bằng các phím
-    document.addEventListener('keydown', (e) => {
+    document.getElementById("rotateLeft").addEventListener("click", () => rotate(-2));
+    document.getElementById("rotateRight").addEventListener("click", () => rotate(2));
+
+    // Key controls
+    document.addEventListener("keydown", (e) => {
       switch (e.key.toLowerCase()) {
-        case 'w': move('up'); break;
-        case 's': move('down'); break;
-        case 'a': move('left'); break;
-        case 'd': move('right'); break;
+        case "j": rotate(-2); break;
+        case "k": rotate(2); break;
       }
     });
+
+    window.addEventListener("resize", updateRobotSize);
   </script>
 </body>
 </html>

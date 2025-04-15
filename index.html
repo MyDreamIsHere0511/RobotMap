@@ -1,126 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robot Map Control</title>
+  <meta charset="UTF-8">
+  <title>Robot Map Viewer</title>
   <style>
     * {
       box-sizing: border-box;
     }
+
     body {
+      font-family: sans-serif;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
       display: flex;
       height: 100vh;
     }
-    .container {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
-    .left-panel {
+
+    .panel-left {
+      width: 250px;
+      padding: 20px;
+      background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      width: 250px;
-      padding: 10px;
-      gap: 20px;
-      background-color: #f0f0f0;
+      justify-content: space-between;
     }
-    .controls, .inputs {
+
+    .controls {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      width: 100%;
     }
-    .controls button, .inputs button {
+
+    .movement-buttons button,
+    .rotation-buttons button,
+    .input-area button {
       padding: 10px;
       font-size: 16px;
       cursor: pointer;
     }
-    .map-area {
+
+    .map-container {
       flex: 1;
       position: relative;
       overflow: hidden;
     }
-    #map {
+
+    .map-container img.map {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
+      height: auto;
+      display: block;
     }
-    #robot {
+
+    .robot {
       position: absolute;
+      width: 10%; /* 12cm trên 120cm tương ứng 10% */
+      aspect-ratio: 3 / 4; /* 12cm x 16cm */
+      transform-origin: center center;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(0deg);
-      transform-origin: center center;
+      display: none;
+      transition: top 0.2s, left 0.2s, transform 0.2s;
+    }
+
+    .input-area {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input[type="number"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="left-panel">
-      <div class="controls">
-        <button id="forward">Tiến (W)</button>
-        <button id="backward">Lùi (S)</button>
-        <button id="left">Trái (A)</button>
-        <button id="right">Phải (D)</button>
-        <button id="rotateLeft">Quay Trái (J)</button>
-        <button id="rotateRight">Quay Phải (K)</button>
-      </div>
-      <div class="inputs">
-        <input type="number" id="angleInput" placeholder="Nhập góc quay (°)" />
-        <button onclick="rotateByInput(true)">Quay Trái</button>
-        <button onclick="rotateByInput(false)">Quay Phải</button>
+  <!-- Panel Left -->
+  <div class="panel-left">
+    <!-- Controls -->
+    <div class="controls">
+      <label><input type="checkbox" id="toggleRobot"> Hiện robot</label>
+
+      <div class="movement-buttons">
+        <button onclick="move('up')">Tiến (W)</button>
+        <button onclick="move('left')">Trái (A)</button>
+        <button onclick="move('down')">Lùi (S)</button>
+        <button onclick="move('right')">Phải (D)</button>
+        <button onclick="rotate('left')">Quay trái (J)</button>
+        <button onclick="rotate('right')">Quay phải (K)</button>
       </div>
     </div>
-    <div class="map-area">
-      <img id="map" src="map.png" alt="Map" onload="updateRobotSize()" />
-      <img id="robot" src="robot.png" alt="Robot" />
+
+    <!-- Input area -->
+    <div class="input-area">
+      <input type="number" id="angleInput" placeholder="Nhập góc quay (độ)">
+      <button onclick="rotateByInput('left')">Quay trái góc nhập</button>
+      <button onclick="rotateByInput('right')">Quay phải góc nhập</button>
     </div>
   </div>
+
+  <!-- Map container -->
+  <div class="map-container">
+    <img src="map.png" class="map" alt="Map">
+    <img src="robot.png" id="robot" class="robot" alt="Robot">
+  </div>
+
   <script>
-    const robot = document.getElementById("robot");
-    const map = document.getElementById("map");
-    let angle = 0;
+    const robot = document.getElementById('robot');
+    const checkbox = document.getElementById('toggleRobot');
+    let x = 50; // %
+    let y = 50; // %
+    let rotation = 0;
+    const moveStep = 2; // % mỗi bước (tùy chỉnh được)
+    const rotationStep = 2; // mỗi lần quay
 
-    function updateRobotSize() {
-      const mapWidth = map.clientWidth;
-      const mapHeight = map.clientHeight;
-      // Giả định tỉ lệ robot 12x16 cm, map 120x120 cm
-      const scaleX = mapWidth * (12 / 120);
-      const scaleY = mapHeight * (16 / 120);
-      robot.style.width = `${scaleX}px`;
-      robot.style.height = `${scaleY}px`;
-    }
-
-    function rotate(deg) {
-      angle = (angle + deg) % 360;
-      robot.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-    }
-
-    function rotateByInput(isLeft) {
-      const value = parseFloat(document.getElementById("angleInput").value);
-      if (!isNaN(value)) {
-        rotate(isLeft ? -value : value);
-      }
-    }
-
-    document.getElementById("rotateLeft").addEventListener("click", () => rotate(-2));
-    document.getElementById("rotateRight").addEventListener("click", () => rotate(2));
-
-    // Key controls
-    document.addEventListener("keydown", (e) => {
-      switch (e.key.toLowerCase()) {
-        case "j": rotate(-2); break;
-        case "k": rotate(2); break;
-      }
+    checkbox.addEventListener('change', () => {
+      robot.style.display = checkbox.checked ? 'block' : 'none';
     });
 
-    window.addEventListener("resize", updateRobotSize);
+    function updateRobot() {
+      robot.style.left = x + '%';
+      robot.style.top = y + '%';
+      robot.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+    }
+
+    function move(dir) {
+      if (robot.style.display !== 'block') return;
+
+      switch (dir) {
+        case 'up': y = Math.max(0, y - moveStep); break;
+        case 'down': y = Math.min(100, y + moveStep); break;
+        case 'left': x = Math.max(0, x - moveStep); break;
+        case 'right': x = Math.min(100, x + moveStep); break;
+      }
+      updateRobot();
+    }
+
+    function rotate(dir) {
+      if (robot.style.display !== 'block') return;
+      rotation += dir === 'left' ? -rotationStep : rotationStep;
+      updateRobot();
+    }
+
+    function rotateByInput(dir) {
+      if (robot.style.display !== 'block') return;
+      const val = parseFloat(document.getElementById('angleInput').value);
+      if (!isNaN(val)) {
+        rotation += dir === 'left' ? -val : val;
+        updateRobot();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      switch (e.key.toLowerCase()) {
+        case 'w': move('up'); break;
+        case 'a': move('left'); break;
+        case 's': move('down'); break;
+        case 'd': move('right'); break;
+        case 'j': rotate('left'); break;
+        case 'k': rotate('right'); break;
+      }
+    });
   </script>
 </body>
 </html>

@@ -1,169 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Robot Map Viewer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robot Map Interface</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       height: 100vh;
+      font-family: sans-serif;
     }
-
-    .panel-left {
+    #control-panel {
       width: 250px;
-      padding: 20px;
-      background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .movement-buttons button,
-    .rotation-buttons button,
-    .input-area button {
       padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
+      border-right: 1px solid #ccc;
     }
-
-    .map-container {
+    #move-controls button,
+    #input-controls button {
+      margin: 4px;
+      padding: 6px 10px;
+    }
+    #input-controls {
+      margin-top: auto;
+    }
+    #display-area {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: relative;
       overflow: hidden;
     }
-
-    .map-container img.map {
-      width: 100%;
-      height: auto;
-      display: block;
+    #map {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
-
-    .robot {
+    #robot {
       position: absolute;
-      width: 10%; /* 12cm trên 120cm tương ứng 10% */
-      aspect-ratio: 3 / 4; /* 12cm x 16cm */
+      top: 100px;
+      left: 100px;
+      width: 50px;
       transform-origin: center center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(0deg);
-      display: none;
-      transition: top 0.2s, left 0.2s, transform 0.2s;
-    }
-
-    .input-area {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    input[type="number"] {
-      padding: 5px;
-      font-size: 16px;
-      width: 100%;
+      transition: transform 0.1s linear;
     }
   </style>
 </head>
 <body>
-  <!-- Panel Left -->
-  <div class="panel-left">
-    <!-- Controls -->
-    <div class="controls">
-      <label><input type="checkbox" id="toggleRobot"> Hiện robot</label>
-
-      <div class="movement-buttons">
-        <button onclick="move('up')">Tiến (W)</button>
-        <button onclick="move('left')">Trái (A)</button>
-        <button onclick="move('down')">Lùi (S)</button>
-        <button onclick="move('right')">Phải (D)</button>
-        <button onclick="rotate('left')">Quay trái (J)</button>
-        <button onclick="rotate('right')">Quay phải (K)</button>
-      </div>
+  <div id="control-panel">
+    <div id="move-controls">
+      <h4>Di chuyển</h4>
+      <button onclick="move(0, -10)">Lên (W)</button>
+      <button onclick="move(0, 10)">Xuống (S)</button>
+      <button onclick="move(-10, 0)">Trái (A)</button>
+      <button onclick="move(10, 0)">Phải (D)</button>
+      <button onclick="rotate(-2)">Quay Trái (J)</button>
+      <button onclick="rotate(2)">Quay Phải (K)</button>
+      <br />
+      <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
     </div>
-
-    <!-- Input area -->
-    <div class="input-area">
-      <input type="number" id="angleInput" placeholder="Nhập góc quay (độ)">
-      <button onclick="rotateByInput('left')">Quay trái góc nhập</button>
-      <button onclick="rotateByInput('right')">Quay phải góc nhập</button>
+    <div id="input-controls">
+      <h4>Nhập góc quay</h4>
+      <input type="number" id="angle-input" placeholder="Nhập góc" />
+      <br />
+      <button onclick="rotateCustom(-1)">Quay trái</button>
+      <button onclick="rotateCustom(1)">Quay phải</button>
     </div>
   </div>
-
-  <!-- Map container -->
-  <div class="map-container">
-    <img src="map.png" class="map" alt="Map">
-    <img src="robot.png" id="robot" class="robot" alt="Robot">
+  <div id="display-area">
+    <img id="map" src="map.png" alt="Map" />
+    <img id="robot" src="robot.png" alt="Robot" />
   </div>
 
   <script>
-    const robot = document.getElementById('robot');
-    const checkbox = document.getElementById('toggleRobot');
-    let x = 50; // %
-    let y = 50; // %
-    let rotation = 0;
-    const moveStep = 2; // % mỗi bước (tùy chỉnh được)
-    const rotationStep = 2; // mỗi lần quay
-
-    checkbox.addEventListener('change', () => {
-      robot.style.display = checkbox.checked ? 'block' : 'none';
-    });
+    const robot = document.getElementById("robot");
+    let x = 100, y = 100, angle = 0;
 
     function updateRobot() {
-      robot.style.left = x + '%';
-      robot.style.top = y + '%';
-      robot.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      robot.style.left = `${x}px`;
+      robot.style.top = `${y}px`;
+      robot.style.transform = `rotate(${angle}deg)`;
     }
 
-    function move(dir) {
-      if (robot.style.display !== 'block') return;
-
-      switch (dir) {
-        case 'up': y = Math.max(0, y - moveStep); break;
-        case 'down': y = Math.min(100, y + moveStep); break;
-        case 'left': x = Math.max(0, x - moveStep); break;
-        case 'right': x = Math.min(100, x + moveStep); break;
-      }
+    function move(dx, dy) {
+      x += dx;
+      y += dy;
       updateRobot();
     }
 
-    function rotate(dir) {
-      if (robot.style.display !== 'block') return;
-      rotation += dir === 'left' ? -rotationStep : rotationStep;
+    function rotate(da) {
+      angle += da;
       updateRobot();
     }
 
-    function rotateByInput(dir) {
-      if (robot.style.display !== 'block') return;
-      const val = parseFloat(document.getElementById('angleInput').value);
-      if (!isNaN(val)) {
-        rotation += dir === 'left' ? -val : val;
+    function rotateCustom(dir) {
+      const value = parseFloat(document.getElementById("angle-input").value);
+      if (!isNaN(value)) {
+        angle += dir * value;
         updateRobot();
       }
     }
 
-    document.addEventListener('keydown', (e) => {
+    function toggleRobot() {
+      robot.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
+    }
+
+    // Keyboard controls
+    document.addEventListener("keydown", (e) => {
       switch (e.key.toLowerCase()) {
-        case 'w': move('up'); break;
-        case 'a': move('left'); break;
-        case 's': move('down'); break;
-        case 'd': move('right'); break;
-        case 'j': rotate('left'); break;
-        case 'k': rotate('right'); break;
+        case 'w': move(0, -10); break;
+        case 's': move(0, 10); break;
+        case 'a': move(-10, 0); break;
+        case 'd': move(10, 0); break;
+        case 'j': rotate(-2); break;
+        case 'k': rotate(2); break;
       }
     });
+
+    updateRobot();
   </script>
 </body>
 </html>

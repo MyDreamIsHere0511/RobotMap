@@ -19,10 +19,10 @@
 
     .map-container {
       position: relative;
-      width: 800px; /* Kích thước map sẽ thay đổi theo nhu cầu */
-      height: 600px;
+      width: 800px; /* Giữ kích thước bản đồ theo màn hình web */
+      height: 800px; /* Giữ tỉ lệ chiều cao */
       border: 2px solid #000;
-      resize: both; /* Cho phép thay đổi kích thước */
+      resize: both; /* Cho phép thay đổi kích thước bản đồ */
       overflow: hidden;
     }
 
@@ -34,10 +34,11 @@
 
     .robot {
       position: absolute;
-      width: 15%; /* Thay đổi tỷ lệ robot */
+      width: 10%; /* Robot chiếm tỉ lệ 10% chiều rộng bản đồ */
       height: auto;
-      left: 100px; /* Vị trí ban đầu */
-      top: 100px;
+      left: 50%; /* Tính vị trí robot */
+      top: 50%;
+      transform: translate(-50%, -50%); /* Để robot luôn nằm ở vị trí chính giữa */
       display: none;
       transition: top 0.2s, left 0.2s, transform 0.3s ease-in-out;
     }
@@ -84,9 +85,14 @@
     const checkbox = document.getElementById('toggleRobot');
     const resizeHandle = document.getElementById('resizeHandle');
     const mapArea = document.getElementById('mapArea');
-    let x = 100, y = 100; // Vị trí ban đầu (pixel)
+    let x = 50, y = 50; // Vị trí ban đầu robot (tính theo % của bản đồ)
     let rotation = 0; // Góc quay robot
-    const step = 10; // Khoảng cách mỗi lần di chuyển
+    const step = 1; // Khoảng cách mỗi lần di chuyển (tính theo %)
+
+    const mapWidthInCm = 120; // Kích thước bản đồ (cm)
+    const mapHeightInCm = 120; // Kích thước bản đồ (cm)
+    const robotWidthInCm = 12; // Kích thước robot (cm)
+    const robotHeightInCm = 16; // Kích thước robot (cm)
 
     checkbox.addEventListener('change', () => {
       robot.style.display = checkbox.checked ? 'block' : 'none';
@@ -97,13 +103,13 @@
 
       switch (direction) {
         case 'up': y = Math.max(0, y - step); break;
-        case 'down': y = Math.min(mapArea.offsetHeight - robot.offsetHeight, y + step); break;
+        case 'down': y = Math.min(100, y + step); break;
         case 'left': x = Math.max(0, x - step); break;
-        case 'right': x = Math.min(mapArea.offsetWidth - robot.offsetWidth, x + step); break;
+        case 'right': x = Math.min(100, x + step); break;
       }
 
-      robot.style.left = x + 'px';
-      robot.style.top = y + 'px';
+      robot.style.left = `${x}%`;
+      robot.style.top = `${y}%`;
     }
 
     document.addEventListener('keydown', (e) => {
@@ -145,8 +151,8 @@
         mapArea.style.height = height + 'px';
 
         // Điều chỉnh lại tỷ lệ robot khi resize map
-        robot.style.width = (width * 0.15) + 'px';  // Robot chiếm 15% chiều rộng của map
-        robot.style.height = 'auto';
+        robot.style.width = (width * (robotWidthInCm / mapWidthInCm)) + 'px';  // Robot chiếm tỷ lệ 12cm/120cm của map
+        robot.style.height = (height * (robotHeightInCm / mapHeightInCm)) + 'px';  // Tỷ lệ chiều cao robot
       }
     }
   </script>

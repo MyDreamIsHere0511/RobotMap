@@ -112,10 +112,10 @@
     // Keyboard controls
     document.addEventListener("keydown", (e) => {
       switch (e.key.toLowerCase()) {
-        case 'w': move(0, -10); break;
-        case 's': move(0, 10); break;
-        case 'a': move(-10, 0); break;
-        case 'd': move(10, 0); break;
+        case 'w': move(0, -1); break;
+        case 's': move(0, 1); break;
+        case 'a': move(-1, 0); break;
+        case 'd': move(1, 0); break;
         case 'j': rotate(-2); break;
         case 'k': rotate(2); break;
       }

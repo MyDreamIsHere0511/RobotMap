@@ -1,3 +1,4 @@
+CODERNIGHT\code htlm\index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,116 +12,505 @@
       display: flex;
       height: 100vh;
       font-family: sans-serif;
+      overflow: hidden;
     }
-    #control-panel {
-      width: 250px;
+    
+    #sidebar {
+      width: 320px;
       display: flex;
       flex-direction: column;
-      padding: 10px;
       border-right: 1px solid #ccc;
+      background-color: #f5f5f5;
+      overflow-y: auto;
     }
-    #move-controls button,
-    #input-controls button {
-      margin: 4px;
-      padding: 6px 10px;
-    }
-    #input-controls {
-      margin-top: auto;
-    }
+    
     #display-area {
       flex: 1;
+      position: relative;
+      overflow: hidden;
+      background-color: #eaeaea;
+    }
+    
+    #map-container {
+      width: 100%;
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
-      overflow: hidden;
     }
+    
     #map {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
+    
     #robot {
       position: absolute;
-      top: 100px;
-      left: 100px;
       width: 50px;
       transform-origin: center center;
-      transition: transform 0.1s linear;
+      transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
+    }
+    
+    /* Phân khu 1: Điều khiển */
+    #control-panel {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .controls-title {
+      margin: 8px 0;
+      color: #333;
+    }
+    
+    .movement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .movement-grid button {
+      padding: 8px 0;
+      background-color: #e6e6e6;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .movement-grid button:hover {
+      background-color: #d9d9d9;
+    }
+    
+    .rotation-controls {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .rotation-controls button {
+      flex: 1;
+      padding: 8px 0;
+      background-color: #e6e6e6;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .toggle-robot {
+      margin-top: 8px;
+    }
+    
+    /* Phân khu 2: Lập trình khối */
+    #block-programming {
+      padding: 10px;
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .block-container {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .block-library {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      background-color: white;
+      min-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .program-area {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      background-color: white;
+      min-height: 300px;
+      margin-left: 10px;
+      overflow-y: auto;
+    }
+    
+    .command-block {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: move;
+      display: flex;
+      align-items: center;
+    }
+    
+    .command-block input {
+      width: 50px;
+      margin-left: 10px;
+      text-align: center;
+    }
+    
+    .command-block.move-up { background-color: #d1e7dd; }
+    .command-block.move-down { background-color: #f8d7da; }
+    .command-block.move-left { background-color: #cfe2ff; }
+    .command-block.move-right { background-color: #fff3cd; }
+    .command-block.move-upleft { background-color: #d8f3dc; }
+    .command-block.move-upright { background-color: #e9ecef; }
+    .command-block.move-downleft { background-color: #e0e1ff; }
+    .command-block.move-downright { background-color: #ffe8d9; }
+    .command-block.spin { background-color: #d8d8ff; }
+    .command-block.rotate-left { background-color: #ffccd5; }
+    .command-block.rotate-right { background-color: #c9f7f5; }
+    
+    .run-program {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .run-program:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
-  <div id="control-panel">
-    <div id="move-controls">
-      <h4>Di chuyển</h4>
-      <button onclick="move(0, -2)">Lên (W)</button>
-      <button onclick="move(0, 2)">Xuống (S)</button>
-      <button onclick="move(-2, 0)">Trái (A)</button>
-      <button onclick="move(2, 0)">Phải (D)</button>
-      <button onclick="rotate(-2)">Quay Trái (J)</button>
-      <button onclick="rotate(2)">Quay Phải (K)</button>
-      <br />
-      <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
+  <div id="sidebar">
+    <!-- Phân khu 1: Điều khiển trực tiếp -->
+    <div id="control-panel">
+      <h4 class="controls-title">Di chuyển</h4>
+      
+      <div class="movement-grid">
+        <button onclick="moveDiagonal(-1, -1)">↖ (U)</button>
+        <button onclick="move(0, -1)">↑ (W)</button>
+        <button onclick="moveDiagonal(1, -1)">↗ (I)</button>
+        <button onclick="move(-1, 0)">← (A)</button>
+        <button onclick="spinRobot()">⟳ (Space)</button>
+        <button onclick="move(1, 0)">→ (D)</button>
+        <button onclick="moveDiagonal(-1, 1)">↙ (J)</button>
+        <button onclick="move(0, 1)">↓ (S)</button>
+        <button onclick="moveDiagonal(1, 1)">↘ (K)</button>
+      </div>
+      
+      <div class="rotation-controls">
+        <button onclick="rotate(-2)">⟲ Quay Trái (Q)</button>
+        <button onclick="rotate(2)">⟳ Quay Phải (E)</button>
+      </div>
+      
+      <div class="toggle-robot">
+        <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
+      </div>
     </div>
-    <div id="input-controls">
-      <h4>Nhập góc quay</h4>
-      <input type="number" id="angle-input" placeholder="Nhập góc" />
-      <br />
-      <button onclick="rotateCustom(-1)">Quay trái</button>
-      <button onclick="rotateCustom(1)">Quay phải</button>
+    
+    <!-- Phân khu 2: Lập trình khối -->
+    <div id="block-programming">
+      <h4 class="controls-title">Lập trình khối</h4>
+      
+      <div class="block-container">
+        <div class="block-library" id="block-library">
+          <div class="command-block move-up" draggable="true" data-command="up">
+            Lên <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-down" draggable="true" data-command="down">
+            Xuống <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-left" draggable="true" data-command="left">
+            Trái <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-right" draggable="true" data-command="right">
+            Phải <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-upleft" draggable="true" data-command="upleft">
+            Tiến lên hướng trái <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-upright" draggable="true" data-command="upright">
+            Tiến lên hướng phải <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-downleft" draggable="true" data-command="downleft">
+            Lùi xuống hướng trái <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block move-downright" draggable="true" data-command="downright">
+            Lùi xuống hướng phải <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block spin" draggable="true" data-command="spin">
+            Xoay tròn <input type="number" value="1" min="1">
+          </div>
+          <div class="command-block rotate-left" draggable="true" data-command="rotateleft">
+            Quay trái <input type="number" value="2" min="1">
+          </div>
+          <div class="command-block rotate-right" draggable="true" data-command="rotateright">
+            Quay phải <input type="number" value="2" min="1">
+          </div>
+        </div>
+        
+        <div class="program-area" id="program-area">
+          <!-- Khu vực nhận các khối lệnh -->
+        </div>
+      </div>
+      
+      <button class="run-program" onclick="runProgram()">Chạy chương trình</button>
     </div>
   </div>
+  
+  <!-- Phân khu 3: Hiển thị map và robot -->
   <div id="display-area">
-    <img id="map" src="map.png" alt="Map" />
+    <div id="map-container">
+      <img id="map" src="map.png" alt="Map" />
+    </div>
     <img id="robot" src="robot.png" alt="Robot" />
   </div>
 
   <script>
     const robot = document.getElementById("robot");
+    const mapImg = document.getElementById("map");
     let x = 100, y = 100, angle = 0;
-
+    let robotScale = 1.0;
+    let isProgramRunning = false;
+    let programQueue = [];
+    
+    // Đảm bảo robot được đặt đúng vị trí khi trang tải xong
+    window.addEventListener('load', function() {
+      adjustRobotScale();
+      centerRobot();
+    });
+    
+    // Điều chỉnh kích thước khi cửa sổ thay đổi
+    window.addEventListener('resize', function() {
+      adjustRobotScale();
+      updateRobot();
+    });
+    
+    function adjustRobotScale() {
+      // Tính toán tỷ lệ thu phóng của map
+      const mapRect = mapImg.getBoundingClientRect();
+      const displayArea = document.getElementById("display-area");
+      const displayRect = displayArea.getBoundingClientRect();
+      
+      // Tỷ lệ thu phóng = min(chiều rộng hiển thị / chiều rộng ảnh, chiều cao hiển thị / chiều cao ảnh)
+      const widthRatio = displayRect.width / mapImg.naturalWidth;
+      const heightRatio = displayRect.height / mapImg.naturalHeight;
+      
+      // Chọn tỷ lệ nhỏ hơn để đảm bảo hình ảnh vừa khớp với khung hiển thị
+      robotScale = Math.min(widthRatio, heightRatio);
+      
+      // Cập nhật kích thước robot tương ứng với tỷ lệ của map
+      robot.style.width = (50 * robotScale) + 'px';
+    }
+    
+    function centerRobot() {
+      const mapRect = mapImg.getBoundingClientRect();
+      const robotRect = robot.getBoundingClientRect();
+      
+      // Đặt robot ở giữa map
+      x = mapRect.left + (mapRect.width / 2) - (robotRect.width / 2);
+      y = mapRect.top + (mapRect.height / 2) - (robotRect.height / 2);
+      
+      updateRobot();
+    }
+    
     function updateRobot() {
       robot.style.left = `${x}px`;
       robot.style.top = `${y}px`;
       robot.style.transform = `rotate(${angle}deg)`;
     }
-
+    
     function move(dx, dy) {
-      x += dx;
-      y += dy;
+      // Chuyển độ sang radian
+      const rad = angle * Math.PI / 180;
+      
+      // Di chuyển theo hướng của robot
+      if (dx !== 0) {
+        // Di chuyển sang trái hoặc phải
+        x += dx * robotScale;
+      }
+      
+      if (dy !== 0) {
+        // Di chuyển lên hoặc xuống
+        y += dy * robotScale;
+      }
+      
       updateRobot();
     }
-
+    
+    function moveDiagonal(dx, dy) {
+      // Di chuyển theo đường chéo
+      x += dx * robotScale;
+      y += dy * robotScale;
+      updateRobot();
+    }
+    
     function rotate(da) {
       angle += da;
       updateRobot();
     }
-
-    function rotateCustom(dir) {
-      const value = parseFloat(document.getElementById("angle-input").value);
-      if (!isNaN(value)) {
-        angle += dir * value;
-        updateRobot();
+    
+    function spinRobot() {
+      // Xoay tròn 2 vòng rồi trở về góc ban đầu
+      const startAngle = angle;
+      let currentRotation = 0;
+      
+      function animateRotation() {
+        currentRotation += 5;
+        if (currentRotation <= 720) {
+          angle = startAngle + currentRotation;
+          updateRobot();
+          requestAnimationFrame(animateRotation);
+        } else {
+          angle = startAngle;
+          updateRobot();
+        }
       }
+      
+      requestAnimationFrame(animateRotation);
     }
-
+    
     function toggleRobot() {
       robot.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
     }
-
-    // Keyboard controls
+    
+    // Xử lý kéo thả các khối lệnh
+    const blockLibrary = document.getElementById('block-library');
+    const programArea = document.getElementById('program-area');
+    
+    // Thiết lập sự kiện cho các khối lệnh
+    document.querySelectorAll('.command-block').forEach(block => {
+      block.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', this.dataset.command);
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+    });
+    
+    // Cho phép thả khối vào program area
+    programArea.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+    });
+    
+    programArea.addEventListener('drop', function(e) {
+      e.preventDefault();
+      const command = e.dataTransfer.getData('text/plain');
+      if (command) {
+        // Tìm khối lệnh gốc
+        const originalBlock = document.querySelector(`.command-block[data-command="${command}"]`);
+        if (originalBlock) {
+          // Tạo một bản sao của khối lệnh
+          const newBlock = originalBlock.cloneNode(true);
+          newBlock.draggable = false; // Không cho phép kéo khối này nữa
+          
+          // Thêm nút xóa khối
+          const deleteButton = document.createElement('button');
+          deleteButton.innerHTML = '✕';
+          deleteButton.style.marginLeft = 'auto';
+          deleteButton.style.background = 'none';
+          deleteButton.style.border = 'none';
+          deleteButton.style.color = 'red';
+          deleteButton.style.fontWeight = 'bold';
+          deleteButton.style.cursor = 'pointer';
+          
+          deleteButton.addEventListener('click', function() {
+            programArea.removeChild(newBlock);
+          });
+          
+          newBlock.appendChild(deleteButton);
+          programArea.appendChild(newBlock);
+        }
+      }
+    });
+    
+    function runProgram() {
+      if (isProgramRunning) return;
+      
+      // Thu thập tất cả các lệnh từ program area
+      const commands = Array.from(programArea.children).map(block => {
+        const command = block.dataset.command;
+        const value = parseInt(block.querySelector('input').value) || 1;
+        return { command, value };
+      });
+      
+      // Đặt vào hàng đợi và thực thi
+      programQueue = commands;
+      isProgramRunning = true;
+      executeNextCommand();
+    }
+    
+    function executeNextCommand() {
+      if (programQueue.length === 0) {
+        isProgramRunning = false;
+        return;
+      }
+      
+      const command = programQueue.shift();
+      const value = command.value;
+      
+      switch (command.command) {
+        case 'up':
+          move(0, -value);
+          break;
+        case 'down':
+          move(0, value);
+          break;
+        case 'left':
+          move(-value, 0);
+          break;
+        case 'right':
+          move(value, 0);
+          break;
+        case 'upleft':
+          moveDiagonal(-value, -value);
+          break;
+        case 'upright':
+          moveDiagonal(value, -value);
+          break;
+        case 'downleft':
+          moveDiagonal(-value, value);
+          break;
+        case 'downright':
+          moveDiagonal(value, value);
+          break;
+        case 'spin':
+          // Đối với xoay tròn, tạo hiệu ứng mượt mà hơn
+          spinRobot();
+          setTimeout(executeNextCommand, 1000); // Chờ 1 giây để xoay xong
+          return;
+        case 'rotateleft':
+          rotate(-value);
+          break;
+        case 'rotateright':
+          rotate(value);
+          break;
+      }
+      
+      // Chờ một chút giữa các lệnh để tạo hiệu ứng mượt mà
+      setTimeout(executeNextCommand, 300);
+    }
+    
+    // Xử lý phím
     document.addEventListener("keydown", (e) => {
+      if (isProgramRunning) return; // Không xử lý phím khi chương trình đang chạy
+      
       switch (e.key.toLowerCase()) {
         case 'w': move(0, -1); break;
         case 's': move(0, 1); break;
         case 'a': move(-1, 0); break;
         case 'd': move(1, 0); break;
-        case 'j': rotate(-2); break;
-        case 'k': rotate(2); break;
+        case 'u': moveDiagonal(-1, -1); break;
+        case 'i': moveDiagonal(1, -1); break;
+        case 'j': moveDiagonal(-1, 1); break;
+        case 'k': moveDiagonal(1, 1); break;
+        case 'q': rotate(-2); break;
+        case 'e': rotate(2); break;
+        case ' ': spinRobot(); break;
       }
     });
-
+    
+    // Khởi tạo
     updateRobot();
   </script>
 </body>

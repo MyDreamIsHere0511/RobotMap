@@ -149,6 +149,34 @@
       gap: 8px;
     }
     
+    .step-size-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+      padding: 5px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border: 1px solid #d1d1d1;
+    }
+    
+    .step-size-control label {
+      white-space: nowrap;
+    }
+    
+    .step-size-control input {
+      width: 60px;
+      text-align: center;
+      padding: 3px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    
+    .step-size-control .unit {
+      color: #666;
+      font-size: 0.9em;
+    }
+    
     .direction-toggle-container {
       display: flex;
       flex-direction: column;
@@ -314,7 +342,7 @@
     }
     
     .command-block input {
-      width: 40px;
+      width: 50px;
       margin-left: 5px;
       text-align: center;
     }
@@ -352,12 +380,24 @@
     
     .command-block.dragging {
       opacity: 0.7;
+      z-index: 1000;
     }
     
     .command-block.disabled {
       opacity: 0.5;
       text-decoration: line-through;
       background-color: #f0f0f0 !important;
+    }
+    
+    .drag-indicator {
+      height: 2px;
+      background-color: #0d6efd;
+      margin: 2px 0;
+      display: none;
+    }
+    
+    .drag-indicator.active {
+      display: block;
     }
     
     .command-block.move-up { background-color: #d1e7dd; }
@@ -481,7 +521,14 @@
           <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
         </div>
         
-        <!-- Thay thế nút chỉ thị hướng cũ bằng nút đảo chiều -->
+        <!-- Thêm điều khiển bước di chuyển -->
+        <div class="step-size-control">
+          <label for="step-size">Bước di chuyển:</label>
+          <input type="number" id="step-size" value="1" min="0.1" step="0.1" onchange="updateStepSize(this.value)">
+          <span class="unit">cm</span>
+        </div>
+        
+        <!-- Nút đảo chiều -->
         <div class="direction-toggle-container">
           <div class="direction-toggle-btn">
             <span>Đảo chiều robot:</span>
@@ -533,42 +580,43 @@
       <div class="block-container">
         <div class="block-library" id="block-library">
           <div class="command-block move-up" draggable="true" data-command="up">
-            Lên <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Lên <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-down" draggable="true" data-command="down">
-            Xuống <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Xuống <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-left" draggable="true" data-command="left">
-            Trái <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Trái <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-right" draggable="true" data-command="right">
-            Phải <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Phải <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-upleft" draggable="true" data-command="upleft">
-            Chéo trái lên <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Chéo trái lên <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-upright" draggable="true" data-command="upright">
-            Chéo phải lên <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Chéo phải lên <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-downleft" draggable="true" data-command="downleft">
-            Chéo trái xuống <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Chéo trái xuống <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block move-downright" draggable="true" data-command="downright">
-            Chéo phải xuống <input type="number" value="1" min="1"><span class="unit-label">cm</span>
+            Chéo phải xuống <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">cm</span>
           </div>
           <div class="command-block spin" draggable="true" data-command="spin">
-            Xoay tròn <input type="number" value="1" min="1"><span class="unit-label">vòng</span>
+            Xoay tròn <input type="number" value="1" min="0.1" step="0.1"><span class="unit-label">vòng</span>
           </div>
           <div class="command-block rotate-left" draggable="true" data-command="rotateleft">
-            Quay trái <input type="number" value="45" min="1"><span class="unit-label">độ</span>
+            Quay trái <input type="number" value="45" min="0.1" step="0.1"><span class="unit-label">độ</span>
           </div>
           <div class="command-block rotate-right" draggable="true" data-command="rotateright">
-            Quay phải <input type="number" value="45" min="1"><span class="unit-label">độ</span>
+            Quay phải <input type="number" value="45" min="0.1" step="0.1"><span class="unit-label">độ</span>
           </div>
         </div>
         
         <div class="program-area" id="program-area">
           <!-- Khu vực nhận các khối lệnh -->
+          <div class="drag-indicator" id="drag-indicator"></div>
         </div>
       </div>
       
@@ -598,7 +646,6 @@
       <button class="cancel" onclick="hideSaveDialog()">Hủy</button>
     </div>
   </div>
-
   <script>
     const robot = document.getElementById("robot");
     const mapImg = document.getElementById("map");
@@ -608,6 +655,7 @@
     const sidebarResizer = document.getElementById("sidebar-resizer");
     const programArea = document.getElementById("program-area");
     const blockLibrary = document.getElementById("block-library");
+    const dragIndicator = document.getElementById("drag-indicator");
     
     let x = 100, y = 100, angle = 0;
     let robotSize = 50; // Kích thước mặc định của robot
@@ -615,6 +663,7 @@
     let programQueue = [];
     let invertedVertical = false;
     let invertedHorizontal = false;
+    let stepSize = 1.0; // Kích thước bước di chuyển mặc định (cm)
     
     // Lịch sử thao tác cho Undo/Redo
     let history = [];
@@ -623,6 +672,12 @@
     
     // Biến cho hộp thoại lưu
     let savingType = '';
+    
+    // Biến trạng thái kéo thả
+    let isDragging = false;
+    let currentDragTarget = null;
+    let dragSourceParent = null;
+    let dragStartIndex = -1;
     
     // Thông số chuyển đổi tỷ lệ
     const MAP_REAL_WIDTH = 120; // Kích thước thực tế của map (cm)
@@ -643,6 +698,9 @@
       updateSavedPositionsList();
       updateSavedSizesList();
       updateSavedProgramsList();
+      
+      // Cài đặt sự kiện cho bước di chuyển
+      document.getElementById('step-size').value = stepSize;
     });
     
     // Tính toán tỷ lệ khi ảnh được tải
@@ -654,6 +712,14 @@
       centerRobot();
       positionResizeHandle();
     });
+    
+    // Cập nhật kích thước bước di chuyển
+    function updateStepSize(value) {
+      stepSize = parseFloat(value) || 1;
+      // Đảm bảo giá trị nằm trong phạm vi hợp lệ
+      if (stepSize < 0.1) stepSize = 0.1;
+      document.getElementById('step-size').value = stepSize;
+    }
     
     // Tính toán tỷ lệ pixel/cm
     function calculateScale() {
@@ -694,7 +760,8 @@
         angle: angle,
         robotSize: robotSize,
         invertedVertical: invertedVertical,
-        invertedHorizontal: invertedHorizontal
+        invertedHorizontal: invertedHorizontal,
+        stepSize: stepSize
       });
       
       historyIndex = history.length - 1;
@@ -724,11 +791,13 @@
         robotSize = state.robotSize;
         invertedVertical = state.invertedVertical || false;
         invertedHorizontal = state.invertedHorizontal || false;
+        stepSize = state.stepSize || 1.0;
         
         robot.style.width = `${robotSize}px`;
         document.getElementById('robot-size').value = robotSize;
         document.getElementById('toggle-vertical').classList.toggle('active', invertedVertical);
         document.getElementById('toggle-horizontal').classList.toggle('active', invertedHorizontal);
+        document.getElementById('step-size').value = stepSize;
         
         updateRobot();
         updateUndoRedoButtons();
@@ -748,11 +817,13 @@
         robotSize = state.robotSize;
         invertedVertical = state.invertedVertical || false;
         invertedHorizontal = state.invertedHorizontal || false;
+        stepSize = state.stepSize || 1.0;
         
         robot.style.width = `${robotSize}px`;
         document.getElementById('robot-size').value = robotSize;
         document.getElementById('toggle-vertical').classList.toggle('active', invertedVertical);
         document.getElementById('toggle-horizontal').classList.toggle('active', invertedHorizontal);
+        document.getElementById('step-size').value = stepSize;
         
         updateRobot();
         updateUndoRedoButtons();
@@ -811,8 +882,8 @@
       if (invertedVertical) dy = -dy;
       if (invertedHorizontal) dx = -dx;
       
-      // Chuyển đổi cm sang pixel với tỷ lệ phù hợp
-      const moveAmount = cmToPixel(1); // Di chuyển mặc định 1cm
+      // Chuyển đổi cm sang pixel với tỷ lệ phù hợp và kích thước bước
+      const moveAmount = cmToPixel(stepSize);
       
       // Áp dụng di chuyển
       x += dx * moveAmount;
@@ -902,7 +973,8 @@
           y: y,
           angle: angle,
           invertedVertical: invertedVertical,
-          invertedHorizontal: invertedHorizontal
+          invertedHorizontal: invertedHorizontal,
+          stepSize: stepSize
         };
         
         savedPositions.push(position);
@@ -923,7 +995,7 @@
         const blocks = Array.from(document.querySelectorAll('#program-area .command-block')).map(block => {
           return {
             command: block.dataset.command,
-            value: parseInt(block.querySelector('input').value) || 1,
+            value: parseFloat(block.querySelector('input').value) || 1,
             disabled: block.classList.contains('disabled')
           };
         });
@@ -1051,9 +1123,11 @@
       angle = position.angle;
       invertedVertical = position.invertedVertical || false;
       invertedHorizontal = position.invertedHorizontal || false;
+      stepSize = position.stepSize || 1.0;
       
       document.getElementById('toggle-vertical').classList.toggle('active', invertedVertical);
       document.getElementById('toggle-horizontal').classList.toggle('active', invertedHorizontal);
+      document.getElementById('step-size').value = stepSize;
       
       updateRobot();
       saveToHistory();
@@ -1074,11 +1148,12 @@
       const program = savedPrograms[index];
       
       // Xóa tất cả các lệnh hiện tại
-      document.getElementById('program-area').innerHTML = '';
+      const blocks = document.querySelectorAll('#program-area .command-block');
+      blocks.forEach(block => block.remove());
       
       // Thêm các lệnh từ chương trình đã lưu
       program.blocks.forEach(block => {
-        const originalBlock = document.querySelector(`.command-block[data-command="${block.command}"]`);
+        const originalBlock = document.querySelector(`.block-library .command-block[data-command="${block.command}"]`);
         if (originalBlock) {
           // Tạo một bản sao của khối lệnh
           const newBlock = originalBlock.cloneNode(true);
@@ -1095,8 +1170,11 @@
           // Thêm các nút điều khiển khối
           addBlockControls(newBlock);
           
+          // Thiết lập các sự kiện kéo thả
+          setupDragEvents(newBlock);
+          
           // Thêm vào khu vực chương trình
-          document.getElementById('program-area').appendChild(newBlock);
+          programArea.appendChild(newBlock);
         }
       });
     }
@@ -1128,8 +1206,154 @@
       }
     }
     
+    // Thiết lập các sự kiện kéo thả cho một khối
+    function setupDragEvents(block) {
+      block.addEventListener('dragstart', handleDragStart);
+      block.addEventListener('dragend', handleDragEnd);
+    }
+    
+    // Xử lý bắt đầu kéo
+    function handleDragStart(e) {
+      // Đặt dữ liệu được kéo
+      e.dataTransfer.setData('text/plain', this.dataset.command);
+      e.dataTransfer.effectAllowed = 'move';
+      
+      // Lưu thông tin nguồn kéo
+      currentDragTarget = this;
+      dragSourceParent = this.parentElement;
+      
+      // Thêm class để chỉ thị trạng thái kéo
+      this.classList.add('dragging');
+      
+      // Nếu kéo từ program area, lưu vị trí ban đầu
+      if (dragSourceParent === programArea) {
+        const blocks = Array.from(programArea.querySelectorAll('.command-block'));
+        dragStartIndex = blocks.indexOf(this);
+      }
+      
+      // Trì hoãn để tránh các vấn đề với các sự kiện chuột
+      setTimeout(() => {
+        isDragging = true;
+      }, 0);
+    }
+    
+    // Xử lý kết thúc kéo
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      dragIndicator.classList.remove('active');
+      isDragging = false;
+      currentDragTarget = null;
+      dragSourceParent = null;
+      dragStartIndex = -1;
+    }
+    
+    // Xử lý dragover trên program area
+    programArea.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      
+      if (!isDragging) return;
+      
+      // Xác định vị trí dropPosition
+      const mouseY = e.clientY;
+      const blocks = Array.from(programArea.querySelectorAll('.command-block:not(.dragging)'));
+      
+      // Tìm vị trí để chèn chỉ báo kéo
+      let dropPosition = null;
+      
+      if (blocks.length === 0) {
+        // Không có khối, đặt vào đầu
+        dropPosition = { element: null, before: true };
+      } else {
+        for (let i = 0; i < blocks.length; i++) {
+          const block = blocks[i];
+          const rect = block.getBoundingClientRect();
+          const blockMiddle = rect.top + rect.height / 2;
+          
+          if (mouseY < blockMiddle) {
+            // Chuột ở trên nửa trên của khối, chèn trước
+            dropPosition = { element: block, before: true };
+            break;
+          } else if (i === blocks.length - 1) {
+            // Đã đến khối cuối cùng và chuột ở dưới, chèn sau
+            dropPosition = { element: block, before: false };
+            break;
+          }
+        }
+      }
+      
+      // Hiển thị chỉ báo kéo ở vị trí thích hợp
+      if (dropPosition) {
+        dragIndicator.classList.add('active');
+        
+        if (dropPosition.element === null) {
+          // Không có khối, thêm chỉ báo vào đầu
+          programArea.insertBefore(dragIndicator, programArea.firstChild);
+        } else if (dropPosition.before) {
+          // Chèn trước khối
+          programArea.insertBefore(dragIndicator, dropPosition.element);
+        } else {
+          // Chèn sau khối
+          const nextElement = dropPosition.element.nextElementSibling;
+          if (nextElement) {
+            programArea.insertBefore(dragIndicator, nextElement);
+          } else {
+            programArea.appendChild(dragIndicator);
+          }
+        }
+      }
+    });
+    
+    // Xử lý khi thả vào program area
+    programArea.addEventListener('drop', function(e) {
+      e.preventDefault();
+      
+      if (!isDragging) return;
+      
+      const command = e.dataTransfer.getData('text/plain');
+      
+      // Xác định vị trí thả dựa trên vị trí chỉ báo kéo
+      const dropBeforeElement = dragIndicator.nextElementSibling;
+      
+      // Xử lý khối được kéo
+      if (currentDragTarget) {
+        if (dragSourceParent === blockLibrary) {
+          // Kéo từ thư viện, tạo bản sao mới
+          const newBlock = currentDragTarget.cloneNode(true);
+          
+          // Thêm các nút điều khiển
+          addBlockControls(newBlock);
+          
+          // Thiết lập các sự kiện kéo thả
+          setupDragEvents(newBlock);
+          
+          // Thêm vào vị trí thả
+          if (dropBeforeElement) {
+            programArea.insertBefore(newBlock, dropBeforeElement);
+          } else {
+            programArea.appendChild(newBlock);
+          }
+        } else if (dragSourceParent === programArea) {
+          // Di chuyển trong programArea
+          if (dropBeforeElement) {
+            programArea.insertBefore(currentDragTarget, dropBeforeElement);
+          } else {
+            programArea.appendChild(currentDragTarget);
+          }
+        }
+      }
+      
+      // Reset trạng thái kéo thả
+      dragIndicator.classList.remove('active');
+    });
+    
     // Thêm các nút điều khiển cho khối
     function addBlockControls(block) {
+      // Xóa các nút điều khiển cũ nếu có
+      const oldControls = block.querySelector('.block-controls');
+      if (oldControls) {
+        block.removeChild(oldControls);
+      }
+      
       // Tạo div chứa các nút điều khiển
       const controlsDiv = document.createElement('div');
       controlsDiv.className = 'block-controls';
@@ -1151,7 +1375,7 @@
       deleteBtn.title = 'Xóa khối';
       deleteBtn.onclick = function(e) {
         e.stopPropagation();
-        document.getElementById('program-area').removeChild(block);
+        block.parentElement.removeChild(block);
       };
       
       // Thêm các nút vào div điều khiển
@@ -1162,7 +1386,12 @@
       block.appendChild(controlsDiv);
       
       // Thêm sự kiện khi nhấp vào khối
-      block.addEventListener('click', function() {
+      block.addEventListener('click', function(e) {
+        // Ngăn sự kiện lan truyền khi nhấp vào input
+        if (e.target.tagName === 'INPUT') {
+          return;
+        }
+        
         if (this.classList.contains('selected-block')) {
           this.classList.remove('selected-block');
           document.removeEventListener('keydown', blockKeyHandler);
@@ -1183,19 +1412,23 @@
     // Hàm xử lý phím khi khối được chọn
     function blockKeyHandler(e) {
       const selectedBlock = document.querySelector('.command-block.selected-block');
-      if (!selectedBlock) return;
+      if (!selectedBlock || selectedBlock.parentElement !== programArea) return;
       
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         const prev = selectedBlock.previousElementSibling;
-        if (prev) {
-          selectedBlock.parentNode.insertBefore(selectedBlock, prev);
+        if (prev && prev.classList && prev.classList.contains('command-block')) {
+          programArea.insertBefore(selectedBlock, prev);
         }
       } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         const next = selectedBlock.nextElementSibling;
         if (next) {
-          selectedBlock.parentNode.insertBefore(next, selectedBlock);
+          if (next.nextElementSibling) {
+            programArea.insertBefore(selectedBlock, next.nextElementSibling);
+          } else {
+            programArea.appendChild(selectedBlock);
+          }
         }
       } else if (e.key === 'Escape') {
         selectedBlock.classList.remove('selected-block');
@@ -1203,84 +1436,10 @@
       }
     }
     
-    // Xử lý kéo thả các khối lệnh
-    document.querySelectorAll('.command-block').forEach(block => {
-      block.addEventListener('dragstart', function(e) {
-        e.dataTransfer.setData('text/plain', this.dataset.command);
-        e.dataTransfer.effectAllowed = 'copy';
-        this.classList.add('dragging');
-      });
-      
-      block.addEventListener('dragend', function() {
-        this.classList.remove('dragging');
-      });
+    // Cài đặt sự kiện kéo thả cho các khối lệnh trong thư viện
+    document.querySelectorAll('#block-library .command-block').forEach(block => {
+      setupDragEvents(block);
     });
-    
-    // Cho phép thả khối vào program area
-    programArea.addEventListener('dragover', function(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'copy';
-      
-      const afterElement = getDragAfterElement(programArea, e.clientY);
-      const draggable = document.querySelector('.dragging');
-      if (draggable && draggable.parentElement !== blockLibrary) {
-        if (afterElement == null) {
-          programArea.appendChild(draggable);
-        } else {
-          programArea.insertBefore(draggable, afterElement);
-        }
-      }
-    });
-    
-    programArea.addEventListener('drop', function(e) {
-      e.preventDefault();
-      const command = e.dataTransfer.getData('text/plain');
-      if (command) {
-        // Tìm khối lệnh gốc
-        const originalBlock = document.querySelector(`.command-block[data-command="${command}"]`);
-        if (originalBlock && originalBlock.parentElement === blockLibrary) {
-          // Tạo một bản sao của khối lệnh
-          const newBlock = originalBlock.cloneNode(true);
-          newBlock.draggable = true;
-          
-          // Thêm các nút điều khiển khối
-          addBlockControls(newBlock);
-          
-          // Xác định vị trí thả
-          const afterElement = getDragAfterElement(programArea, e.clientY);
-          if (afterElement == null) {
-            programArea.appendChild(newBlock);
-          } else {
-            programArea.insertBefore(newBlock, afterElement);
-          }
-          
-          // Thiết lập các sự kiện cho khối mới
-          newBlock.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', this.dataset.command);
-            this.classList.add('dragging');
-          });
-          
-          newBlock.addEventListener('dragend', function() {
-            this.classList.remove('dragging');
-          });
-        }
-      }
-    });
-    
-    // Hàm để xác định vị trí thả
-    function getDragAfterElement(container, y) {
-      const draggableElements = [...container.querySelectorAll('.command-block:not(.dragging)')];
-      
-      return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
-      }, { offset: Number.NEGATIVE_INFINITY }).element;
-    }
     
     // Xử lý kéo thả resize robot
     let isResizing = false;
@@ -1357,7 +1516,7 @@
       // Thu thập tất cả các lệnh từ program area (chỉ lấy các khối không bị vô hiệu hóa)
       const commands = Array.from(programArea.querySelectorAll('.command-block:not(.disabled)')).map(block => {
         const command = block.dataset.command;
-        const value = parseInt(block.querySelector('input').value) || 1;
+        const value = parseFloat(block.querySelector('input').value) || 1;
         return { command, value };
       });
       
@@ -1465,7 +1624,7 @@
           updateRobot();
           requestAnimationFrame(animateRotation);
         } else {
-          angle = startAngle;
+          angle = startAngle + Math.floor(rounds) * 360; // Đảm bảo góc cuối cùng chính xác
           updateRobot();
           
           // Tiếp tục với lệnh tiếp theo

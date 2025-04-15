@@ -51,6 +51,18 @@
       transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
     }
     
+    #robot-direction {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 20px solid red;
+      transform-origin: center bottom;
+      display: none;
+      z-index: 20;
+    }
+    
     /* Phân khu 1: Điều khiển */
     #control-panel {
       padding: 10px;
@@ -113,8 +125,31 @@
       border-radius: 4px;
     }
     
-    .toggle-robot {
+    .toggle-controls {
       margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .direction-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    
+    .direction-controls button {
+      padding: 4px 8px;
+      background-color: #e6e6e6;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .direction-controls button.set-direction {
+      flex: 2;
+      background-color: #ffc107;
     }
     
     .save-controls {
@@ -138,6 +173,10 @@
     
     .save-controls button.save-size {
       background-color: #cfe2ff;
+    }
+    
+    .save-controls button.save-program {
+      background-color: #fff3cd;
     }
     
     .saved-items {
@@ -225,12 +264,38 @@
       display: flex;
       align-items: center;
       font-size: 0.9em;
+      position: relative;
     }
     
     .command-block input {
       width: 40px;
       margin-left: 5px;
       text-align: center;
+    }
+    
+    .command-block .block-controls {
+      margin-left: auto;
+      display: flex;
+      gap: 3px;
+    }
+    
+    .command-block .block-controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .command-block .block-controls .move-up {
+      color: #198754;
+    }
+    
+    .command-block .block-controls .move-down {
+      color: #0d6efd;
+    }
+    
+    .command-block .block-controls .delete-block {
+      color: #dc3545;
     }
     
     .command-block.move-up { background-color: #d1e7dd; }
@@ -313,6 +378,67 @@
       background-color: #f8f9fa;
       border: 1px solid #ddd;
     }
+    
+    /* Hộp thoại chọn hướng robot */
+    .direction-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: none;
+      width: 280px;
+    }
+    
+    .direction-dialog h4 {
+      margin-top: 0;
+      text-align: center;
+    }
+    
+    .direction-dialog p {
+      margin-bottom: 15px;
+    }
+    
+    .direction-controls-dialog {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .direction-controls-dialog button {
+      padding: 8px 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .direction-dialog-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .direction-dialog-buttons button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .direction-dialog-buttons .confirm {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .direction-dialog-buttons .cancel {
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+    }
   </style>
 </head>
 <body>
@@ -322,21 +448,21 @@
       <h4 class="controls-title">
         Di chuyển
         <div class="history-controls">
-          <button id="undo-button" onclick="undoAction()" title="Quay lại bước trước (Z)">↩</button>
-          <button id="redo-button" onclick="redoAction()" title="Tiến lại bước sau (Y)">↪</button>
+          <button id="undo-button-1" onclick="undoAction()" title="Quay lại bước trước (Z)">↩</button>
+          <button id="redo-button-1" onclick="redoAction()" title="Tiến lại bước sau (Y)">↪</button>
         </div>
       </h4>
       
       <div class="movement-grid">
-        <button onclick="moveDiagonal(-1, -1)">↖ (U)</button>
-        <button onclick="move(0, -1)">↑ (W)</button>
-        <button onclick="moveDiagonal(1, -1)">↗ (I)</button>
-        <button onclick="move(-1, 0)">← (A)</button>
+        <button onclick="moveRobotInDirection(-1, -1)">↖ (U)</button>
+        <button onclick="moveRobotInDirection(0, -1)">↑ (W)</button>
+        <button onclick="moveRobotInDirection(1, -1)">↗ (I)</button>
+        <button onclick="moveRobotInDirection(-1, 0)">← (A)</button>
         <button onclick="spinRobot()">⟳ (Space)</button>
-        <button onclick="move(1, 0)">→ (D)</button>
-        <button onclick="moveDiagonal(-1, 1)">↙ (J)</button>
-        <button onclick="move(0, 1)">↓ (S)</button>
-        <button onclick="moveDiagonal(1, 1)">↘ (K)</button>
+        <button onclick="moveRobotInDirection(1, 0)">→ (D)</button>
+        <button onclick="moveRobotInDirection(-1, 1)">↙ (J)</button>
+        <button onclick="moveRobotInDirection(0, 1)">↓ (S)</button>
+        <button onclick="moveRobotInDirection(1, 1)">↘ (K)</button>
       </div>
       
       <div class="rotation-controls">
@@ -345,9 +471,27 @@
         <button onclick="centerRobot()">⟴ Reset</button>
       </div>
       
+      <div class="toggle-controls">
+        <div class="toggle-robot">
+          <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
+        </div>
+        
+        <div class="direction-controls">
+          <button class="set-direction" onclick="showDirectionDialog()">Thiết lập hướng robot</button>
+          <button onclick="rotateDirection(-1)" title="Quay hướng sang trái">⟲</button>
+          <button onclick="rotateDirection(1)" title="Quay hướng sang phải">⟳</button>
+        </div>
+      </div>
+      
+      <div class="robot-resize-controls">
+        <label>Kích thước robot:</label>
+        <input type="range" id="robot-size" min="20" max="150" value="50" oninput="resizeRobot(this.value)">
+      </div>
+      
       <div class="save-controls">
         <button class="save-position" onclick="showSaveDialog('position')">💾 Lưu vị trí hiện tại</button>
         <button class="save-size" onclick="showSaveDialog('size')">📏 Lưu kích thước robot</button>
+        <button class="save-program" onclick="showSaveDialog('program')">📋 Lưu chương trình</button>
       </div>
       
       <h5 class="controls-title">Vị trí đã lưu</h5>
@@ -360,13 +504,9 @@
         <!-- Các kích thước đã lưu sẽ được thêm ở đây -->
       </div>
       
-      <div class="toggle-robot">
-        <label><input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Ẩn/Hiện Robot</label>
-      </div>
-      
-      <div class="robot-resize-controls">
-        <label>Kích thước robot:</label>
-        <input type="range" id="robot-size" min="20" max="150" value="50" oninput="resizeRobot(this.value)">
+      <h5 class="controls-title">Chương trình đã lưu</h5>
+      <div class="saved-items" id="saved-programs">
+        <!-- Các chương trình đã lưu sẽ được thêm ở đây -->
       </div>
     </div>
     
@@ -374,6 +514,10 @@
     <div id="block-programming">
       <h4 class="controls-title">
         Lập trình khối
+        <div class="history-controls">
+          <button id="undo-button-2" onclick="undoAction()" title="Quay lại bước trước (Z)">↩</button>
+          <button id="redo-button-2" onclick="redoAction()" title="Tiến lại bước sau (Y)">↪</button>
+        </div>
       </h4>
       
       <div class="block-container">
@@ -430,6 +574,7 @@
     <div id="robot-container">
       <img id="robot" src="robot.png" alt="Robot" />
       <div class="resize-handle" id="resize-handle"></div>
+      <div id="robot-direction"></div>
     </div>
   </div>
   
@@ -442,16 +587,35 @@
       <button class="cancel" onclick="hideSaveDialog()">Hủy</button>
     </div>
   </div>
+  
+  <!-- Hộp thoại thiết lập hướng robot -->
+  <div class="direction-dialog" id="direction-dialog">
+    <h4>Thiết lập hướng robot</h4>
+    <p>Chọn hướng di chuyển của robot bằng cách điều chỉnh mũi tên.</p>
+    <div class="direction-controls-dialog">
+      <button onclick="rotateDirection(-1)">⟲ Quay trái</button>
+      <button onclick="rotateDirection(1)">⟳ Quay phải</button>
+    </div>
+    <div class="direction-dialog-buttons">
+      <button class="confirm" onclick="confirmDirection()">Xác nhận</button>
+      <button class="cancel" onclick="hideDirectionDialog()">Hủy</button>
+    </div>
+  </div>
 
   <script>
     const robot = document.getElementById("robot");
     const mapImg = document.getElementById("map");
     const resizeHandle = document.getElementById("resize-handle");
     const saveDialog = document.getElementById("save-dialog");
+    const directionDialog = document.getElementById("direction-dialog");
+    const robotDirection = document.getElementById("robot-direction");
+    
     let x = 100, y = 100, angle = 0;
     let robotSize = 50; // Kích thước mặc định của robot
     let isProgramRunning = false;
     let programQueue = [];
+    let directionAngle = 0; // Góc của mũi tên hướng
+    let isSettingDirection = false;
     
     // Lịch sử thao tác cho Undo/Redo
     let history = [];
@@ -461,9 +625,10 @@
     // Biến cho hộp thoại lưu
     let savingType = '';
     
-    // Khởi tạo danh sách vị trí và kích thước đã lưu
+    // Khởi tạo danh sách vị trí, kích thước và chương trình đã lưu
     let savedPositions = JSON.parse(localStorage.getItem('robotPositions')) || [];
     let savedSizes = JSON.parse(localStorage.getItem('robotSizes')) || [];
+    let savedPrograms = JSON.parse(localStorage.getItem('robotPrograms')) || [];
     
     // Đảm bảo map được đặt đúng kích thước khi trang tải xong
     window.addEventListener('load', function() {
@@ -471,12 +636,14 @@
       positionResizeHandle();
       updateSavedPositionsList();
       updateSavedSizesList();
+      updateSavedProgramsList();
     });
     
     // Điều chỉnh khi cửa sổ thay đổi
     window.addEventListener('resize', function() {
       centerRobot();
       positionResizeHandle();
+      updateDirectionArrow();
     });
     
     // Lưu một trạng thái vào lịch sử
@@ -496,7 +663,8 @@
         x: x,
         y: y,
         angle: angle,
-        robotSize: robotSize
+        robotSize: robotSize,
+        directionAngle: directionAngle
       });
       
       historyIndex = history.length - 1;
@@ -507,8 +675,10 @@
     
     // Cập nhật trạng thái nút Undo/Redo
     function updateUndoRedoButtons() {
-      document.getElementById('undo-button').disabled = historyIndex <= 0;
-      document.getElementById('redo-button').disabled = historyIndex >= history.length - 1;
+      document.getElementById('undo-button-1').disabled = historyIndex <= 0;
+      document.getElementById('redo-button-1').disabled = historyIndex >= history.length - 1;
+      document.getElementById('undo-button-2').disabled = historyIndex <= 0;
+      document.getElementById('redo-button-2').disabled = historyIndex >= history.length - 1;
     }
     
     // Thực hiện quay lại
@@ -522,11 +692,13 @@
         y = state.y;
         angle = state.angle;
         robotSize = state.robotSize;
+        directionAngle = state.directionAngle;
         
         robot.style.width = `${robotSize}px`;
         document.getElementById('robot-size').value = robotSize;
         
         updateRobot();
+        updateDirectionArrow();
         updateUndoRedoButtons();
       }
     }
@@ -542,11 +714,13 @@
         y = state.y;
         angle = state.angle;
         robotSize = state.robotSize;
+        directionAngle = state.directionAngle;
         
         robot.style.width = `${robotSize}px`;
         document.getElementById('robot-size').value = robotSize;
         
         updateRobot();
+        updateDirectionArrow();
         updateUndoRedoButtons();
       }
     }
@@ -556,6 +730,7 @@
       robot.style.width = `${robotSize}px`;
       positionResizeHandle();
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
@@ -567,6 +742,7 @@
       y = mapRect.top + (mapRect.height / 2) - (robotSize / 2);
       
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
@@ -583,6 +759,94 @@
       resizeHandle.style.top = (robotRect.bottom - 5) + 'px';
     }
     
+    function updateDirectionArrow() {
+      if (!isSettingDirection && robotDirection.style.display !== 'block') return;
+      
+      const robotRect = robot.getBoundingClientRect();
+      const centerX = robotRect.left + robotRect.width / 2;
+      const centerY = robotRect.top + robotRect.height / 2;
+      
+      robotDirection.style.left = `${centerX - 10}px`;
+      robotDirection.style.top = `${centerY - 20}px`;
+      robotDirection.style.transform = `rotate(${directionAngle}deg)`;
+    }
+    
+    // Hiển thị hộp thoại thiết lập hướng
+    function showDirectionDialog() {
+      isSettingDirection = true;
+      robotDirection.style.display = 'block';
+      directionDialog.style.display = 'block';
+      updateDirectionArrow();
+    }
+    
+    // Ẩn hộp thoại thiết lập hướng
+    function hideDirectionDialog() {
+      isSettingDirection = false;
+      robotDirection.style.display = 'none';
+      directionDialog.style.display = 'none';
+    }
+    
+    // Xác nhận hướng đã chọn
+    function confirmDirection() {
+      isSettingDirection = false;
+      directionDialog.style.display = 'none';
+      robotDirection.style.display = 'none';
+      saveToHistory();
+    }
+    
+    // Quay hướng mũi tên
+    function rotateDirection(dir) {
+      directionAngle += dir * 45; // Mỗi lần quay 45 độ
+      updateDirectionArrow();
+    }
+    
+    // Di chuyển theo hướng của robot
+    function moveRobotInDirection(dx, dy) {
+      const moveAmount = 5; // Tốc độ di chuyển cố định
+      
+      // Tính toán góc di chuyển dựa trên hướng của robot
+      const rad = (directionAngle - 90) * Math.PI / 180; // -90 để điều chỉnh từ hướng trên xuống
+      
+      // Tính toán vector di chuyển dựa trên hướng của robot
+      let realDx = 0;
+      let realDy = 0;
+      
+      if (dx === 0 && dy === -1) { // Lên
+        realDx = Math.sin(rad);
+        realDy = -Math.cos(rad);
+      } else if (dx === 0 && dy === 1) { // Xuống
+        realDx = -Math.sin(rad);
+        realDy = Math.cos(rad);
+      } else if (dx === -1 && dy === 0) { // Trái
+        realDx = -Math.cos(rad);
+        realDy = -Math.sin(rad);
+      } else if (dx === 1 && dy === 0) { // Phải
+        realDx = Math.cos(rad);
+        realDy = Math.sin(rad);
+      } else if (dx === -1 && dy === -1) { // Chéo trái lên
+        realDx = Math.sin(rad) - Math.cos(rad);
+        realDy = -Math.cos(rad) - Math.sin(rad);
+      } else if (dx === 1 && dy === -1) { // Chéo phải lên
+        realDx = Math.sin(rad) + Math.cos(rad);
+        realDy = -Math.cos(rad) + Math.sin(rad);
+      } else if (dx === -1 && dy === 1) { // Chéo trái xuống
+        realDx = -Math.sin(rad) - Math.cos(rad);
+        realDy = Math.cos(rad) - Math.sin(rad);
+      } else if (dx === 1 && dy === 1) { // Chéo phải xuống
+        realDx = -Math.sin(rad) + Math.cos(rad);
+        realDy = Math.cos(rad) + Math.sin(rad);
+      }
+      
+      // Áp dụng di chuyển
+      x += realDx * moveAmount;
+      y += realDy * moveAmount;
+      
+      updateRobot();
+      updateDirectionArrow();
+      saveToHistory();
+    }
+    
+    // Di chuyển bình thường (không quan tâm hướng robot)
     function move(dx, dy) {
       const moveAmount = 5; // Tốc độ di chuyển cố định
       if (dx !== 0) {
@@ -594,6 +858,7 @@
       }
       
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
@@ -602,12 +867,14 @@
       x += dx * moveAmount;
       y += dy * moveAmount;
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
     function rotate(da) {
       angle += da;
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
@@ -621,10 +888,12 @@
         if (currentRotation <= 720) {
           angle = startAngle + currentRotation;
           updateRobot();
+          updateDirectionArrow();
           requestAnimationFrame(animateRotation);
         } else {
           angle = startAngle;
           updateRobot();
+          updateDirectionArrow();
           saveToHistory();
         }
       }
@@ -635,6 +904,11 @@
     function toggleRobot() {
       robot.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
       resizeHandle.style.display = document.getElementById("toggle-robot").checked ? 'block' : 'none';
+      if (!document.getElementById("toggle-robot").checked) {
+        robotDirection.style.display = 'none';
+      } else if (isSettingDirection) {
+        robotDirection.style.display = 'block';
+      }
     }
     
     // Hiển thị hộp thoại lưu
@@ -644,9 +918,19 @@
       if (type === 'position') {
         document.getElementById('save-dialog-title').textContent = 'Lưu vị trí hiện tại';
         document.getElementById('save-name').placeholder = 'Nhập tên vị trí';
-      } else {
+      } else if (type === 'size') {
         document.getElementById('save-dialog-title').textContent = 'Lưu kích thước robot';
         document.getElementById('save-name').placeholder = 'Nhập tên kích thước';
+      } else if (type === 'program') {
+        document.getElementById('save-dialog-title').textContent = 'Lưu chương trình';
+        document.getElementById('save-name').placeholder = 'Nhập tên chương trình';
+        
+        // Kiểm tra xem có chương trình nào không
+        const blocks = document.querySelectorAll('#program-area .command-block');
+        if (blocks.length === 0) {
+          alert('Không có lệnh nào trong chương trình để lưu!');
+          return;
+        }
       }
       
       document.getElementById('save-name').value = '';
@@ -658,7 +942,7 @@
       saveDialog.style.display = 'none';
     }
     
-    // Lưu vị trí hoặc kích thước
+    // Lưu vị trí, kích thước hoặc chương trình
     function saveItem() {
       const name = document.getElementById('save-name').value.trim();
       
@@ -673,13 +957,14 @@
           name: name,
           x: x,
           y: y,
-          angle: angle
+          angle: angle,
+          directionAngle: directionAngle
         };
         
         savedPositions.push(position);
         localStorage.setItem('robotPositions', JSON.stringify(savedPositions));
         updateSavedPositionsList();
-      } else {
+      } else if (savingType === 'size') {
         // Lưu kích thước hiện tại
         const size = {
           name: name,
@@ -689,6 +974,23 @@
         savedSizes.push(size);
         localStorage.setItem('robotSizes', JSON.stringify(savedSizes));
         updateSavedSizesList();
+      } else if (savingType === 'program') {
+        // Lưu chương trình hiện tại
+        const blocks = Array.from(document.querySelectorAll('#program-area .command-block')).map(block => {
+          return {
+            command: block.dataset.command,
+            value: parseInt(block.querySelector('input').value) || 1
+          };
+        });
+        
+        const program = {
+          name: name,
+          blocks: blocks
+        };
+        
+        savedPrograms.push(program);
+        localStorage.setItem('robotPrograms', JSON.stringify(savedPrograms));
+        updateSavedProgramsList();
       }
       
       hideSaveDialog();
@@ -762,13 +1064,49 @@
       });
     }
     
+    // Cập nhật danh sách chương trình đã lưu
+    function updateSavedProgramsList() {
+      const container = document.getElementById('saved-programs');
+      container.innerHTML = '';
+      
+      if (savedPrograms.length === 0) {
+        container.innerHTML = '<div class="saved-item">Chưa có chương trình nào được lưu</div>';
+        return;
+      }
+      
+      savedPrograms.forEach((program, index) => {
+        const item = document.createElement('div');
+        item.className = 'saved-item';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = program.name;
+        nameSpan.title = `${program.blocks.length} lệnh`;
+        nameSpan.style.cursor = 'pointer';
+        nameSpan.onclick = () => loadProgram(index);
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '✕';
+        deleteBtn.title = 'Xóa';
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteProgram(index);
+        };
+        
+        item.appendChild(nameSpan);
+        item.appendChild(deleteBtn);
+        container.appendChild(item);
+      });
+    }
+    
     // Tải vị trí đã lưu
     function loadPosition(index) {
       const position = savedPositions[index];
       x = position.x;
       y = position.y;
       angle = position.angle;
+      directionAngle = position.directionAngle || 0;
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
     }
     
@@ -779,7 +1117,35 @@
       robot.style.width = `${robotSize}px`;
       document.getElementById('robot-size').value = robotSize;
       updateRobot();
+      updateDirectionArrow();
       saveToHistory();
+    }
+    
+    // Tải chương trình đã lưu
+    function loadProgram(index) {
+      const program = savedPrograms[index];
+      
+      // Xóa tất cả các lệnh hiện tại
+      document.getElementById('program-area').innerHTML = '';
+      
+      // Thêm các lệnh từ chương trình đã lưu
+      program.blocks.forEach(block => {
+        const originalBlock = document.querySelector(`.command-block[data-command="${block.command}"]`);
+        if (originalBlock) {
+          // Tạo một bản sao của khối lệnh
+          const newBlock = originalBlock.cloneNode(true);
+          newBlock.draggable = false;
+          
+          // Thiết lập giá trị đầu vào
+          newBlock.querySelector('input').value = block.value;
+          
+          // Thêm các nút điều khiển khối
+          addBlockControls(newBlock);
+          
+          // Thêm vào khu vực chương trình
+          document.getElementById('program-area').appendChild(newBlock);
+        }
+      });
     }
     
     // Xóa vị trí đã lưu
@@ -797,6 +1163,76 @@
         savedSizes.splice(index, 1);
         localStorage.setItem('robotSizes', JSON.stringify(savedSizes));
         updateSavedSizesList();
+      }
+    }
+    
+    // Xóa chương trình đã lưu
+    function deleteProgram(index) {
+      if (confirm('Bạn có chắc muốn xóa chương trình này?')) {
+        savedPrograms.splice(index, 1);
+        localStorage.setItem('robotPrograms', JSON.stringify(savedPrograms));
+        updateSavedProgramsList();
+      }
+    }
+    
+    // Thêm các nút điều khiển cho khối
+    function addBlockControls(block) {
+      // Tạo div chứa các nút điều khiển
+      const controlsDiv = document.createElement('div');
+      controlsDiv.className = 'block-controls';
+      
+      // Nút di chuyển lên
+      const moveUpBtn = document.createElement('button');
+      moveUpBtn.className = 'move-up';
+      moveUpBtn.innerHTML = '↑';
+      moveUpBtn.title = 'Di chuyển lên';
+      moveUpBtn.onclick = function(e) {
+        e.stopPropagation();
+        moveBlockUp(block);
+      };
+      
+      // Nút di chuyển xuống
+      const moveDownBtn = document.createElement('button');
+      moveDownBtn.className = 'move-down';
+      moveDownBtn.innerHTML = '↓';
+      moveDownBtn.title = 'Di chuyển xuống';
+      moveDownBtn.onclick = function(e) {
+        e.stopPropagation();
+        moveBlockDown(block);
+      };
+      
+      // Nút xóa
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-block';
+      deleteBtn.innerHTML = '✕';
+      deleteBtn.title = 'Xóa khối';
+      deleteBtn.onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('program-area').removeChild(block);
+      };
+      
+      // Thêm các nút vào div điều khiển
+      controlsDiv.appendChild(moveUpBtn);
+      controlsDiv.appendChild(moveDownBtn);
+      controlsDiv.appendChild(deleteBtn);
+      
+      // Thêm div điều khiển vào khối
+      block.appendChild(controlsDiv);
+    }
+    
+    // Di chuyển khối lên
+    function moveBlockUp(block) {
+      const prev = block.previousElementSibling;
+      if (prev) {
+        block.parentNode.insertBefore(block, prev);
+      }
+    }
+    
+    // Di chuyển khối xuống
+    function moveBlockDown(block) {
+      const next = block.nextElementSibling;
+      if (next) {
+        block.parentNode.insertBefore(next, block);
       }
     }
     
@@ -829,21 +1265,10 @@
           const newBlock = originalBlock.cloneNode(true);
           newBlock.draggable = false; // Không cho phép kéo khối này nữa
           
-          // Thêm nút xóa khối
-          const deleteButton = document.createElement('button');
-          deleteButton.innerHTML = '✕';
-          deleteButton.style.marginLeft = 'auto';
-          deleteButton.style.background = 'none';
-          deleteButton.style.border = 'none';
-          deleteButton.style.color = 'red';
-          deleteButton.style.fontWeight = 'bold';
-          deleteButton.style.cursor = 'pointer';
+          // Thêm các nút điều khiển khối
+          addBlockControls(newBlock);
           
-          deleteButton.addEventListener('click', function() {
-            programArea.removeChild(newBlock);
-          });
-          
-          newBlock.appendChild(deleteButton);
+          // Thêm vào khu vực chương trình
           programArea.appendChild(newBlock);
         }
       }
@@ -882,6 +1307,7 @@
       
       // Cập nhật vị trí robot để giữ nguyên vị trí trung tâm
       updateRobot();
+      updateDirectionArrow();
     });
     
     document.addEventListener('mouseup', function() {
@@ -919,28 +1345,28 @@
       
       switch (command.command) {
         case 'up':
-          move(0, -value);
+          moveRobotInDirection(0, -value);
           break;
         case 'down':
-          move(0, value);
+          moveRobotInDirection(0, value);
           break;
         case 'left':
-          move(-value, 0);
+          moveRobotInDirection(-value, 0);
           break;
         case 'right':
-          move(value, 0);
+          moveRobotInDirection(value, 0);
           break;
         case 'upleft':
-          moveDiagonal(-value, -value);
+          moveRobotInDirection(-value, -value);
           break;
         case 'upright':
-          moveDiagonal(value, -value);
+          moveRobotInDirection(value, -value);
           break;
         case 'downleft':
-          moveDiagonal(-value, value);
+          moveRobotInDirection(-value, value);
           break;
         case 'downright':
-          moveDiagonal(value, value);
+          moveRobotInDirection(value, value);
           break;
         case 'spin':
           // Đối với xoay tròn, tạo hiệu ứng mượt mà hơn
@@ -964,14 +1390,14 @@
       if (isProgramRunning) return; // Không xử lý phím khi chương trình đang chạy
       
       switch (e.key.toLowerCase()) {
-        case 'w': move(0, -1); break;
-        case 's': move(0, 1); break;
-        case 'a': move(-1, 0); break;
-        case 'd': move(1, 0); break;
-        case 'u': moveDiagonal(-1, -1); break;
-        case 'i': moveDiagonal(1, -1); break;
-        case 'j': moveDiagonal(-1, 1); break;
-        case 'k': moveDiagonal(1, 1); break;
+        case 'w': moveRobotInDirection(0, -1); break;
+        case 's': moveRobotInDirection(0, 1); break;
+        case 'a': moveRobotInDirection(-1, 0); break;
+        case 'd': moveRobotInDirection(1, 0); break;
+        case 'u': moveRobotInDirection(-1, -1); break;
+        case 'i': moveRobotInDirection(1, -1); break;
+        case 'j': moveRobotInDirection(-1, 1); break;
+        case 'k': moveRobotInDirection(1, 1); break;
         case 'q': rotate(-2); break;
         case 'e': rotate(2); break;
         case ' ': spinRobot(); break;

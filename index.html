@@ -19,8 +19,8 @@
 
     .map-container {
       position: relative;
-      width: 800px; /* bạn chỉnh theo kích cỡ map thật */
-      height: 600px;
+      width: 800px; /* Kích thước hiển thị của bản đồ */
+      height: 800px; /* Đảm bảo tỷ lệ đúng */
     }
 
     .map-container img.map {
@@ -30,18 +30,40 @@
 
     .robot {
       position: absolute;
-      width: 50px;
-      height: 50px;
-      left: 100px; /* vị trí ban đầu */
-      top: 100px;
+      width: 12%; /* Tỷ lệ robot trên bản đồ (12cm trên 120cm) */
+      height: 16%; /* Tỷ lệ robot trên bản đồ (16cm trên 120cm) */
+      left: 40%; /* Vị trí robot mặc định trên bản đồ */
+      top: 40%;  /* Vị trí robot mặc định trên bản đồ */
       display: none;
-      transition: top 0.2s, left 0.2s;
+      transition: top 0.2s, left 0.2s, transform 0.2s; /* Thêm chuyển động khi quay robot */
     }
 
     button {
       padding: 10px;
       font-size: 18px;
       cursor: pointer;
+    }
+
+    .rotate-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100px;
+    }
+
+    .settings {
+      margin-top: 20px;
+    }
+
+    #settingsModal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 1px solid black;
+      z-index: 100;
     }
   </style>
 </head>
@@ -55,6 +77,15 @@
     <button onclick="move('left')">A</button>
     <button onclick="move('down')">S</button>
     <button onclick="move('right')">D</button>
+
+    <!-- Các nút quay robot -->
+    <div class="rotate-buttons">
+      <button onclick="rotateRobot('left')">J</button>
+      <button onclick="rotateRobot('right')">K</button>
+    </div>
+
+    <!-- Nút cài đặt -->
+    <button onclick="openSettings()">Cài đặt</button>
   </div>
 
   <div class="map-container" id="mapArea">
@@ -62,11 +93,20 @@
     <img src="robot.png" alt="Robot" id="robot" class="robot">
   </div>
 
+  <div id="settingsModal">
+    <h3>Cài đặt Tỉ lệ</h3>
+    <label for="mapScale">Tỉ lệ bản đồ: </label>
+    <input type="number" id="mapScale" value="100" step="1" min="50" max="150"> %
+    <button onclick="applySettings()">Áp dụng</button>
+    <button onclick="closeSettings()">Đóng</button>
+  </div>
+
   <script>
     const robot = document.getElementById('robot');
     const checkbox = document.getElementById('toggleRobot');
-    let x = 100, y = 100; // vị trí ban đầu (pixel)
-    const step = 10; // khoảng cách mỗi lần di chuyển
+    let x = 40, y = 40; // vị trí ban đầu của robot trên bản đồ theo tỷ lệ %
+    let rotation = 0; // góc quay robot
+    const step = 10; // khoảng cách di chuyển
 
     checkbox.addEventListener('change', () => {
       robot.style.display = checkbox.checked ? 'block' : 'none';
@@ -77,13 +117,13 @@
 
       switch (direction) {
         case 'up': y = Math.max(0, y - step); break;
-        case 'down': y = Math.min(550, y + step); break;
+        case 'down': y = Math.min(100, y + step); break;
         case 'left': x = Math.max(0, x - step); break;
-        case 'right': x = Math.min(750, x + step); break;
+        case 'right': x = Math.min(100, x + step); break;
       }
 
-      robot.style.left = x + 'px';
-      robot.style.top = y + 'px';
+      robot.style.left = `${x}%`;
+      robot.style.top = `${y}%`;
     }
 
     document.addEventListener('keydown', (e) => {
@@ -92,8 +132,38 @@
         case 's': move('down'); break;
         case 'a': move('left'); break;
         case 'd': move('right'); break;
+        case 'j': rotateRobot('left'); break;
+        case 'k': rotateRobot('right'); break;
       }
     });
+
+    function rotateRobot(direction) {
+      if (direction === 'left') {
+        rotation -= 90;
+      } else if (direction === 'right') {
+        rotation += 90;
+      }
+      robot.style.transform = `rotate(${rotation}deg)`;
+    }
+
+    // Cài đặt chỉnh tỉ lệ
+    function openSettings() {
+      document.getElementById('settingsModal').style.display = 'block';
+    }
+
+    function closeSettings() {
+      document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function applySettings() {
+      const scale = document.getElementById('mapScale').value;
+      const mapContainer = document.querySelector('.map-container');
+      mapContainer.style.width = `${scale}%`;
+      mapContainer.style.height = `${scale}%`;
+
+      robot.style.width = `${(scale * 12) / 100}%`; // Điều chỉnh tỉ lệ robot
+      robot.style.height = `${(scale * 16) / 100}%`; // Điều chỉnh tỉ lệ robot
+    }
   </script>
 </body>
 </html>

@@ -98,6 +98,17 @@
       robot.style.display = checkbox.checked ? 'block' : 'none';
     });
 
+    function updateRobotSize() {
+      const mapWidth = mapArea.offsetWidth;
+      const mapHeight = mapArea.offsetHeight;
+
+      const robotWidth = (mapWidth * (robotWidthInCm / mapWidthInCm));
+      const robotHeight = (mapHeight * (robotHeightInCm / mapHeightInCm));
+
+      robot.style.width = robotWidth + 'px';
+      robot.style.height = robotHeight + 'px';
+    }
+
     function move(direction) {
       if (!checkbox.checked) return;
 
@@ -150,11 +161,14 @@
         mapArea.style.width = width + 'px';
         mapArea.style.height = height + 'px';
 
-        // Điều chỉnh lại tỷ lệ robot khi resize map
-        robot.style.width = (width * (robotWidthInCm / mapWidthInCm)) + 'px';  // Robot chiếm tỷ lệ 12cm/120cm của map
-        robot.style.height = (height * (robotHeightInCm / mapHeightInCm)) + 'px';  // Tỷ lệ chiều cao robot
+        // Cập nhật lại tỷ lệ robot khi resize bản đồ
+        updateRobotSize();
       }
     }
+
+    // Cập nhật kích thước robot khi vừa load hoặc resize map
+    updateRobotSize();
+
   </script>
 </body>
 </html>

@@ -98,60 +98,10 @@
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
     
     .header-button:hover {
       background-color: rgba(255,255,255,0.3);
-    }
-
-    /* Settings dropdown menu */
-    #settings-dropdown {
-      position: absolute;
-      top: 45px;
-      right: 120px;
-      background-color: white;
-      border-radius: 4px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      z-index: 1001;
-      overflow: hidden;
-      display: none;
-      min-width: 200px;
-    }
-
-    .dark-mode #settings-dropdown {
-      background-color: var(--dark-bg);
-      color: var(--text-light);
-    }
-
-    #settings-dropdown .settings-header {
-      padding: 10px 15px;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 500;
-    }
-
-    #settings-dropdown .settings-option {
-      padding: 10px 15px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    #settings-dropdown .settings-option:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
-
-    .dark-mode #settings-dropdown .settings-option:hover {
-      background-color: rgba(255,255,255,0.05);
-    }
-
-    .settings-option i {
-      width: 16px;
-      text-align: center;
     }
     
     .theme-toggle {
@@ -199,6 +149,53 @@
       height: 100%;
       padding-top: 40px; /* Để tránh bị header che */
     }
+
+    /* Settings dropdown menu */
+#settings-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 120px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  z-index: 1001;
+  overflow: hidden;
+  display: none;
+  min-width: 200px;
+}
+
+.dark-mode #settings-dropdown {
+  background-color: var(--dark-bg);
+  color: var(--text-light);
+}
+
+#settings-dropdown .settings-header {
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 500;
+}
+
+#settings-dropdown .settings-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#settings-dropdown .settings-option:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.dark-mode #settings-dropdown .settings-option:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.settings-option i {
+  width: 16px;
+  text-align: center;
+}
     
     #sidebar {
       width: 320px;
@@ -297,17 +294,16 @@
       z-index: 10;
       display: flex;
       flex-direction: column;
-      cursor: default;
-    }
-    
-    #coordinates-display.draggable {
-      cursor: move;
-      box-shadow: 0 0 0 2px var(--accent-color);
     }
     
     #coordinates-display div {
       margin: 2px 0;
     }
+
+    #coordinates-display.draggable {
+  cursor: move;
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
     
     /* Mini-map display */
     #mini-map-container {
@@ -322,12 +318,6 @@
       z-index: 10;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      cursor: default;
-    }
-
-    #mini-map-container.draggable {
-      cursor: move;
-      box-shadow: 0 0 0 2px var(--accent-color);
     }
     
     #mini-map {
@@ -335,6 +325,11 @@
       height: 100%;
       position: relative;
     }
+
+    #mini-map-container.draggable {
+  cursor: move;
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
     
     #mini-map-indicator {
       position: absolute;
@@ -381,28 +376,14 @@
     }
     
     #robot {
-      position: absolute;
-      width: 50px; /* Kích thước mặc định */
-      transform-origin: center center; /* Đảm bảo robot quay từ tâm */
-      transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
-      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
-      user-select: none;
-      transform: translate(-50%, -50%); /* Canh chỉnh để robot nằm đúng tâm */
-    }
-
-    /* Robot center point (red dot) */
-    #robot-center {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: red;
-      border: 2px solid white;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 6;
-      cursor: nwse-resize;
-      box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    }
+  position: absolute;
+  width: 50px; /* Kích thước mặc định */
+  transform-origin: center center; /* Đảm bảo robot quay từ tâm */
+  transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
+  user-select: none;
+  transform: translate(-50%, -50%); /* Canh chỉnh để robot nằm đúng tâm */
+}
     
     /* Waypoint markers */
     .waypoint-marker {
@@ -417,6 +398,20 @@
       cursor: pointer;
       box-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
+
+    /* Robot center point (red dot) */
+#robot-center {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border: 2px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  cursor: nwse-resize;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
     
     .waypoint-marker:hover {
       background-color: #e67e22;
@@ -502,31 +497,22 @@
       font-weight: 500;
       transition: background-color 0.2s, var(--theme-transition);
     }
+    
     .movement-grid button:hover {
-      filter: brightness(0.9);
+      background-color: var(--primary-color);
+      color: white;
     }
     
-    /* Styling cho các nút di chuyển */
-    #move-up { background-color: var(--move-up-bg); }
-    #move-down { background-color: var(--move-down-bg); }
-    #move-left { background-color: var(--move-left-bg); }
-    #move-right { background-color: var(--move-right-bg); }
-    #move-upleft { background-color: var(--move-upleft-bg); }
-    #move-upright { background-color: var(--move-upright-bg); }
-    #move-downleft { background-color: var(--move-downleft-bg); }
-    #move-downright { background-color: var(--move-downright-bg); }
-    #rotate-left { background-color: var(--rotate-left-bg); }
-    #rotate-right { background-color: var(--rotate-right-bg); }
-    
-    .rotate-controls {
+    .rotation-controls {
       display: flex;
       gap: 5px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     
-    .rotate-controls button {
+    .rotation-controls button {
       flex: 1;
       padding: 10px 0;
+      background-color: var(--light-bg);
       border: 1px solid var(--border-color);
       cursor: pointer;
       border-radius: 4px;
@@ -535,439 +521,736 @@
       transition: background-color 0.2s, var(--theme-transition);
     }
     
-    .rotate-controls button:hover {
-      filter: brightness(0.9);
+    .rotation-controls button:hover {
+      background-color: var(--primary-color);
+      color: white;
     }
     
-    .settings-group {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    /* Position control panel */
+    .position-control-panel {
+      background-color: rgba(52, 152, 219, 0.1);
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
     }
     
-    .settings-group label {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      color: var(--text-dark);
-      transition: var(--theme-transition);
-    }
-    
-    .settings-group input {
-      padding: 8px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--light-bg);
-      color: var(--text-dark);
-      transition: var(--theme-transition);
-    }
-    
-    /* Phân khu 2: Lệnh di chuyển */
-    .command-list {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--light-bg);
-      transition: var(--theme-transition);
-    }
-    
-    .command-list li {
-      padding: 8px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      cursor: default;
-      transition: background-color 0.2s;
-      color: var(--text-dark);
-      transition: var(--theme-transition);
-    }
-    
-    .command-list li:last-child {
-      border-bottom: none;
-    }
-    
-    .command-list li:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
-    
-    .command-move-up { background-color: var(--move-up-bg); }
-    .command-move-down { background-color: var(--move-down-bg); }
-    .command-move-left { background-color: var(--move-left-bg); }
-    .command-move-right { background-color: var(--move-right-bg); }
-    .command-move-upleft { background-color: var(--move-upleft-bg); }
-    .command-move-upright { background-color: var(--move-upright-bg); }
-    .command-move-downleft { background-color: var(--move-downleft-bg); }
-    .command-move-downright { background-color: var(--move-downright-bg); }
-    .command-spin { background-color: var(--spin-bg); }
-    .command-rotate-left { background-color: var(--rotate-left-bg); }
-    .command-rotate-right { background-color: var(--rotate-right-bg); }
-    
-    .command-actions {
-      display: flex;
-      gap: 5px;
-    }
-    
-    .command-actions button {
-      padding: 2px 5px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      border-radius: 2px;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-    
-    .command-actions button:hover {
-      opacity: 1;
-    }
-    
-    .command-edit {
-      color: var(--accent-color);
-    }
-    
-    .command-delete {
-      color: var(--danger-color);
-    }
-    
-    /* Phân khu 3: Đường đi */
-    .waypoints-list {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--light-bg);
-      transition: var(--theme-transition);
-    }
-    
-    .waypoints-list li {
-      padding: 8px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      cursor: default;
-      transition: background-color 0.2s;
-      color: var(--text-dark);
-    }
-    
-    .waypoints-list li:last-child {
-      border-bottom: none;
-    }
-    
-    .waypoints-list li:hover {
-      background-color: rgba(0,0,0,0.05);
-    }
-    
-    .waypoint-actions {
-      display: flex;
-      gap: 5px;
-    }
-    
-    .waypoint-actions button {
-      padding: 2px 5px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      border-radius: 2px;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-    }
-    
-    .waypoint-actions button:hover {
-      opacity: 1;
-    }
-    
-    .waypoint-goto {
-      color: var(--secondary-color);
-    }
-    
-    .waypoint-edit {
-      color: var(--accent-color);
-    }
-    
-    .waypoint-delete {
-      color: var(--danger-color);
-    }
-    
-    /* Phân khu 4: Thông tin */
-    .info-item {
-      display: flex;
-      justify-content: space-between;
+    .position-control-panel h5 {
+      margin-top: 0;
       margin-bottom: 8px;
+      color: var(--primary-color);
+    }
+    
+    .coordinate-inputs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .coordinate-input {
+      flex: 1;
+    }
+    
+    .coordinate-input label {
+      display: block;
+      font-size: 0.9em;
+      margin-bottom: 3px;
       color: var(--text-dark);
       transition: var(--theme-transition);
     }
     
-    .info-label {
+    .coordinate-input input {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .move-to-coords-btn {
+      width: 100%;
+      padding: 8px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
       font-weight: 500;
     }
     
-    .info-value {
-      font-family: monospace;
-      padding: 2px 5px;
-      background-color: rgba(0,0,0,0.05);
-      border-radius: 2px;
+    .move-to-coords-btn:hover {
+      background-color: #2980b9;
     }
     
-    /* Dialog styling */
+    .toggle-controls {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .control-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .control-toggle input[type="checkbox"] {
+      margin: 0;
+      width: 16px;
+      height: 16px;
+    }
+    
+    .step-size-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+      padding: 8px;
+      background-color: rgba(250, 250, 250, 0.5);
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      transition: var(--theme-transition);
+    }
+    
+    .dark-mode .step-size-control {
+      background-color: rgba(30, 30, 30, 0.5);
+    }
+    
+    .step-size-control label {
+      white-space: nowrap;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .step-size-control input {
+      width: 60px;
+      text-align: center;
+      padding: 5px;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .step-size-control .unit {
+      color: var(--text-dark);
+      font-size: 0.9em;
+      transition: var(--theme-transition);
+    }
+    
+    .direction-toggle-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    
+    .direction-toggle-btn {
+      padding: 8px;
+      background-color: rgba(250, 250, 250, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--theme-transition);
+    }
+    
+    .dark-mode .direction-toggle-btn {
+      background-color: rgba(30, 30, 30, 0.5);
+    }
+    
+    .direction-toggle {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .direction-toggle button {
+      padding: 5px 10px;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .direction-toggle button.active {
+      background-color: var(--accent-color);
+      color: white;
+      font-weight: bold;
+    }
+    
+    .unit-display {
+      margin-top: 8px;
+      margin-bottom: 12px;
+      padding: 8px;
+      background-color: rgba(250, 250, 250, 0.5);
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      font-size: 0.9em;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: var(--theme-transition);
+    }
+    
+    .dark-mode .unit-display {
+      background-color: rgba(30, 30, 30, 0.5);
+    }
+    
+    .unit-display strong {
+      color: var(--primary-color);
+    }
+    
+    .robot-resize-controls {
+      margin: 15px 0;
+    }
+    
+    .resize-controls-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .resize-slider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .resize-slider input[type="range"] {
+      flex: 1;
+      height: 5px;
+      appearance: none;
+      background: linear-gradient(to right, var(--primary-color) 0%, var(--primary-color) 50%, #ddd 50%, #ddd 100%);
+      border-radius: 2px;
+      outline: none;
+    }
+    
+    .resize-slider input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      background: white;
+      border: 2px solid var(--primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    
+    .resize-slider .size-value {
+      width: 40px;
+      text-align: right;
+      font-weight: 500;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    /* Map position controls */
+    .map-position-control {
+      margin: 15px 0;
+    }
+    
+    .map-position-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .map-position-toggle input[type="checkbox"] {
+      margin: 0;
+      width: 16px;
+      height: 16px;
+    }
+    
+    .save-controls {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .save-controls button {
+      padding: 10px 0;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+    
+    .save-controls button.save-position {
+      background-color: rgba(46, 204, 113, 0.15);
+      color: #27ae60;
+    }
+    
+    .save-controls button.save-position:hover {
+      background-color: rgba(46, 204, 113, 0.3);
+    }
+    
+    .save-controls button.save-size {
+      background-color: rgba(52, 152, 219, 0.15);
+      color: #2980b9;
+    }
+    
+    .save-controls button.save-size:hover {
+      background-color: rgba(52, 152, 219, 0.3);
+    }
+    
+    .save-controls button.save-program {
+      background-color: rgba(243, 156, 18, 0.15);
+      color: #d35400;
+    }
+    
+    .save-controls button.save-program:hover {
+      background-color: rgba(243, 156, 18, 0.3);
+    }
+    
+    .save-controls button.export-data {
+      background-color: rgba(156, 39, 176, 0.15);
+      color: #8e44ad;
+    }
+    
+    .save-controls button.export-data:hover {
+      background-color: rgba(156, 39, 176, 0.3);
+    }
+    
+    .saved-items-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 0 5px 0;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .saved-items {
+      margin-top: 5px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+      background-color: var(--light-bg);
+      transition: var(--theme-transition);
+    }
+    
+    .saved-item {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .saved-item:hover {
+      background-color: rgba(52, 152, 219, 0.1);
+    }
+    
+    .saved-item:last-child {
+      border-bottom: none;
+    }
+    
+    .saved-item button {
+      background: none;
+      border: none;
+      color: var(--danger-color);
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: transform 0.1s;
+    }
+    
+    .saved-item button:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Phân khu 2: Lập trình khối */
+    .block-container {
+      display: flex;
+      margin-bottom: 10px;
+      max-height: 250px; /* Giới hạn chiều cao để vừa màn hình */
+      gap: 10px;
+    }
+    
+    .block-library {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      background-color: var(--light-bg);
+      overflow-y: auto;
+      transition: var(--theme-transition);
+    }
+    
+    .program-area {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      background-color: var(--light-bg);
+      overflow-y: auto;
+      transition: var(--theme-transition);
+    }
+    
+    .command-block {
+      margin: 5px 0;
+      padding: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 4px;
+      cursor: move;
+      display: flex;
+      align-items: center;
+      font-size: 0.9em;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    
+    .command-block:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    }
+    
+    .command-block input {
+      width: 60px;
+      margin-left: 5px;
+      text-align: center;
+      padding: 4px;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .unit-label {
+      font-size: 0.8em;
+      margin-left: 2px;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .command-block .block-controls {
+      margin-left: auto;
+      display: flex;
+      gap: 5px;
+    }
+    
+    .command-block .block-controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      padding: 2px 5px;
+    }
+    
+    .command-block .block-controls .delete-block {
+      color: var(--danger-color);
+    }
+    
+    .command-block .block-controls .toggle-block {
+      color: var(--primary-color);
+    }
+    
+    .command-block.selected-block {
+      box-shadow: 0 0 0 2px var(--primary-color);
+    }
+    
+    .command-block.dragging {
+      opacity: 0.7;
+      z-index: 1000;
+    }
+    
+    .command-block.disabled {
+      opacity: 0.5;
+      text-decoration: line-through;
+      background-color: rgba(240,240,240,0.5) !important;
+    }
+    
+    .dark-mode .command-block.disabled {
+      background-color: rgba(40,40,40,0.5) !important;
+    }
+    
+    .drag-indicator {
+      height: 3px;
+      background-color: var(--primary-color);
+      margin: 2px 0;
+      display: none;
+      border-radius: 1.5px;
+    }
+    
+    .drag-indicator.active {
+      display: block;
+    }
+    
+    .command-block.move-up { background-color: var(--move-up-bg); }
+    .command-block.move-down { background-color: var(--move-down-bg); }
+    .command-block.move-left { background-color: var(--move-left-bg); }
+    .command-block.move-right { background-color: var(--move-right-bg); }
+    .command-block.move-upleft { background-color: var(--move-upleft-bg); }
+    .command-block.move-upright { background-color: var(--move-upright-bg); }
+    .command-block.move-downleft { background-color: var(--move-downleft-bg); }
+    .command-block.move-downright { background-color: var(--move-downright-bg); }
+    .command-block.spin { background-color: var(--spin-bg); }
+    .command-block.rotate-left { background-color: var(--rotate-left-bg); }
+    .command-block.rotate-right { background-color: var(--rotate-right-bg); }
+    
+    .run-program {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background-color 0.2s;
+    }
+    
+    .run-program:hover {
+      background-color: #27ae60;
+    }
+    
+    .run-program.running {
+      background-color: var(--danger-color);
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    
+    /* Điểm resize cho robot */
+    .resize-handle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: var(--danger-color);
+      border: 2px solid white;
+      border-radius: 50%;
+      bottom: -6px;
+      right: -6px;
+      cursor: nwse-resize;
+      z-index: 10;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    
+    /* Input tên lưu */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0,0,0,0.5);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      visibility: hidden;
       opacity: 0;
-      transition: visibility 0s linear 0.25s, opacity 0.25s;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
     }
     
     .modal-overlay.active {
-      visibility: visible;
       opacity: 1;
-      transition-delay: 0s;
+      visibility: visible;
     }
     
     .modal-dialog {
-      background-color: var(--light-bg);
-      border-radius: 6px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      background-color: white;
       padding: 20px;
-      width: 400px;
-      max-width: 90%;
-      transform: scale(0.8);
-      opacity: 0;
-      transition: transform 0.3s, opacity 0.3s;
-      color: var(--text-dark);
-      transition: var(--theme-transition);
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      width: 300px;
+      transform: translateY(-20px);
+      transition: transform 0.3s;
     }
     
     .modal-overlay.active .modal-dialog {
-      transform: scale(1);
-      opacity: 1;
+      transform: translateY(0);
     }
     
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
+    .dark-mode .modal-dialog {
+      background-color: #2c3e50;
+      color: white;
     }
     
-    .modal-title {
-      font-size: 1.2em;
-      font-weight: bold;
+    .modal-dialog h4 {
+      margin-top: 0;
       color: var(--primary-color);
     }
     
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5em;
-      cursor: pointer;
+    .modal-dialog input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 15px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+      background-color: var(--light-bg);
       color: var(--text-dark);
-      transition: color 0.2s;
     }
     
-    .modal-close:hover {
-      color: var(--danger-color);
-    }
-    
-    .modal-body {
-      margin-bottom: 15px;
-    }
-    
-    .modal-footer {
+    .modal-buttons {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
     }
     
-    .modal-form-group {
-      margin-bottom: 15px;
-    }
-    
-    .modal-form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-    
-    .modal-form-group input,
-    .modal-form-group select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      background-color: var(--light-bg);
-      color: var(--text-dark);
-      transition: var(--theme-transition);
-    }
-    
-    .modal-btn {
-      padding: 8px 12px;
+    .modal-dialog button {
+      padding: 8px 15px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-weight: 500;
-      transition: background-color 0.2s;
     }
     
-    .modal-btn-primary {
+    .modal-dialog button.primary {
       background-color: var(--primary-color);
       color: white;
     }
     
-    .modal-btn-primary:hover {
-      background-color: #2980b9;
+    .modal-dialog button.secondary {
+      background-color: #e0e0e0;
+      color: #333;
     }
     
-    .modal-btn-secondary {
-      background-color: #95a5a6;
+    /* Import/Export Modal */
+    .import-export-textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 10px;
+      font-family: monospace;
+      margin: 10px 0;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      resize: vertical;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+    }
+    
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background-color: rgba(0,0,0,0.8);
       color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
     }
     
-    .modal-btn-secondary:hover {
-      background-color: #7f8c8d;
-    }
-    
-    /* Toast notification */
-    #toast-container {
+    /* Notification */
+    .notification {
       position: fixed;
-      bottom: 20px;
+      top: 60px;
       right: 20px;
-      z-index: 9999;
-    }
-    
-    .toast {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: var(--primary-color);
       color: white;
       padding: 12px 20px;
       border-radius: 4px;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
       transform: translateX(120%);
-      transition: transform 0.3s ease-out;
+      transition: transform 0.3s;
     }
     
-    .toast.show {
+    .notification.show {
       transform: translateX(0);
     }
     
-    .toast-success {
-      border-left: 4px solid var(--secondary-color);
+    .notification.success {
+      background-color: var(--secondary-color);
     }
     
-    .toast-error {
-      border-left: 4px solid var(--danger-color);
+    .notification.error {
+      background-color: var(--danger-color);
     }
     
-    .toast-info {
-      border-left: 4px solid var(--primary-color);
-    }
-    
-    .toast-warning {
-      border-left: 4px solid var(--accent-color);
-    }
-    
-    /* Tooltip styling */
-    .tooltip {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .tooltip .tooltip-text {
-      visibility: hidden;
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
-      text-align: center;
-      padding: 5px 10px;
-      border-radius: 4px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-size: 12px;
-      pointer-events: none;
-    }
-    
-    .tooltip .tooltip-text::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
-    }
-    
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    /* Style for mobile */
+    /* Responsive */
     @media (max-width: 768px) {
       #sidebar {
         width: 100%;
+        max-width: none;
         position: absolute;
         height: 50%;
         bottom: 0;
-        z-index: 900;
+        z-index: 100;
         border-top: 1px solid var(--border-color);
         border-right: none;
         resize: none;
+      }
+      
+      #sidebar-resizer {
+        display: none;
       }
       
       #display-area {
         height: 50%;
       }
       
-      #sidebar-resizer {
-        display: none;
+      .block-container {
+        flex-direction: column;
+        max-height: none;
+      }
+      
+      .block-library, .program-area {
+        max-height: 150px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Thanh header -->
+  <!-- Header Bar -->
   <div id="header-bar">
     <div class="title">Robot Map Interface</div>
     <div id="header-controls">
-      <button id="grid-toggle" class="header-button">
-        <i class="fas fa-th"></i> Hiện/Ẩn lưới
-      </button>
+      <button id="toggle-grid-btn" class="header-button">Hiện/Ẩn Lưới</button>
+      <button id="add-waypoint-btn" class="header-button">Đánh Dấu Điểm</button>
       <button id="settings-button" class="header-button">
         <i class="fas fa-cog"></i> Cài đặt
       </button>
-      <div class="theme-toggle" id="theme-toggle">
-        <span>Chế độ tối</span>
+      <div class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-text">Chế độ tối</span>
         <div class="toggle-switch"></div>
       </div>
     </div>
   </div>
-
-  <!-- Settings dropdown menu -->
+  
+  <div id="main-container">
+      <!-- Settings dropdown menu -->
   <div id="settings-dropdown">
     <div class="settings-header">Cài đặt</div>
     <div class="settings-option" id="adjust-positions">
@@ -979,1164 +1262,2731 @@
       <span>Ẩn/Hiện Mini Map</span>
     </div>
   </div>
-
-  <!-- Container chính -->
-  <div id="main-container">
-    <!-- Thanh bên trái - Khu vực điều khiển -->
     <div id="sidebar">
-      <!-- Phân khu 1: Điều khiển -->
-      <div class="panel-section">
-        <h3 class="panel-section-title">Điều khiển Robot</h3>
+      <!-- Phân khu 1: Điều khiển trực tiếp -->
+      <div id="control-panel" class="panel-section">
+        <h3 class="panel-section-title">Điều Khiển Robot</h3>
         
-        <!-- Lịch sử di chuyển -->
-        <div class="controls-title">
-          <span>Lịch sử</span>
+        <div class="unit-display">
+          <div>Tỷ lệ hiện tại: <strong><span id="scale-ratio">1</span> cm/pixel</strong></div>
+          <div>Tọa độ hiện tại: <strong>X: <span id="current-x">0</span> cm, Y: <span id="current-y">0</span> cm</strong></div>
+          <div>Góc quay: <strong><span id="current-angle">0</span>°</strong></div>
+        </div>
+        
+        <h4 class="controls-title">
+          Điều khiển di chuyển
           <div class="history-controls">
-            <button id="undo-btn" title="Hoàn tác" disabled><i class="fas fa-undo"></i></button>
-            <button id="redo-btn" title="Làm lại" disabled><i class="fas fa-redo"></i></button>
-            <button id="clear-history-btn" title="Xóa lịch sử" disabled><i class="fas fa-trash-alt"></i></button>
+            <button id="undo-button-1" onclick="undoAction()" title="Quay lại bước trước (Ctrl+Z)">↩</button>
+            <button id="redo-button-1" onclick="redoAction()" title="Tiến lại bước sau (Ctrl+Y)">↪</button>
           </div>
-        </div>
-        
-        <!-- Lưới di chuyển -->
-        <div class="controls-title">
-          <span>Di chuyển</span>
-        </div>
+        </h4>
         
         <div class="movement-grid">
-          <button id="move-upleft" title="Di chuyển lên trái">
-            <i class="fas fa-arrow-up" style="transform: rotate(-45deg)"></i>
-          </button>
-          <button id="move-up" title="Di chuyển lên">
-            <i class="fas fa-arrow-up"></i>
-          </button>
-          <button id="move-upright" title="Di chuyển lên phải">
-            <i class="fas fa-arrow-up" style="transform: rotate(45deg)"></i>
-          </button>
-          <button id="move-left" title="Di chuyển sang trái">
-            <i class="fas fa-arrow-left"></i>
-          </button>
-          <button id="center-robot" title="Trở về vị trí ban đầu">
-            <i class="fas fa-dot-circle"></i>
-          </button>
-          <button id="move-right" title="Di chuyển sang phải">
-            <i class="fas fa-arrow-right"></i>
-          </button>
-          <button id="move-downleft" title="Di chuyển xuống trái">
-            <i class="fas fa-arrow-down" style="transform: rotate(45deg)"></i>
-          </button>
-          <button id="move-down" title="Di chuyển xuống">
-            <i class="fas fa-arrow-down"></i>
-          </button>
-          <button id="move-downright" title="Di chuyển xuống phải">
-            <i class="fas fa-arrow-down" style="transform: rotate(-45deg)"></i>
-          </button>
+          <button onclick="moveRobotInDirection(-1, -1)" title="Di chuyển chéo trái lên (U)">↖</button>
+          <button onclick="moveRobotInDirection(0, -1)" title="Di chuyển lên (W)">↑</button>
+          <button onclick="moveRobotInDirection(1, -1)" title="Di chuyển chéo phải lên (I)">↗</button>
+          <button onclick="moveRobotInDirection(-1, 0)" title="Di chuyển sang trái (A)">←</button>
+          <button onclick="spinRobot()" title="Xoay tròn (Space)">⟳</button>
+          <button onclick="moveRobotInDirection(1, 0)" title="Di chuyển sang phải (D)">→</button>
+          <button onclick="moveRobotInDirection(-1, 1)" title="Di chuyển chéo trái xuống (J)">↙</button>
+          <button onclick="moveRobotInDirection(0, 1)" title="Di chuyển xuống (S)">↓</button>
+          <button onclick="moveRobotInDirection(1, 1)" title="Di chuyển chéo phải xuống (K)">↘</button>
         </div>
         
-        <!-- Điều khiển quay -->
-        <div class="controls-title">
-          <span>Quay</span>
-        </div>
-        
-        <div class="rotate-controls">
-          <button id="rotate-left" title="Quay trái">
-            <i class="fas fa-undo"></i>
-          </button>
-          <button id="rotate-right" title="Quay phải">
-            <i class="fas fa-redo"></i>
-          </button>
-        </div>
-        
-        <!-- Cài đặt di chuyển -->
-        <div class="settings-group">
-          <label>
-            Bước di chuyển
-            <input type="number" id="move-step-input" min="1" max="100" value="10">
-          </label>
-          
+        <div class="rotation-controls">
+          <button onclick="rotate(-5)" title="Quay trái 5 độ (Q)">⟲ Quay trái</button>
+          <button onclick="rotate(5)" title="Quay phải 5 độ (E)">⟳ Quay phải</button>
           <label>
             Góc quay (độ)
             <input type="number" id="rotation-angle-input" min="1" max="180" value="45">
           </label>
+          <button onclick="centerRobot()" title="Đặt robot về vị trí trung tâm (R)">⟴ Về giữa</button>
+        </div>
+        
+        <!-- Position Control Panel -->
+        <div class="position-control-panel">
+          <h5>Di chuyển đến tọa độ chính xác</h5>
+          <div class="coordinate-inputs">
+            <div class="coordinate-input">
+              <label for="target-x">Tọa độ X (cm)</label>
+              <input type="number" id="target-x" step="0.1" placeholder="X (cm)">
+            </div>
+            <div class="coordinate-input">
+              <label for="target-y">Tọa độ Y (cm)</label>
+              <input type="number" id="target-y" step="0.1" placeholder="Y (cm)">
+            </div>
+          </div>
+          <button class="move-to-coords-btn" onclick="moveToCoordinates()">Di chuyển đến tọa độ</button>
+        </div>
+        
+        <div class="toggle-controls">
+          <div class="control-toggle">
+            <input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()">
+            <label for="toggle-robot">Ẩn/Hiện Robot</label>
+          </div>
+          
+          <div class="control-toggle">
+            <input type="checkbox" id="show-path" onchange="toggleShowPath()">
+            <label for="show-path">Hiện quãng đường di chuyển</label>
+          </div>
+          
+          <div class="control-toggle">
+            <input type="checkbox" id="show-mini-map" checked onchange="toggleMiniMap()">
+            <label for="show-mini-map">Hiện Mini-Map</label>
+          </div>
+        </div>
+        
+        <!-- Điều khiển bước di chuyển -->
+        <div class="step-size-control">
+          <label for="step-size">Bước di chuyển:</label>
+          <input type="number" id="step-size" value="1" min="0.1" step="0.1" onchange="updateStepSize(this.value)">
+          <span class="unit">cm</span>
+        </div>
+        
+        <!-- Nút đảo chiều -->
+        <div class="direction-toggle-container">
+          <div class="direction-toggle-btn">
+            <span>Đảo chiều robot:</span>
+            <div class="direction-toggle">
+              <button id="toggle-vertical" onclick="toggleVerticalDirection()">Trên/Dưới</button>
+              <button id="toggle-horizontal" onclick="toggleHorizontalDirection()">Trái/Phải</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Điều chỉnh kích thước robot -->
+        <div class="robot-resize-controls">
+          <label class="resize-controls-label" for="robot-size">Kích thước robot:</label>
+          <div class="resize-slider">
+            <input type="range" id="robot-size" min="20" max="150" value="50" oninput="resizeRobot(this.value)">
+            <span class="size-value" id="size-display">50px</span>
+          </div>
+        </div>
+        
+        <!-- Điều chỉnh kích thước map (Mới) -->
+        <div class="robot-resize-controls">
+          <label class="resize-controls-label" for="map-size">Kích thước map:</label>
+          <div class="resize-slider">
+            <input type="range" id="map-size" min="50" max="150" value="100" oninput="resizeMap(this.value)">
+            <span class="size-value" id="map-size-display">100%</span>
+          </div>
+        </div>
+        
+        <!-- Điều chỉnh vị trí map (Mới) -->
+        <div class="map-position-control">
+          <div class="map-position-toggle">
+            <input type="checkbox" id="map-vertical-move" onchange="toggleMapVerticalMovement()">
+            <label for="map-vertical-move">Cho phép di chuyển map lên/xuống</label>
+          </div>
+          
+          <label class="resize-controls-label" for="map-position-x">Vị trí map (trái/phải):</label>
+          <div class="resize-slider">
+            <input type="range" id="map-position-x" min="-50" max="50" value="0" oninput="adjustMapPosition('x', this.value)">
+            <span class="size-value" id="map-position-x-display">0</span>
+          </div>
+          
+          <div id="map-y-position-control" style="margin-top: 10px; display: none;">
+            <label class="resize-controls-label" for="map-position-y">Vị trí map (lên/xuống):</label>
+            <div class="resize-slider">
+              <input type="range" id="map-position-y" min="-50" max="50" value="0" oninput="adjustMapPosition('y', this.value)">
+              <span class="size-value" id="map-position-y-display">0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="save-controls">
+          <button class="save-position" onclick="showSaveDialog('position')">
+            <i>💾</i> Lưu vị trí hiện tại
+          </button>
+          <button class="save-size" onclick="showSaveDialog('size')">
+            <i>📏</i> Lưu kích thước robot
+          </button>
+          <button class="save-program" onclick="showSaveDialog('program')">
+            <i>📋</i> Lưu chương trình
+          </button>
+          <button class="export-data" onclick="showExportDialog()">
+            <i>📤</i> Xuất/Nhập dữ liệu
+          </button>
+        </div>
+        
+        <h5 class="saved-items-heading">
+          Vị trí đã lưu
+          <button id="clear-positions" onclick="clearSavedItems('position')" title="Xóa tất cả vị trí" style="background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 16px;">🗑️</button>
+        </h5>
+        <div class="saved-items" id="saved-positions">
+          <!-- Các vị trí đã lưu sẽ được thêm ở đây -->
+        </div>
+        
+        <h5 class="saved-items-heading">
+          Kích thước đã lưu
+          <button id="clear-sizes" onclick="clearSavedItems('size')" title="Xóa tất cả kích thước" style="background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 16px;">🗑️</button>
+        </h5>
+        <div class="saved-items" id="saved-sizes">
+          <!-- Các kích thước đã lưu sẽ được thêm ở đây -->
+        </div>
+        
+        <h5 class="saved-items-heading">
+          Chương trình đã lưu
+          <button id="clear-programs" onclick="clearSavedItems('program')" title="Xóa tất cả chương trình" style="background: none; border: none; color: var(--danger-color); cursor: pointer; font-size: 16px;">🗑️</button>
+        </h5>
+        <div class="saved-items" id="saved-programs">
+          <!-- Các chương trình đã lưu sẽ được thêm ở đây -->
         </div>
       </div>
-      
-      <!-- Phân khu 2: Danh sách lệnh -->
-      <div class="panel-section">
+      <!-- Phân khu 2: Lập trình khối -->
+      <div id="programming-panel" class="panel-section">
         <h3 class="panel-section-title">
-          Lệnh di chuyển
-          <button id="clear-commands-btn" class="header-button" style="padding: 2px 5px; font-size: 0.8em;">
-            <i class="fas fa-trash-alt"></i> Xóa tất cả
-          </button>
+          Lập Trình Robot
+          <div class="history-controls">
+            <button id="undo-button-2" onclick="undoAction()" title="Quay lại bước trước (Ctrl+Z)">↩</button>
+            <button id="redo-button-2" onclick="redoAction()" title="Tiến lại bước sau (Ctrl+Y)">↪</button>
+          </div>
         </h3>
         
-        <ul id="command-list" class="command-list">
-          <!-- Các lệnh sẽ được thêm bằng JavaScript -->
-        </ul>
-        
-        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-          <button id="execute-commands-btn" class="header-button" style="flex: 1; margin-right: 5px;">
-            <i class="fas fa-play"></i> Thực thi
-          </button>
-          <button id="save-commands-btn" class="header-button" style="flex: 1; margin-left: 5px;">
-            <i class="fas fa-save"></i> Lưu
-          </button>
+        <div class="block-container">
+          <div class="block-library">
+            <div class="command-block move-up" draggable="true" data-command="move-up">
+              Di chuyển lên
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-down" draggable="true" data-command="move-down">
+              Di chuyển xuống
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-left" draggable="true" data-command="move-left">
+              Di chuyển trái
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-right" draggable="true" data-command="move-right">
+              Di chuyển phải
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-upleft" draggable="true" data-command="move-upleft">
+              Di chuyển chéo trái lên
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-upright" draggable="true" data-command="move-upright">
+              Di chuyển chéo phải lên
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-downleft" draggable="true" data-command="move-downleft">
+              Di chuyển chéo trái xuống
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-downright" draggable="true" data-command="move-downright">
+              Di chuyển chéo phải xuống
+              <input type="number" value="1" min="0.1" step="0.1">
+              <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block rotate-left" draggable="true" data-command="rotate-left">
+              Quay trái
+              <input type="number" value="5" min="1" step="1">
+              <span class="unit-label">°</span>
+            </div>
+            <div class="command-block rotate-right" draggable="true" data-command="rotate-right">
+              Quay phải
+              <input type="number" value="5" min="1" step="1">
+              <span class="unit-label">°</span>
+            </div>
+            <div class="command-block spin" draggable="true" data-command="spin">
+              Xoay tròn
+            </div>
+          </div>
+          
+          <div class="program-area" id="program-area">
+            <!-- Khu vực các lệnh được thêm vào -->
+            <div class="drag-indicator"></div>
+          </div>
         </div>
-      </div>
-      
-      <!-- Phân khu 3: Đường đi -->
-      <div class="panel-section">
-        <h3 class="panel-section-title">
-          Đường đi
-          <button id="add-waypoint-btn" class="header-button" style="padding: 2px 5px; font-size: 0.8em;">
-            <i class="fas fa-plus"></i> Thêm mới
-          </button>
-        </h3>
         
-        <ul id="waypoints-list" class="waypoints-list">
-          <!-- Các điểm đường đi sẽ được thêm bằng JavaScript -->
-        </ul>
-        
-        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-          <button id="navigate-waypoints-btn" class="header-button" style="flex: 1; margin-right: 5px;">
-            <i class="fas fa-route"></i> Điều hướng
-          </button>
-          <button id="clear-waypoints-btn" class="header-button" style="flex: 1; margin-left: 5px;">
-            <i class="fas fa-trash-alt"></i> Xóa tất cả
-          </button>
-        </div>
-      </div>
-      
-      <!-- Phân khu 4: Thông tin -->
-      <div class="panel-section">
-        <h3 class="panel-section-title">Thông tin</h3>
-        
-        <div class="info-item">
-          <span class="info-label">Tọa độ X:</span>
-          <span class="info-value" id="info-x">0</span>
-        </div>
-        
-        <div class="info-item">
-          <span class="info-label">Tọa độ Y:</span>
-          <span class="info-value" id="info-y">0</span>
-        </div>
-        
-        <div class="info-item">
-          <span class="info-label">Góc quay:</span>
-          <span class="info-value" id="info-angle">0°</span>
-        </div>
-        
-        <div class="info-item">
-          <span class="info-label">Khoảng cách di chuyển:</span>
-          <span class="info-value" id="info-distance">0</span>
-        </div>
-        
-        <div class="info-item">
-          <span class="info-label">Số lệnh:</span>
-          <span class="info-value" id="info-command-count">0</span>
-        </div>
+        <button id="run-program-btn" class="run-program">
+          <i>▶</i> Chạy chương trình
+        </button>
       </div>
     </div>
     
-    <!-- Thanh điều chỉnh độ rộng sidebar -->
-    <div id="sidebar-resizer"></div>
-    
-    <!-- Khu vực hiển thị bản đồ -->
     <div id="display-area">
       <div id="map-container">
-        <div id="grid-overlay">
-          <!-- Lưới sẽ được tạo bằng JavaScript -->
-        </div>
-        
-        <img id="map" src="https://via.placeholder.com/800x600/f5f5f5/333?text=Loading+Map..." alt="Map">
+        <img id="map" src="map.png" alt="Robot Map">
+        <div id="grid-overlay"></div>
         
         <div id="robot-container">
-          <img id="robot" src="https://cdn-icons-png.flaticon.com/512/2216/2216052.png" alt="Robot">
+          <img id="robot" src="robot.png" alt="Robot">
+          <div class="resize-handle" id="robot-resize-handle"></div>
           <div id="robot-center"></div>
         </div>
         
-        <!-- Các marker điểm đường đi sẽ được thêm bằng JavaScript -->
-      </div>
-      
-      <!-- Hiển thị tọa độ -->
-      <div id="coordinates-display">
-        <div id="map-coordinates">Map: X: 0, Y: 0</div>
-        <div id="robot-coordinates">Robot: X: 0, Y: 0</div>
-        <div id="distance-display">Khoảng cách: 0px</div>
-        <div id="angle-display">Góc: 0°</div>
-      </div>
-      
-      <!-- Mini map -->
-      <div id="mini-map-container">
-        <div id="mini-map">
-          <div id="mini-map-indicator"></div>
-          <div id="mouse-position-indicator"></div>
-          <div id="mini-map-robot"></div>
+        <!-- Tọa độ chuột hiện tại -->
+        <div id="coordinates-display">
+          <div>Vị trí chuột: <span id="mouse-x">0</span>, <span id="mouse-y">0</span></div>
+          <div>Vị trí thực (cm): <span id="real-x">0</span>, <span id="real-y">0</span></div>
+        </div>
+        
+        <!-- Mini map -->
+        <div id="mini-map-container">
+          <div id="mini-map">
+            <div id="mini-map-indicator"></div>
+            <div id="mouse-position-indicator"></div>
+            <div id="mini-map-robot"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Dialog modal -->
-  <div class="modal-overlay" id="modal-overlay">
+  
+  <!-- Modal lưu chương trình -->
+  <div class="modal-overlay" id="save-modal">
     <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Dialog Title</h3>
-        <button class="modal-close" id="modal-close">&times;</button>
-      </div>
-      <div class="modal-body" id="modal-body">
-        <!-- Nội dung sẽ được thêm bằng JavaScript -->
-      </div>
-      <div class="modal-footer" id="modal-footer">
-        <!-- Nút sẽ được thêm bằng JavaScript -->
+      <h4 id="save-modal-title">Lưu vị trí</h4>
+      <input type="text" id="save-name" placeholder="Nhập tên để lưu">
+      <div class="modal-buttons">
+        <button class="secondary" onclick="closeModal()">Hủy</button>
+        <button class="primary" onclick="saveItem()">Lưu</button>
       </div>
     </div>
   </div>
+  
+  <!-- Modal xuất/nhập dữ liệu -->
+  <div class="modal-overlay" id="export-modal">
+    <div class="modal-dialog" style="width: 500px;">
+      <h4>Xuất/Nhập dữ liệu</h4>
+      <textarea id="export-data" class="import-export-textarea" placeholder="Dữ liệu JSON sẽ hiển thị ở đây"></textarea>
+      <div class="modal-buttons">
+        <button class="secondary" onclick="closeModal()">Đóng</button>
+        <button class="primary" onclick="importData()">Nhập</button>
+        <button class="primary" onclick="generateExportData()">Xuất</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tooltip -->
+  <div class="tooltip" id="tooltip"></div>
+  
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
 
-  <!-- Container cho toast notifications -->
-  <div id="toast-container"></div>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script>
-    // Khai báo các biến toàn cục
-    const mapContainer = document.getElementById('map-container');
-    const map = document.getElementById('map');
+    // Khởi tạo biến toàn cục
+    let robotSize = 50; // Kích thước robot (px)
+    let robotX = 0; // Vị trí X hiện tại (px)
+    let robotY = 0; // Vị trí Y hiện tại (px)
+    let robotAngle = 0; // Góc quay hiện tại (độ)
+    let stepSize = 1; // Bước di chuyển (cm)
+    let cmPerPixel = 1; // Tỷ lệ cm/pixel
+    let invertVertical = false; // Đảo chiều trên/dưới
+    let invertHorizontal = false; // Đảo chiều trái/phải
+    let isDragging = false; // Đang kéo robot
+    let isDraggingBlock = false; // Đang kéo khối lệnh
+    let selectedBlock = null; // Khối lệnh đang được chọn
+    let dragSource = null; // Nguồn kéo
+    let insertIndex = -1; // Vị trí chèn
+    let showRobot = true; // Hiển thị robot
+    let showPath = false; // Hiển thị đường đi
+    let currentSaveType = ""; // Loại lưu hiện tại
+    let isDraggable = false; // Trạng thái có thể kéo robot hay không
+    let isAddingWaypoint = false; // Đang thêm điểm đánh dấu
+    let mapBoundary = { // Giới hạn của map
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0
+    };
+    let mapSize = 100; // Kích thước map (%)
+    let mapPositionX = 0; // Vị trí X của map
+    let mapPositionY = 0; // Vị trí Y của map
+    let verticalMapMoveAllowed = false; // Cho phép di chuyển map lên/xuống
+
+    // Biến cho chức năng UI điều chỉnh
+    let adjustPositionsMode = false;
+    let isDraggingMiniMap = false;
+    let isDraggingCoordinates = false;
+    let dragStartX, dragStartY;
+    let miniMapStartLeft, miniMapStartTop;
+    let coordStartLeft, coordStartTop;
+    
+    // Lưu trữ lịch sử
+    const historyStack = [];
+    const redoStack = [];
+    
+    // Lưu trữ dữ liệu
+    const savedData = {
+      positions: JSON.parse(localStorage.getItem('savedPositions')) || {},
+      sizes: JSON.parse(localStorage.getItem('savedSizes')) || {},
+      programs: JSON.parse(localStorage.getItem('savedPrograms')) || {}
+    };
+    
+    // Tham chiếu đến các phần tử DOM
     const robot = document.getElementById('robot');
     const robotContainer = document.getElementById('robot-container');
-    const robotCenter = document.getElementById('robot-center');
+    const mapContainer = document.getElementById('map-container');
+    const map = document.getElementById('map');
+    const programArea = document.getElementById('program-area');
+    const saveModal = document.getElementById('save-modal');
+    const saveModalTitle = document.getElementById('save-modal-title');
+    const saveName = document.getElementById('save-name');
+    const exportModal = document.getElementById('export-modal');
+    const exportData = document.getElementById('export-data');
     const gridOverlay = document.getElementById('grid-overlay');
-    const gridToggleButton = document.getElementById('grid-toggle');
-    const themeToggle = document.getElementById('theme-toggle');
-    const sidebarResizer = document.getElementById('sidebar-resizer');
-    const sidebar = document.getElementById('sidebar');
-    const mapCoordinates = document.getElementById('map-coordinates');
-    const robotCoordinates = document.getElementById('robot-coordinates');
-    const distanceDisplay = document.getElementById('distance-display');
-    const angleDisplay = document.getElementById('angle-display');
     const miniMapContainer = document.getElementById('mini-map-container');
     const miniMap = document.getElementById('mini-map');
     const miniMapIndicator = document.getElementById('mini-map-indicator');
-    const mousePositionIndicator = document.getElementById('mouse-position-indicator');
     const miniMapRobot = document.getElementById('mini-map-robot');
+    const mousePositionIndicator = document.getElementById('mouse-position-indicator');
     const coordinatesDisplay = document.getElementById('coordinates-display');
-    const settingsButton = document.getElementById('settings-button');
-    const settingsDropdown = document.getElementById('settings-dropdown');
-    const adjustPositionsOption = document.getElementById('adjust-positions');
-    const toggleMiniMapOption = document.getElementById('toggle-mini-map');
+    const tooltip = document.getElementById('tooltip');
+    const notification = document.getElementById('notification');
+    const runProgramBtn = document.getElementById('run-program-btn');
+    const robotSizeSlider = document.getElementById('robot-size');
+    const sizeDisplay = document.getElementById('size-display');
+    const stepSizeInput = document.getElementById('step-size');
+    const mapSizeSlider = document.getElementById('map-size');
+    const mapSizeDisplay = document.getElementById('map-size-display');
+    const mapPositionXSlider = document.getElementById('map-position-x');
+    const mapPositionXDisplay = document.getElementById('map-position-x-display');
+    const mapPositionYSlider = document.getElementById('map-position-y');
+    const mapPositionYDisplay = document.getElementById('map-position-y-display');
+    const mapYPositionControl = document.getElementById('map-y-position-control');
     
-    // Biến lưu trạng thái robot
-    let robotState = {
-      x: 0, // Tọa độ x hiện tại
-      y: 0, // Tọa độ y hiện tại
-      angle: 0, // Góc quay hiện tại
-      scale: 1, // Tỉ lệ phóng to / thu nhỏ
-      history: [], // Lịch sử trạng thái
-      historyIndex: -1, // Chỉ số lịch sử hiện tại
-      commands: [], // Danh sách lệnh di chuyển
-      waypoints: [], // Danh sách điểm đường đi
-      // Các giá trị mặc định
-      mapWidth: 0,
-      mapHeight: 0,
-      mapCenterX: 0,
-      mapCenterY: 0,
-      gridSize: 50,
-      isGridVisible: false,
-      isDraggingRobot: false,
-      isDraggingMiniMap: false,
-      isDraggingCoordinates: false,
-      adjustPositionsMode: false,
-      isMiniMapVisible: true,
-      // Cài đặt di chuyển
-      moveStep: 10,
-      rotationAngle: 45
+    // Khởi tạo khi trang được tải
+    window.onload = function() {
+      // Đặt vị trí ban đầu cho robot ở giữa map
+      centerRobot();
+      
+      // Khởi tạo sự kiện kéo thả
+      initDragEvents();
+      
+      // Khởi tạo sự kiện bàn phím
+      initKeyboardEvents();
+      
+      // Khởi tạo sự kiện chuột
+      initMouseEvents();
+      
+      // Tải dữ liệu đã lưu
+      loadSavedItems();
+      
+      // Cập nhật hiển thị
+      updateDisplay();
+      
+      // Khởi tạo lưới
+      initGrid();
+      
+      // Khởi tạo mini-map
+      initMiniMap();
+      
+      // Đặt giới hạn cho robot
+      updateMapBoundary();
+      
+      // Thêm xử lý resize cửa sổ
+      window.addEventListener('resize', function() {
+        updateMapBoundary();
+        initGrid();
+        initMiniMap();
+      });
+      
+      // Tải hình ảnh robot
+      const robotImg = new Image();
+      robotImg.onload = function() {
+        // Cập nhật hiển thị sau khi tải xong hình ảnh robot
+        updateRobotPosition();
+      };
+      robotImg.src = robot.src;
+      
+      // Tải hình ảnh map
+      const mapImg = new Image();
+      mapImg.onload = function() {
+        // Cập nhật giới hạn map sau khi tải xong hình ảnh
+        updateMapBoundary();
+      };
+      mapImg.src = map.src;
     };
     
-    // Lưu các phím tắt
-    const hotkeys = {
-      'ArrowUp': 'move-up',
-      'ArrowDown': 'move-down',
-      'ArrowLeft': 'move-left',
-      'ArrowRight': 'move-right',
-      'KeyA': 'rotate-left',
-      'KeyD': 'rotate-right',
-      'KeyW': 'move-up',
-      'KeyS': 'move-down',
-      'KeyQ': 'rotate-left',
-      'KeyE': 'rotate-right',
-      'KeyZ': 'undo-btn',
-      'KeyY': 'redo-btn',
-      'KeyG': 'grid-toggle'
-    };
+    // Cập nhật giới hạn map để robot không vượt ra ngoài
+    function updateMapBoundary() {
+      const mapRect = map.getBoundingClientRect();
+      const containerRect = mapContainer.getBoundingClientRect();
+      
+      mapBoundary = {
+        left: mapRect.left - containerRect.left,
+        top: mapRect.top - containerRect.top,
+        right: mapRect.right - containerRect.left,
+        bottom: mapRect.bottom - containerRect.top,
+        width: mapRect.width,
+        height: mapRect.height
+      };
+    }
     
-    // Khởi tạo map
-    map.onload = function() {
-      initMap();
-    };
+    // Khởi tạo lưới
+    function initGrid() {
+      gridOverlay.innerHTML = '';
+      
+      const mapRect = map.getBoundingClientRect();
+      const containerRect = mapContainer.getBoundingClientRect();
+      
+      gridOverlay.style.left = (mapRect.left - containerRect.left) + 'px';
+      gridOverlay.style.top = (mapRect.top - containerRect.top) + 'px';
+      gridOverlay.style.width = mapRect.width + 'px';
+      gridOverlay.style.height = mapRect.height + 'px';
+      
+      const gridSize = 20; // Kích thước ô lưới (px)
+      
+      // Tạo lưới dọc
+      for (let i = 0; i <= mapRect.width; i += gridSize) {
+        const line = document.createElement('div');
+        line.className = 'grid-line';
+        line.style.left = i + 'px';
+        line.style.top = '0';
+        line.style.width = '1px';
+        line.style.height = '100%';
+        gridOverlay.appendChild(line);
+      }
+      
+      // Tạo lưới ngang
+      for (let i = 0; i <= mapRect.height; i += gridSize) {
+        const line = document.createElement('div');
+        line.className = 'grid-line';
+        line.style.left = '0';
+        line.style.top = i + 'px';
+        line.style.width = '100%';
+        line.style.height = '1px';
+        gridOverlay.appendChild(line);
+      }
+    }
     
-    // Tải một map mẫu nếu không load được map từ URL
-    map.onerror = function() {
-      map.src = "https://i.imgur.com/DRVfXUF.png"; // Map mẫu
-    };
-    
-    function initMap() {
-      // Lấy kích thước thực của map
-      robotState.mapWidth = map.naturalWidth;
-      robotState.mapHeight = map.naturalHeight;
-      
-      // Tính toán tọa độ center
-      robotState.mapCenterX = robotState.mapWidth / 2;
-      robotState.mapCenterY = robotState.mapHeight / 2;
-      
-      // Đặt robot vào giữa map
-      robotState.x = robotState.mapCenterX;
-      robotState.y = robotState.mapCenterY;
-      
-      // Cập nhật vị trí robot
-      updateRobotPosition();
-      
-      // Tạo lưới
-      createGrid();
-      
-      // Cập nhật thông tin
-      updateInfoPanel();
-      
-      // Lưu trạng thái ban đầu vào lịch sử
-      saveStateToHistory();
-      
-      // Cập nhật nút undo/redo
-      updateHistoryButtons();
-      
-      // Cập nhật mini-map
+    // Khởi tạo mini-map
+    function initMiniMap() {
+      // Cập nhật vị trí robot trên mini-map
       updateMiniMap();
     }
     
-    // Cập nhật vị trí robot
-    function updateRobotPosition() {
-      // Canh chỉnh vị trí robot container để robot nằm đúng tọa độ
-      robotContainer.style.left = `${robotState.x}px`;
-      robotContainer.style.top = `${robotState.y}px`;
+    // Cập nhật hiển thị mini-map
+    function updateMiniMap() {
+      const mapRect = map.getBoundingClientRect();
+      const containerRect = mapContainer.getBoundingClientRect();
       
-      // Cập nhật góc xoay và tỉ lệ của robot
-      robot.style.transform = `translate(-50%, -50%) rotate(${robotState.angle}deg) scale(${robotState.scale})`;
+      const robotRect = robotContainer.getBoundingClientRect();
       
-      // Cập nhật vị trí điểm trung tâm
-      robotCenter.style.left = '0px';  // Luôn ở trung tâm
-      robotCenter.style.top = '0px';   // Luôn ở trung tâm
-      
-      // Cập nhật hiển thị tọa độ
-      mapCoordinates.textContent = `Map: X: ${Math.round(robotState.x)}, Y: ${Math.round(robotState.y)}`;
-      robotCoordinates.textContent = `Robot: X: ${Math.round(robotState.x - robotState.mapCenterX)}, Y: ${Math.round(robotState.mapCenterY - robotState.y)}`;
-      
-      // Cập nhật góc
-      angleDisplay.textContent = `Góc: ${Math.round(robotState.angle)}°`;
-      
-      // Cập nhật khoảng cách từ tâm
-      const distance = Math.sqrt(
-        Math.pow(robotState.x - robotState.mapCenterX, 2) + 
-        Math.pow(robotState.y - robotState.mapCenterY, 2)
-      );
-      distanceDisplay.textContent = `Khoảng cách: ${Math.round(distance)}px`;
+      // Tính tỷ lệ thu nhỏ
+      const scaleX = miniMap.offsetWidth / mapRect.width;
+      const scaleY = miniMap.offsetHeight / mapRect.height;
       
       // Cập nhật vị trí robot trên mini-map
-      updateMiniMapRobot();
+      const robotMiniX = (robotRect.left - mapRect.left + robotRect.width / 2) * scaleX;
+      const robotMiniY = (robotRect.top - mapRect.top + robotRect.height / 2) * scaleY;
+      
+      miniMapRobot.style.left = robotMiniX + 'px';
+      miniMapRobot.style.top = robotMiniY + 'px';
     }
     
-    // Tạo lưới
-    function createGrid() {
-      gridOverlay.innerHTML = '';
+    // Khởi tạo sự kiện kéo thả
+    function initDragEvents() {
+      // Sự kiện kéo robot
+      robotContainer.addEventListener('mousedown', startDraggingRobot);
+      robotContainer.addEventListener('dblclick', toggleRobotDrag);
       
-      const gridSize = robotState.gridSize;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', stopDragging);
       
-      // Tạo các đường dọc
-      for (let x = 0; x < robotState.mapWidth; x += gridSize) {
-        const verticalLine = document.createElement('div');
-        verticalLine.className = 'grid-line';
-        verticalLine.style.left = `${x}px`;
-        verticalLine.style.top = '0';
-        verticalLine.style.width = '1px';
-        verticalLine.style.height = '100%';
-        gridOverlay.appendChild(verticalLine);
-      }
+      // Sự kiện kéo thả khối lệnh
+      const commandBlocks = document.querySelectorAll('.command-block');
+      commandBlocks.forEach(block => {
+        block.addEventListener('dragstart', onDragStart);
+        block.addEventListener('dragend', onDragEnd);
+      });
       
-      // Tạo các đường ngang
-      for (let y = 0; y < robotState.mapHeight; y += gridSize) {
-        const horizontalLine = document.createElement('div');
-        horizontalLine.className = 'grid-line';
-        horizontalLine.style.left = '0';
-        horizontalLine.style.top = `${y}px`;
-        horizontalLine.style.width = '100%';
-        horizontalLine.style.height = '1px';
-        gridOverlay.appendChild(horizontalLine);
-      }
+      programArea.addEventListener('dragover', onDragOver);
+      programArea.addEventListener('drop', onDrop);
+      programArea.addEventListener('dragenter', onDragEnter);
+      programArea.addEventListener('dragleave', onDragLeave);
+      
+      // Khởi tạo resize handle cho robot
+      const resizeHandle = document.getElementById('robot-resize-handle');
+      resizeHandle.addEventListener('mousedown', function(e) {
+        e.stopPropagation();
+        document.addEventListener('mousemove', onRobotResize);
+        document.addEventListener('mouseup', stopRobotResize);
+      });
     }
     
-    // Cập nhật panel thông tin
-    function updateInfoPanel() {
-      document.getElementById('info-x').textContent = Math.round(robotState.x - robotState.mapCenterX);
-      document.getElementById('info-y').textContent = Math.round(robotState.mapCenterY - robotState.y);
-      document.getElementById('info-angle').textContent = `${Math.round(robotState.angle)}°`;
-      
-      // Tính khoảng cách từ tâm
-      const distance = Math.sqrt(
-        Math.pow(robotState.x - robotState.mapCenterX, 2) + 
-        Math.pow(robotState.y - robotState.mapCenterY, 2)
-      );
-      document.getElementById('info-distance').textContent = Math.round(distance);
-      
-      // Cập nhật số lệnh
-      document.getElementById('info-command-count').textContent = robotState.commands.length;
-    }
-    
-    // Hàm lưu trạng thái hiện tại vào lịch sử
-    function saveStateToHistory() {
-      // Nếu đang ở giữa lịch sử, xóa các trạng thái phía sau
-      if (robotState.historyIndex < robotState.history.length - 1) {
-        robotState.history = robotState.history.slice(0, robotState.historyIndex + 1);
-      }
-      
-      // Sao chép trạng thái hiện tại
-      const currentState = {
-        x: robotState.x,
-        y: robotState.y,
-        angle: robotState.angle,
-        scale: robotState.scale
-      };
-      
-      // Thêm vào lịch sử
-      robotState.history.push(currentState);
-      robotState.historyIndex++;
-      
-      // Giới hạn kích thước lịch sử
-      if (robotState.history.length > 50) {
-        robotState.history.shift();
-        robotState.historyIndex--;
-      }
-      
-      // Cập nhật trạng thái các nút undo/redo
-      updateHistoryButtons();
-    }
-    
-    // Cập nhật trạng thái các nút undo/redo
-    function updateHistoryButtons() {
-      const undoBtn = document.getElementById('undo-btn');
-      const redoBtn = document.getElementById('redo-btn');
-      const clearHistoryBtn = document.getElementById('clear-history-btn');
-      
-      undoBtn.disabled = robotState.historyIndex <= 0;
-      redoBtn.disabled = robotState.historyIndex >= robotState.history.length - 1;
-      clearHistoryBtn.disabled = robotState.history.length <= 1;
-    }
-    
-    // Undo - Hoàn tác
-    function undo() {
-      if (robotState.historyIndex > 0) {
-        robotState.historyIndex--;
-        const prevState = robotState.history[robotState.historyIndex];
+    // Thêm sự kiện bàn phím
+    function initKeyboardEvents() {
+      document.addEventListener('keydown', function(e) {
+        if (e.target.tagName === 'INPUT') return; // Bỏ qua khi focus vào input
         
-        // Khôi phục trạng thái
-        robotState.x = prevState.x;
-        robotState.y = prevState.y;
-        robotState.angle = prevState.angle;
-        robotState.scale = prevState.scale;
+        switch(e.key) {
+          case 'w': // Di chuyển lên
+            moveRobotInDirection(0, -1);
+            break;
+          case 'a': // Di chuyển trái
+            moveRobotInDirection(-1, 0);
+            break;
+          case 's': // Di chuyển xuống
+            moveRobotInDirection(0, 1);
+            break;
+          case 'd': // Di chuyển phải
+            moveRobotInDirection(1, 0);
+            break;
+          case 'u': // Di chuyển chéo trái lên
+            moveRobotInDirection(-1, -1);
+            break;
+          case 'i': // Di chuyển chéo phải lên
+            moveRobotInDirection(1, -1);
+            break;
+          case 'j': // Di chuyển chéo trái xuống
+            moveRobotInDirection(-1, 1);
+            break;
+          case 'k': // Di chuyển chéo phải xuống
+            moveRobotInDirection(1, 1);
+            break;
+          case 'q': // Quay trái
+            rotate(-5);
+            break;
+          case 'e': // Quay phải
+            rotate(5);
+            break;
+          case 'r': // Về giữa
+            centerRobot();
+            break;
+          case ' ': // Xoay tròn
+            spinRobot();
+            break;
+          case 'z': // Undo
+            if (e.ctrlKey) {
+              undoAction();
+              e.preventDefault();
+            }
+            break;
+          case 'y': // Redo
+            if (e.ctrlKey) {
+              redoAction();
+              e.preventDefault();
+            }
+            break;
+          case 'Delete': // Xóa block đang chọn
+            if (selectedBlock) {
+              removeBlock(selectedBlock);
+            }
+            break;
+        }
+      });
+    }
+    
+    // Khởi tạo sự kiện chuột
+    function initMouseEvents() {
+      // Hiển thị tọa độ khi di chuyển chuột
+      mapContainer.addEventListener('mousemove', function(e) {
+        const rect = map.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        // Cập nhật vị trí
+        // Tính tọa độ thực theo cm
+        const realX = (x * cmPerPixel).toFixed(1);
+        const realY = (y * cmPerPixel).toFixed(1);
+        
+        document.getElementById('mouse-x').textContent = x.toFixed(0);
+        document.getElementById('mouse-y').textContent = y.toFixed(0);
+        document.getElementById('real-x').textContent = realX;
+        document.getElementById('real-y').textContent = realY;
+        
+        // Cập nhật vị trí chuột trên mini-map
+        if (miniMapContainer.style.display !== 'none') {
+          const mapRect = map.getBoundingClientRect();
+          const scaleX = miniMap.offsetWidth / mapRect.width;
+          const scaleY = miniMap.offsetHeight / mapRect.height;
+          
+          const mouseMiniX = x * scaleX;
+          const mouseMiniY = y * scaleY;
+          
+          mousePositionIndicator.style.left = mouseMiniX + 'px';
+          mousePositionIndicator.style.top = mouseMiniY + 'px';
+        }
+      });
+      
+      // Xử lý click vào map để thêm điểm đánh dấu
+      mapContainer.addEventListener('click', function(e) {
+        if (isAddingWaypoint) {
+          addWaypoint(e);
+        }
+      });
+      
+      // Nút hiện/ẩn lưới
+      document.getElementById('toggle-grid-btn').addEventListener('click', function() {
+        if (gridOverlay.style.display === 'none' || !gridOverlay.style.display) {
+          gridOverlay.style.display = 'block';
+          showNotification('Đã hiện lưới tọa độ');
+        } else {
+          gridOverlay.style.display = 'none';
+          showNotification('Đã ẩn lưới tọa độ');
+        }
+      });
+      
+      // Nút đánh dấu điểm
+      document.getElementById('add-waypoint-btn').addEventListener('click', function() {
+        isAddingWaypoint = !isAddingWaypoint;
+        if (isAddingWaypoint) {
+          this.style.backgroundColor = 'var(--accent-color)';
+          showNotification('Chế độ đánh dấu điểm đã bật. Nhấp chuột trên map để đánh dấu.');
+          mapContainer.style.cursor = 'crosshair';
+        } else {
+          this.style.backgroundColor = '';
+          showNotification('Chế độ đánh dấu điểm đã tắt');
+          mapContainer.style.cursor = 'default';
+        }
+      });
+      
+      // Nút chạy chương trình
+      runProgramBtn.addEventListener('click', runProgram);
+      
+      // Sliders và controls khác
+      mapSizeSlider.addEventListener('input', function() {
+        resizeMap(this.value);
+      });
+      
+      mapPositionXSlider.addEventListener('input', function() {
+        adjustMapPosition('x', this.value);
+      });
+      
+      mapPositionYSlider.addEventListener('input', function() {
+        adjustMapPosition('y', this.value);
+      });
+      
+      document.getElementById('map-vertical-move').addEventListener('change', function() {
+        toggleMapVerticalMovement();
+      });
+      // Xử lý setting dropdown
+document.getElementById('settings-button').addEventListener('click', function(e) {
+  e.stopPropagation();
+  const dropdown = document.getElementById('settings-dropdown');
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+document.addEventListener('click', function(e) {
+  const settingsButton = document.getElementById('settings-button');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+  if (e.target !== settingsButton && !settingsDropdown.contains(e.target)) {
+    settingsDropdown.style.display = 'none';
+  }
+});
+
+// Di chuyển mini-map
+miniMapContainer.addEventListener('mousedown', function(e) {
+  if (adjustPositionsMode) {
+    handleMiniMapDrag(e);
+  }
+});
+
+// Di chuyển hiển thị tọa độ
+coordinatesDisplay.addEventListener('mousedown', function(e) {
+  if (adjustPositionsMode) {
+    handleCoordinatesDrag(e);
+  }
+});
+
+// Xử lý mouse move và up cho drag
+document.addEventListener('mousemove', function(e) {
+  handleMiniMapDrag(e);
+  handleCoordinatesDrag(e);
+});
+
+document.addEventListener('mouseup', function() {
+  isDraggingMiniMap = false;
+  isDraggingCoordinates = false;
+});
+
+// Thêm xử lý event cho adjust-positions
+document.getElementById('adjust-positions').addEventListener('click', function() {
+  toggleAdjustPositionsMode();
+  document.getElementById('settings-dropdown').style.display = 'none';
+});
+
+// Thêm xử lý event cho toggle-mini-map
+document.getElementById('toggle-mini-map').addEventListener('click', function() {
+  const isVisible = miniMapContainer.style.display !== 'none';
+  miniMapContainer.style.display = isVisible ? 'none' : 'block';
+  document.getElementById('settings-dropdown').style.display = 'none';
+  showNotification(isVisible ? 'Đã ẩn Mini Map' : 'Đã hiện Mini Map', 'info');
+});
+    }
+    
+    // Điều khiển robot
+    function moveRobotInDirection(dx, dy) {
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      // Tính toán hướng di chuyển dựa trên cài đặt đảo chiều
+      const dirX = invertHorizontal ? -dx : dx;
+      const dirY = invertVertical ? -dy : dy;
+      
+      // Tính vị trí mới (px)
+      const newX = robotX + dirX * stepSize / cmPerPixel;
+      const newY = robotY + dirY * stepSize / cmPerPixel;
+      
+      // Kiểm tra giới hạn map để không vượt ra ngoài
+      if (isRobotWithinBounds(newX, newY)) {
+        robotX = newX;
+        robotY = newY;
         updateRobotPosition();
-        updateInfoPanel();
-        updateHistoryButtons();
       }
     }
     
-    // Redo - Làm lại
-    function redo() {
-      if (robotState.historyIndex < robotState.history.length - 1) {
-        robotState.historyIndex++;
-        const nextState = robotState.history[robotState.historyIndex];
-        
-        // Khôi phục trạng thái
-        robotState.x = nextState.x;
-        robotState.y = nextState.y;
-        robotState.angle = nextState.angle;
-        robotState.scale = nextState.scale;
-        
-        // Cập nhật vị trí
-        updateRobotPosition();
-        updateInfoPanel();
-        updateHistoryButtons();
-      }
-    }
-    
-    // Xóa lịch sử
-    function clearHistory() {
-      // Lưu trạng thái hiện tại
-      const currentState = {
-        x: robotState.x,
-        y: robotState.y,
-        angle: robotState.angle,
-        scale: robotState.scale
-      };
+    // Kiểm tra robot có nằm trong giới hạn map hay không
+    function isRobotWithinBounds(x, y) {
+      // Tính toán kích thước thực của robot
+      const robotWidth = robotSize;
+      const robotHeight = robotSize;
       
-      // Khởi tạo lại lịch sử
-      robotState.history = [currentState];
-      robotState.historyIndex = 0;
+      // Tính toán các biên của robot
+      const robotLeft = x - robotWidth / 2;
+      const robotRight = x + robotWidth / 2;
+      const robotTop = y - robotHeight / 2;
+      const robotBottom = y + robotHeight / 2;
       
-      // Cập nhật UI
-      updateHistoryButtons();
-      showToast('Đã xóa lịch sử thao tác', 'success');
-    }
-    
-    // Di chuyển robot theo hướng chỉ định
-    function moveRobot(direction) {
-      // Lấy bước di chuyển từ input
-      const step = parseInt(document.getElementById('move-step-input').value) || 10;
-      
-      // Góc di chuyển (theo radian)
-      let moveAngle = 0;
-      
-      switch (direction) {
-        case 'up':
-          moveAngle = -Math.PI / 2; // 270 độ hoặc -90 độ
-          break;
-        case 'down':
-          moveAngle = Math.PI / 2; // 90 độ
-          break;
-        case 'left':
-          moveAngle = Math.PI; // 180 độ
-          break;
-        case 'right':
-          moveAngle = 0; // 0 độ
-          break;
-        case 'upleft':
-          moveAngle = -3 * Math.PI / 4; // 315 độ hoặc -45 độ
-          break;
-        case 'upright':
-          moveAngle = -Math.PI / 4; // 315 độ hoặc -45 độ
-          break;
-        case 'downleft':
-          moveAngle = 3 * Math.PI / 4; // 135 độ
-          break;
-        case 'downright':
-          moveAngle = Math.PI / 4; // 45 độ
-          break;
-      }
-      
-      // Tính toán di chuyển
-      const robotAngleRad = robotState.angle * Math.PI / 180; // Chuyển đổi sang radian
-      const dx = Math.cos(moveAngle) * step;
-      const dy = Math.sin(moveAngle) * step;
-      
-      // Cập nhật vị trí robot
-      robotState.x += dx;
-      robotState.y += dy;
-      
-      // Đảm bảo robot không đi ra ngoài map
-      robotState.x = Math.max(0, Math.min(robotState.x, robotState.mapWidth));
-      robotState.y = Math.max(0, Math.min(robotState.y, robotState.mapHeight));
-      
-      // Cập nhật vị trí
-      updateRobotPosition();
-      updateInfoPanel();
-      
-      // Lưu trạng thái vào lịch sử
-      saveStateToHistory();
-      
-      // Thêm lệnh vào danh sách
-      addCommand(`Move ${direction}`, `move-${direction}`);
+      // Kiểm tra xem robot có vượt ra ngoài map không
+      return robotLeft >= mapBoundary.left &&
+             robotRight <= mapBoundary.right &&
+             robotTop >= mapBoundary.top &&
+             robotBottom <= mapBoundary.bottom;
     }
     
     // Xoay robot
-    function rotateRobot(direction) {
-      // Lấy góc xoay từ input
-      const angle = parseInt(document.getElementById('rotation-angle-input').value) || 45;
+    function rotate(direction) {
+  // Lưu trạng thái hiện tại để undo
+  saveToHistory();
+  
+  // Lấy góc xoay từ input
+  const angle = parseInt(document.getElementById('rotation-angle-input').value) || 45;
+  
+  // Xoay robot
+  if (direction === -1 || direction === 'left') {
+    robotAngle -= angle;
+  } else if (direction === 1 || direction === 'right') {
+    robotAngle += angle;
+  }
+  
+  // Chuẩn hóa góc về khoảng [0, 360)
+  robotAngle = (robotAngle + 360) % 360;
+  
+  updateRobotPosition();
+  updateInfoPanel();
+}
+    
+    // Xoay tròn robot
+    function spinRobot() {
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
       
-      // Xoay robot
-      if (direction === 'left') {
-        robotState.angle -= angle;
-      } else if (direction === 'right') {
-        robotState.angle += angle;
+      // Tạo hiệu ứng xoay tròn
+      let startAngle = robotAngle;
+      let targetAngle = startAngle + 360;
+      let step = 0;
+      const totalSteps = 36; // Số bước xoay
+      
+      function animateSpin() {
+        step++;
+        const currentAngle = startAngle + (targetAngle - startAngle) * (step / totalSteps);
+        robotAngle = currentAngle % 360;
+        updateRobotPosition();
+        
+        if (step < totalSteps) {
+          requestAnimationFrame(animateSpin);
+        }
       }
       
-      // Chuẩn hóa góc về khoảng [0, 360)
-      robotState.angle = (robotState.angle + 360) % 360;
-      
-      // Cập nhật vị trí
-      updateRobotPosition();
-      updateInfoPanel();
-      
-      // Lưu trạng thái vào lịch sử
-      saveStateToHistory();
-      
-      // Thêm lệnh vào danh sách
-      addCommand(`Rotate ${direction}`, `rotate-${direction}`);
+      animateSpin();
     }
     
-    // Thay đổi kích thước robot
-    function resizeRobot(deltaScale) {
-      // Thay đổi tỉ lệ
-      robotState.scale += deltaScale;
-      
-      // Giới hạn tỉ lệ trong khoảng [0.5, 3]
-      robotState.scale = Math.max(0.5, Math.min(robotState.scale, 3));
-      
-      // Cập nhật vị trí
-      updateRobotPosition();
-      
-      // Lưu trạng thái vào lịch sử
-      saveStateToHistory();
-    }
-    
-    // Đưa robot về vị trí ban đầu
+    // Đặt robot về trung tâm
     function centerRobot() {
-      robotState.x = robotState.mapCenterX;
-      robotState.y = robotState.mapCenterY;
-      robotState.angle = 0;
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
       
-      // Cập nhật vị trí
+      const mapRect = map.getBoundingClientRect();
+      robotX = mapRect.width / 2;
+      robotY = mapRect.height / 2;
+      
       updateRobotPosition();
-      updateInfoPanel();
-      
-      // Lưu trạng thái vào lịch sử
-      saveStateToHistory();
-      
-      // Thêm lệnh vào danh sách
-      addCommand('Center robot', 'center');
-      
-      showToast('Đã đưa robot về vị trí ban đầu', 'success');
     }
     
-    // Thêm lệnh vào danh sách
-    function addCommand(text, type) {
-      const command = {
-        text: text,
-        type: type,
-        x: robotState.x,
-        y: robotState.y,
-        angle: robotState.angle,
-        scale: robotState.scale
-      };
+    // Di chuyển đến tọa độ cụ thể
+    function moveToCoordinates() {
+      const targetX = parseFloat(document.getElementById('target-x').value);
+      const targetY = parseFloat(document.getElementById('target-y').value);
       
-      robotState.commands.push(command);
-      updateCommandList();
-    }
-    
-    // Cập nhật danh sách lệnh
-    function updateCommandList() {
-      const commandList = document.getElementById('command-list');
-      commandList.innerHTML = '';
-      
-      robotState.commands.forEach((command, index) => {
-        const li = document.createElement('li');
-        li.className = `command-${command.type}`;
-        
-        li.innerHTML = `
-          <span>${index + 1}. ${command.text}</span>
-          <div class="command-actions">
-            <button class="command-edit" data-index="${index}" title="Chỉnh sửa">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="command-delete" data-index="${index}" title="Xóa">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        `;
-        
-        commandList.appendChild(li);
-      });
-      
-      // Kéo xuống dưới cùng để hiển thị lệnh mới nhất
-      commandList.scrollTop = commandList.scrollHeight;
-      
-      // Cập nhật số lệnh trong panel thông tin
-      document.getElementById('info-command-count').textContent = robotState.commands.length;
-      
-      // Cập nhật trạng thái nút xóa tất cả
-      document.getElementById('clear-commands-btn').disabled = robotState.commands.length === 0;
-      document.getElementById('execute-commands-btn').disabled = robotState.commands.length === 0;
-      document.getElementById('save-commands-btn').disabled = robotState.commands.length === 0;
-      
-      // Thêm event listener cho các nút
-      document.querySelectorAll('.command-delete').forEach(button => {
-        button.addEventListener('click', function() {
-          const index = parseInt(this.dataset.index);
-          deleteCommand(index);
-        });
-      });
-      
-      document.querySelectorAll('.command-edit').forEach(button => {
-        button.addEventListener('click', function() {
-          const index = parseInt(this.dataset.index);
-          editCommand(index);
-        });
-      });
-    }
-    
-    // Xóa lệnh
-    function deleteCommand(index) {
-      robotState.commands.splice(index, 1);
-      updateCommandList();
-      showToast('Đã xóa lệnh', 'success');
-    }
-    
-    // Chỉnh sửa lệnh
-    function editCommand(index) {
-      showToast('Chức năng chỉnh sửa lệnh đang được phát triển', 'info');
-    }
-    
-    // Xóa tất cả lệnh
-    function clearCommands() {
-      robotState.commands = [];
-      updateCommandList();
-      showToast('Đã xóa tất cả lệnh', 'success');
-    }
-    
-    // Thực thi danh sách lệnh
-    function executeCommands() {
-      if (robotState.commands.length === 0) return;
-      
-      showToast('Bắt đầu thực thi lệnh', 'info');
-      
-      // Biến để theo dõi lệnh đang thực thi
-      let currentIndex = 0;
-      
-      // Khôi phục robot về vị trí ban đầu
-      centerRobot();
-      
-      // Hàm thực thi từng lệnh
-      function executeNext() {
-        if (currentIndex >= robotState.commands.length) {
-          showToast('Đã thực thi xong tất cả lệnh', 'success');
-          return;
-        }
-        
-        const command = robotState.commands[currentIndex];
-        
-        // Tô sáng lệnh đang thực thi
-        const commandItems = document.querySelectorAll('#command-list li');
-        commandItems.forEach((item, i) => {
-          if (i === currentIndex) {
-            item.style.backgroundColor = 'rgba(255, 193, 7, 0.3)';
-          } else {
-            item.style.backgroundColor = '';
-          }
-        });
-        
-        // Cuộn danh sách để hiển thị lệnh đang thực thi
-        const commandList = document.getElementById('command-list');
-        const li = commandItems[currentIndex];
-        if (li) {
-          li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        
-        // Cập nhật robot theo lệnh
-        const type = command.type;
-        
-        switch (type) {
-          case 'move-up':
-            moveRobot('up');
-            break;
-          case 'move-down':
-            moveRobot('down');
-            break;
-          case 'move-left':
-            moveRobot('left');
-            break;
-          case 'move-right':
-            moveRobot('right');
-            break;
-          case 'move-upleft':
-            moveRobot('upleft');
-            break;
-          case 'move-upright':
-            moveRobot('upright');
-            break;
-          case 'move-downleft':
-            moveRobot('downleft');
-            break;
-          case 'move-downright':
-            moveRobot('downright');
-            break;
-          case 'rotate-left':
-            rotateRobot('left');
-            break;
-          case 'rotate-right':
-            rotateRobot('right');
-            break;
-          case 'center':
-            centerRobot();
-            break;
-        }
-        
-        // Chuyển sang lệnh tiếp theo
-        currentIndex++;
-        
-        // Tạm dừng một chút trước khi thực thi lệnh tiếp theo
-        setTimeout(executeNext, 500);
+      if (isNaN(targetX) || isNaN(targetY)) {
+        showNotification('Vui lòng nhập tọa độ hợp lệ', 'error');
+        return;
       }
       
-      // Bắt đầu thực thi
-      executeNext();
-    }
-    
-    // Cập nhật vị trí robot trên mini-map
-    function updateMiniMapRobot() {
-      // Tỉ lệ thu nhỏ
-      const scaleX = miniMap.clientWidth / robotState.mapWidth;
-      const scaleY = miniMap.clientHeight / robotState.mapHeight;
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
       
-      // Vị trí robot trên mini-map
-      const miniX = robotState.x * scaleX;
-      const miniY = robotState.y * scaleY;
+      // Chuyển đổi từ cm sang pixel
+      const pixelX = targetX / cmPerPixel;
+      const pixelY = targetY / cmPerPixel;
       
-      // Cập nhật vị trí
-      miniMapRobot.style.left = `${miniX}px`;
-      miniMapRobot.style.top = `${miniY}px`;
-    }
-    
-    // Cập nhật mini-map
-    function updateMiniMap() {
-      // Tạo hình ảnh thu nhỏ cho mini-map
-      const miniMapImage = document.createElement('img');
-      miniMapImage.src = map.src;
-      miniMapImage.style.width = '100%';
-      miniMapImage.style.height = '100%';
-      miniMapImage.style.position = 'absolute';
-      miniMapImage.style.top = '0';
-      miniMapImage.style.left = '0';
-      miniMapImage.style.objectFit = 'cover';
-      
-      // Xóa hình ảnh cũ (nếu có)
-      const oldImage = miniMap.querySelector('img');
-      if (oldImage) {
-        miniMap.removeChild(oldImage);
+      // Kiểm tra giới hạn map
+      if (isRobotWithinBounds(pixelX, pixelY)) {
+        robotX = pixelX;
+        robotY = pixelY;
+        updateRobotPosition();
+        showNotification('Đã di chuyển đến tọa độ X: ' + targetX + ' cm, Y: ' + targetY + ' cm', 'success');
+      } else {
+        showNotification('Tọa độ nằm ngoài giới hạn của map', 'error');
       }
-      
-      // Thêm hình ảnh mới
-      miniMap.insertBefore(miniMapImage, miniMap.firstChild);
-      
-      // Cập nhật vị trí robot trên mini-map
-      updateMiniMapRobot();
-    }
-    
-    // Hiển thị thông báo toast
-    function showToast(message, type = 'info') {
-      const toast = document.createElement('div');
-      toast.className = `toast toast-${type}`;
-      toast.innerHTML = message;
-      
-      const toastContainer = document.getElementById('toast-container');
-      toastContainer.appendChild(toast);
-      
-      // Hiển thị toast sau 10ms để có animation
-      setTimeout(() => {
-        toast.classList.add('show');
-      }, 10);
-      
-      // Tự động ẩn sau 3 giây
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-          toastContainer.removeChild(toast);
-        }, 300);
-      }, 3000);
-    }
-    
-    // Bật/tắt chế độ tối
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      showToast(`Đã ${document.body.classList.contains('dark-mode') ? 'bật' : 'tắt'} chế độ tối`, 'info');
-    }
-    
-    // Bật/tắt hiển thị lưới
-    function toggleGrid() {
-      robotState.isGridVisible = !robotState.isGridVisible;
-      gridOverlay.style.display = robotState.isGridVisible ? 'block' : 'none';
-      showToast(`Đã ${robotState.isGridVisible ? 'hiện' : 'ẩn'} lưới`, 'info');
-    }
-
-    // Bật/tắt hiển thị mini-map
-    function toggleMiniMap() {
-      robotState.isMiniMapVisible = !robotState.isMiniMapVisible;
-      miniMapContainer.style.display = robotState.isMiniMapVisible ? 'block' : 'none';
-      showToast(`Đã ${robotState.isMiniMapVisible ? 'hiện' : 'ẩn'} mini-map`, 'info');
     }
 
     // Bật/tắt chế độ điều chỉnh vị trí
-    function toggleAdjustPositionsMode() {
-      robotState.adjustPositionsMode = !robotState.adjustPositionsMode;
+function toggleAdjustPositionsMode() {
+  adjustPositionsMode = !adjustPositionsMode;
+  
+  if (adjustPositionsMode) {
+    // Bật chế độ di chuyển
+    coordinatesDisplay.classList.add('draggable');
+    miniMapContainer.classList.add('draggable');
+    showNotification('Đã bật chế độ điều chỉnh vị trí. Bạn có thể kéo các thành phần để di chuyển.', 'info');
+  } else {
+    // Tắt chế độ di chuyển
+    coordinatesDisplay.classList.remove('draggable');
+    miniMapContainer.classList.remove('draggable');
+    showNotification('Đã tắt chế độ điều chỉnh vị trí', 'info');
+  }
+}
+
+// Xử lý kéo di chuyển mini-map
+function handleMiniMapDrag(e) {
+  if (!adjustPositionsMode) return;
+  
+  if (e.type === 'mousedown') {
+    isDraggingMiniMap = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    miniMapStartLeft = parseInt(window.getComputedStyle(miniMapContainer).left);
+    miniMapStartTop = parseInt(window.getComputedStyle(miniMapContainer).top);
+  } else if (e.type === 'mousemove' && isDraggingMiniMap) {
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    
+    miniMapContainer.style.left = `${miniMapStartLeft + dx}px`;
+    miniMapContainer.style.top = `${miniMapStartTop + dy}px`;
+  } else if (e.type === 'mouseup') {
+    isDraggingMiniMap = false;
+  }
+}
+
+// Xử lý kéo di chuyển hiển thị tọa độ
+function handleCoordinatesDrag(e) {
+  if (!adjustPositionsMode) return;
+  
+  if (e.type === 'mousedown') {
+    isDraggingCoordinates = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    coordStartLeft = parseInt(window.getComputedStyle(coordinatesDisplay).left);
+    coordStartTop = parseInt(window.getComputedStyle(coordinatesDisplay).top);
+  } else if (e.type === 'mousemove' && isDraggingCoordinates) {
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    
+    coordinatesDisplay.style.left = `${coordStartLeft + dx}px`;
+    coordinatesDisplay.style.top = `${coordStartTop + dy}px`;
+  } else if (e.type === 'mouseup') {
+    isDraggingCoordinates = false;
+  }
+}
+    
+    // Cập nhật vị trí robot trên giao diện
+    function updateRobotPosition() {
+  robotContainer.style.left = robotX + 'px';
+  robotContainer.style.top = robotY + 'px';
+  robot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg) scale(${robotScale})`;
+  
+  // Cập nhật vị trí điểm trung tâm
+  if (document.getElementById('robot-center')) {
+    document.getElementById('robot-center').style.left = '0px';  // Luôn ở trung tâm
+    document.getElementById('robot-center').style.top = '0px';   // Luôn ở trung tâm
+  }
+  
+  // Cập nhật thông tin hiển thị
+  document.getElementById('current-x').textContent = (robotX * cmPerPixel).toFixed(1);
+  document.getElementById('current-y').textContent = (robotY * cmPerPixel).toFixed(1);
+  document.getElementById('current-angle').textContent = robotAngle.toFixed(0);
+  
+  // Cập nhật vị trí robot trên mini-map
+  updateMiniMap();
+}
+    
+    // Cập nhật hiển thị tổng thể
+    function updateDisplay() {
+      // Cập nhật trạng thái nút undo/redo
+      document.getElementById('undo-button-1').disabled = historyStack.length === 0;
+      document.getElementById('redo-button-1').disabled = redoStack.length === 0;
+      document.getElementById('undo-button-2').disabled = historyStack.length === 0;
+      document.getElementById('redo-button-2').disabled = redoStack.length === 0;
       
-      if (robotState.adjustPositionsMode) {
-        // Bật chế độ di chuyển
-        coordinatesDisplay.classList.add('draggable');
-        miniMapContainer.classList.add('draggable');
-        showToast('Đã bật chế độ điều chỉnh vị trí. Bạn có thể kéo các thành phần để di chuyển.', 'info');
-      } else {
-        // Tắt chế độ di chuyển
-        coordinatesDisplay.classList.remove('draggable');
-        miniMapContainer.classList.remove('draggable');
-        showToast('Đã tắt chế độ điều chỉnh vị trí', 'info');
-      }
+      // Cập nhật tỷ lệ hiển thị
+      document.getElementById('scale-ratio').textContent = cmPerPixel.toFixed(2);
     }
     
-    // Xử lý kéo di chuyển mini-map
-    function handleMiniMapDrag(e) {
-      if (!robotState.adjustPositionsMode) return;
+    // Bắt đầu kéo robot
+    function startDraggingRobot(e) {
+      // Chỉ kéo khi đã được kích hoạt chế độ kéo
+      if (!isDraggable) return;
       
-      if (e.type === 'mousedown') {
-        robotState.isDraggingMiniMap = true;
-        robotState.dragStartX = e.clientX;
-        robotState.dragStartY = e.clientY;
-        robotState.miniMapStartLeft = parseInt(window.getComputedStyle(miniMapContainer).left);
-        robotState.miniMapStartTop = parseInt(window.getComputedStyle(miniMapContainer).top);
-      } else if (e.type === 'mousemove' && robotState.isDraggingMiniMap) {
-        const dx = e.clientX - robotState.dragStartX;
-        const dy = e.clientY - robotState.dragStartY;
-        
-        miniMapContainer.style.left = `${robotState.miniMapStartLeft + dx}px`;
-        miniMapContainer.style.top = `${robotState.miniMapStartTop + dy}px`;
-      } else if (e.type === 'mouseup') {
-        robotState.isDraggingMiniMap = false;
-      }
-    }
-    
-    // Xử lý kéo di chuyển hiển thị tọa độ
-    function handleCoordinatesDrag(e) {
-      if (!robotState.adjustPositionsMode) return;
-      
-      if (e.type === 'mousedown') {
-        robotState.isDraggingCoordinates = true;
-        robotState.dragStartX = e.clientX;
-        robotState.dragStartY = e.clientY;
-        robotState.coordStartLeft = parseInt(window.getComputedStyle(coordinatesDisplay).left);
-        robotState.coordStartTop = parseInt(window.getComputedStyle(coordinatesDisplay).top);
-      } else if (e.type === 'mousemove' && robotState.isDraggingCoordinates) {
-        const dx = e.clientX - robotState.dragStartX;
-        const dy = e.clientY - robotState.dragStartY;
-        
-        coordinatesDisplay.style.left = `${robotState.coordStartLeft + dx}px`;
-        coordinatesDisplay.style.top = `${robotState.coordStartTop + dy}px`;
-      } else if (e.type === 'mouseup') {
-        robotState.isDraggingCoordinates = false;
-      }
-    }
-    
-    // Event Listeners
-    
-    // Đăng ký sự kiện cho phím tắt
-    document.addEventListener('keydown', function(e) {
-      // Bỏ qua nếu đang nhập vào input
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      
-      // Kiểm tra xem phím có trong danh sách không
-      const buttonId = hotkeys[e.code];
-      if (buttonId) {
-        e.preventDefault(); // Ngăn hành động mặc định của phím
-        
-        // Bấm nút tương ứng
-        const button = document.getElementById(buttonId);
-        if (button && !button.disabled) {
-          button.click();
-        }
-      }
-    });
-    
-    // Sự kiện kéo thả robot
-    robotContainer.addEventListener('mousedown', function(e) {
       e.preventDefault();
       
-      // Bỏ qua nếu nhấp vào điểm center
-      if (e.target === robotCenter) return;
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
       
-      robotState.isDraggingRobot = true;
+      const rect = mapContainer.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+      
+      isDragging = true;
       robotContainer.classList.add('dragging');
       
-      // Lưu vị trí ban đầu
-      robotState.dragStartX = e.clientX;
-      robotState.dragStartY = e.clientY;
-      robotState.robotStartX = robotState.x;
-      robotState.robotStartY = robotState.y;
-    });
-    
-    document.addEventListener('mousemove', function(e) {
-      // Xử lý khi kéo robot
-      if (robotState.isDraggingRobot) {
-        const dx = e.clientX - robotState.dragStartX;
-        const dy = e.clientY - robotState.dragStartY;
+      // Tính toán vị trí di chuyển của robot
+      const moveRobot = function(moveEvent) {
+        if (!isDragging) return;
         
-        robotState.x = robotState.robotStartX + dx;
-        robotState.y = robotState.robotStartY + dy;
+        const newX = moveEvent.clientX - rect.left;
+        const newY = moveEvent.clientY - rect.top;
         
-        // Giới hạn robot trong map
-        robotState.x = Math.max(0, Math.min(robotState.x, robotState.mapWidth));
-        robotState.y = Math.max(0, Math.min(robotState.y, robotState.mapHeight));
-        
-        updateRobotPosition();
-        updateInfoPanel();
-      }
+        // Kiểm tra giới hạn của map
+        if (isRobotWithinBounds(newX, newY)) {
+          robotX = newX;
+          robotY = newY;
+          updateRobotPosition();
+        }
+      };
       
-      // Hiển thị vị trí chuột
-      const rect = mapContainer.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      
-      if (mouseX >= 0 && mouseX <= rect.width && mouseY >= 0 && mouseY <= rect.height) {
-        // Tỉ lệ thu nhỏ cho mini-map
-        const scaleX = miniMap.clientWidth / rect.width;
-        const scaleY = miniMap.clientHeight / rect.height;
-        
-        // Vị trí chuột trên mini-map
-        const miniX = mouseX * scaleX;
-        const miniY = mouseY * scaleY;
-        
-        // Cập nhật vị trí
-        mousePositionIndicator.style.left = `${miniX}px`;
-        mousePositionIndicator.style.top = `${miniY}px`;
-        mousePositionIndicator.style.display = 'block';
-      } else {
-        mousePositionIndicator.style.display = 'none';
-      }
-      
-      // Xử lý kéo mini-map
-      handleMiniMapDrag(e);
-      
-      // Xử lý kéo hiển thị tọa độ
-      handleCoordinatesDrag(e);
-    });
-    
-    document.addEventListener('mouseup', function() {
-      // Kết thúc kéo robot
-      if (robotState.isDraggingRobot) {
-        robotState.isDraggingRobot = false;
+      document.addEventListener('mousemove', moveRobot);
+      document.addEventListener('mouseup', function() {
+        isDragging = false;
         robotContainer.classList.remove('dragging');
-        
-        // Lưu trạng thái vào lịch sử
-        saveStateToHistory();
-      }
-      
-      // Kết thúc kéo mini-map
-      handleMiniMapDrag({ type: 'mouseup' });
-      
-      // Kết thúc kéo hiển thị tọa độ
-      handleCoordinatesDrag({ type: 'mouseup' });
-    });
+        document.removeEventListener('mousemove', moveRobot);
+      }, { once: true });
+    }
     
-    // Sự kiện thay đổi kích thước robot
-    robotCenter.addEventListener('mousedown', function(e) {
+    // Double-click để bật/tắt chế độ kéo robot
+    function toggleRobotDrag() {
+      isDraggable = !isDraggable;
+      if (isDraggable) {
+        robotContainer.style.cursor = 'grab';
+        showNotification('Chế độ kéo robot đã bật. Kéo robot để di chuyển.', 'success');
+      } else {
+        robotContainer.style.cursor = '';
+        showNotification('Chế độ kéo robot đã tắt', 'success');
+      }
+    }
+    
+    // Resize robot bằng chuột
+    function onRobotResize(e) {
       e.preventDefault();
-      e.stopPropagation();
       
-      robotState.isResizing = true;
-      robotState.resizeStartX = e.clientX;
-      robotState.resizeStartY = e.clientY;
-      robotState.startScale = robotState.scale;
-    });
+      const containerRect = robotContainer.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+      const centerY = containerRect.top + containerRect.height / 2;
+      
+      // Tính khoảng cách từ con trỏ đến tâm robot
+      const dx = e.clientX - centerX;
+      const dy = e.clientY - centerY;
+      const distance = Math.sqrt(dx * dx + dy * dy) * 2; // Nhân 2 vì khoảng cách là bán kính, cần đường kính
+      
+      // Giới hạn kích thước
+      const newSize = Math.max(20, Math.min(150, distance));
+      
+      // Cập nhật kích thước
+      resizeRobot(newSize);
+      
+      // Cập nhật slider
+      robotSizeSlider.value = newSize;
+      sizeDisplay.textContent = newSize + 'px';
+    }
     
-    document.addEventListener('mousemove', function(e) {
-      if (robotState.isResizing) {
-        const dx = e.clientX - robotState.resizeStartX;
-        const dy = e.clientY - robotState.resizeStartY;
+    // Dừng resize robot
+    function stopRobotResize() {
+      document.removeEventListener('mousemove', onRobotResize);
+    }
+    
+    // Dừng kéo
+    function stopDragging() {
+      isDragging = false;
+      robotContainer.classList.remove('dragging');
+    }
+    
+    // Bắt đầu kéo khối lệnh
+    function onDragStart(e) {
+      dragSource = this;
+      e.dataTransfer.setData('text/plain', this.dataset.command);
+      setTimeout(() => this.classList.add('dragging'), 0);
+      
+      // Nếu đang kéo từ library, tạo bản sao
+      if (!this.parentElement.classList.contains('program-area')) {
+        e.dataTransfer.effectAllowed = 'copy';
+      } else {
+        // Nếu đang kéo từ program area, di chuyển
+        e.dataTransfer.effectAllowed = 'move';
+        selectedBlock = this;
+        this.classList.add('selected-block');
+      }
+    }
+    
+    // Kết thúc kéo khối lệnh
+    function onDragEnd() {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.drag-indicator').forEach(ind => ind.classList.remove('active'));
+      
+      if (selectedBlock) {
+        selectedBlock.classList.remove('selected-block');
+        selectedBlock = null;
+      }
+    }
+    
+    // Trong quá trình kéo qua area
+    function onDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = dragSource.parentElement.classList.contains('program-area') ? 'move' : 'copy';
+      
+      // Xác định vị trí chèn
+      const blocks = Array.from(programArea.querySelectorAll('.command-block'));
+      const dragIndicator = programArea.querySelector('.drag-indicator');
+      
+      if (blocks.length === 0) {
+        // Nếu chưa có khối nào, chỉ hiển thị indicator ở đầu
+        dragIndicator.classList.add('active');
+        insertIndex = 0;
+        return;
+      }
+      
+      let found = false;
+      
+      blocks.forEach((block, index) => {
+        const rect = block.getBoundingClientRect();
+        const mouseY = e.clientY;
         
-        // Dùng khoảng cách để tính tỉ lệ phóng to/thu nhỏ
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const sign = (dx + dy) > 0 ? 1 : -1;
+        if (mouseY < rect.top + rect.height / 2 && !found) {
+          // Chèn trước khối này
+          dragIndicator.style.top = (block.offsetTop - 5) + 'px';
+          dragIndicator.classList.add('active');
+          insertIndex = index;
+          found = true;
+        } else if (mouseY >= rect.top + rect.height / 2 && index === blocks.length - 1 && !found) {
+          // Chèn sau khối cuối cùng
+          dragIndicator.style.top = (block.offsetTop + block.offsetHeight + 5) + 'px';
+          dragIndicator.classList.add('active');
+          insertIndex = index + 1;
+          found = true;
+        }
+      });
+    }
+    
+    // Khi kéo vào area
+    function onDragEnter(e) {
+      e.preventDefault();
+    }
+    
+    // Khi kéo ra khỏi area
+    function onDragLeave(e) {
+      e.preventDefault();
+      if (!programArea.contains(e.relatedTarget)) {
+        programArea.querySelector('.drag-indicator').classList.remove('active');
+      }
+    }
+    
+    // Khi thả khối vào area
+    function onDrop(e) {
+      e.preventDefault();
+      programArea.querySelector('.drag-indicator').classList.remove('active');
+      
+      const command = e.dataTransfer.getData('text/plain');
+      
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      if (dragSource.parentElement.classList.contains('program-area')) {
+        // Di chuyển block trong program area
+        const blocks = Array.from(programArea.querySelectorAll('.command-block'));
+        const currentIndex = blocks.indexOf(dragSource);
         
-        // Điều chỉnh tỉ lệ
-        robotState.scale = robotState.startScale + sign * distance / 100;
+        if (currentIndex !== -1 && currentIndex !== insertIndex) {
+          // Điều chỉnh vị trí chèn nếu cần
+          if (currentIndex < insertIndex) {
+            insertIndex--;
+          }
+          
+          // Di chuyển block
+          programArea.removeChild(dragSource);
+          if (insertIndex >= blocks.length - 1) {
+            programArea.appendChild(dragSource);
+          } else {
+            programArea.insertBefore(dragSource, blocks[insertIndex]);
+          }
+        }
+      } else {
+        // Tạo block mới từ library
+        const newBlock = dragSource.cloneNode(true);
+        newBlock.classList.remove('dragging');
         
-        // Giới hạn tỉ lệ trong khoảng [0.5, 3]
-        robotState.scale = Math.max(0.5, Math.min(robotState.scale, 3));
+        // Thêm nút điều khiển
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'block-controls';
         
-        // Cập nhật vị trí
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'toggle-block';
+        toggleBtn.innerHTML = '✓';
+        toggleBtn.title = 'Bật/tắt lệnh';
+        toggleBtn.onclick = function(e) {
+          e.stopPropagation();
+          toggleBlock(newBlock);
+        };
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-block';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.title = 'Xóa lệnh';
+        deleteBtn.onclick = function(e) {
+          e.stopPropagation();
+          removeBlock(newBlock);
+        };
+        
+        controlsDiv.appendChild(toggleBtn);
+        controlsDiv.appendChild(deleteBtn);
+        newBlock.appendChild(controlsDiv);
+        
+        // Xử lý click vào block để chọn
+        newBlock.addEventListener('click', function() {
+          if (selectedBlock) {
+            selectedBlock.classList.remove('selected-block');
+          }
+          selectedBlock = this;
+          this.classList.add('selected-block');
+        });
+        
+        // Thêm sự kiện drag
+        newBlock.addEventListener('dragstart', onDragStart);
+        newBlock.addEventListener('dragend', onDragEnd);
+        
+        // Chèn block vào vị trí thích hợp
+        const blocks = Array.from(programArea.querySelectorAll('.command-block'));
+        if (insertIndex === 0 || blocks.length === 0) {
+          programArea.insertBefore(newBlock, programArea.firstChild);
+        } else if (insertIndex >= blocks.length) {
+          programArea.appendChild(newBlock);
+        } else {
+          programArea.insertBefore(newBlock, blocks[insertIndex]);
+        }
+      }
+      
+      dragSource = null;
+    }
+    
+    // Tắt/bật lệnh
+    function toggleBlock(block) {
+      block.classList.toggle('disabled');
+    }
+    
+    // Xóa lệnh
+    function removeBlock(block) {
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      block.parentNode.removeChild(block);
+      if (selectedBlock === block) {
+        selectedBlock = null;
+      }
+    }
+    
+    // Chạy chương trình
+    function runProgram() {
+      const blocks = Array.from(programArea.querySelectorAll('.command-block'));
+      
+      if (blocks.length === 0) {
+        showNotification('Chưa có lệnh nào để chạy', 'error');
+        return;
+      }
+      
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      // Đánh dấu đang chạy
+      runProgramBtn.classList.add('running');
+      runProgramBtn.innerHTML = '<i>⏸</i> Đang chạy...';
+      runProgramBtn.disabled = true;
+      
+      // Thực thi từng lệnh
+      let currentIndex = 0;
+      
+      function executeNextCommand() {
+        if (currentIndex >= blocks.length) {
+          // Kết thúc chương trình
+          runProgramBtn.classList.remove('running');
+          runProgramBtn.innerHTML = '<i>▶</i> Chạy chương trình';
+          runProgramBtn.disabled = false;
+          showNotification('Chương trình đã chạy xong', 'success');
+          return;
+        }
+        
+        const block = blocks[currentIndex];
+        currentIndex++;
+        
+        // Bỏ qua các lệnh bị tắt
+        if (block.classList.contains('disabled')) {
+          executeNextCommand();
+          return;
+        }
+        
+        // Đánh dấu lệnh đang chạy
+        block.classList.add('selected-block');
+        
+        // Lấy tham số
+        const command = block.dataset.command;
+        const valueInput = block.querySelector('input');
+        const value = valueInput ? parseFloat(valueInput.value) : 0;
+        
+        // Thực thi lệnh
+        switch (command) {
+          case 'move-up':
+            moveRobotInDirection(0, -1 * (value / stepSize));
+            break;
+          case 'move-down':
+            moveRobotInDirection(0, 1 * (value / stepSize));
+            break;
+          case 'move-left':
+            moveRobotInDirection(-1 * (value / stepSize), 0);
+            break;
+          case 'move-right':
+            moveRobotInDirection(1 * (value / stepSize), 0);
+            break;
+          case 'move-upleft':
+            moveRobotInDirection(-1 * (value / stepSize), -1 * (value / stepSize));
+            break;
+          case 'move-upright':
+            moveRobotInDirection(1 * (value / stepSize), -1 * (value / stepSize));
+            break;
+          case 'move-downleft':
+            moveRobotInDirection(-1 * (value / stepSize), 1 * (value / stepSize));
+            break;
+          case 'move-downright':
+            moveRobotInDirection(1 * (value / stepSize), 1 * (value / stepSize));
+            break;
+          case 'rotate-left':
+            rotate(-value);
+            break;
+          case 'rotate-right':
+            rotate(value);
+            break;
+          case 'spin':
+            spinRobot();
+            break;
+        }
+        
+        // Bỏ đánh dấu sau khi thực thi
+        setTimeout(() => {
+          block.classList.remove('selected-block');
+          
+          // Thực thi lệnh tiếp theo sau 500ms
+          setTimeout(executeNextCommand, 500);
+        }, 500);
+      }
+      
+      // Bắt đầu thực thi
+      executeNextCommand();
+    }
+    // Resize robot
+    function resizeRobot(size) {
+      size = parseInt(size);
+      
+      // Lưu trạng thái hiện tại để undo nếu kích thước thay đổi đáng kể
+      if (Math.abs(robotSize - size) > 5) {
+        saveToHistory();
+      }
+      
+      robotSize = size;
+      robot.style.width = size + 'px';
+      sizeDisplay.textContent = size + 'px';
+      
+      // Cập nhật vị trí sau khi resize để giữ robot trong map
+      updateRobotPosition();
+    }
+    
+    // Resize map
+    function resizeMap(size) {
+      mapSize = parseInt(size);
+      const mapElement = document.getElementById('map');
+      mapElement.style.width = size + '%';
+      mapElement.style.height = 'auto';
+      mapSizeDisplay.textContent = size + '%';
+      
+      // Cập nhật giới hạn map và vị trí robot
+      setTimeout(() => {
+        updateMapBoundary();
         updateRobotPosition();
+        initGrid();
+        initMiniMap();
+      }, 100);
+    }
+    
+    // Điều chỉnh vị trí map
+    function adjustMapPosition(axis, value) {
+      if (axis === 'x') {
+        mapPositionX = parseInt(value);
+        map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+        mapPositionXDisplay.textContent = value;
+      } else if (axis === 'y' && verticalMapMoveAllowed) {
+        mapPositionY = parseInt(value);
+        map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+        mapPositionYDisplay.textContent = value;
       }
-    });
+      
+      // Cập nhật giới hạn và vị trí sau khi di chuyển map
+      setTimeout(() => {
+        updateMapBoundary();
+        updateRobotPosition();
+        initGrid();
+        initMiniMap();
+      }, 100);
+    }
     
-    document.addEventListener('mouseup', function() {
-      if (robotState.isResizing) {
-        robotState.isResizing = false;
-        
-        // Lưu trạng thái vào lịch sử
-        saveStateToHistory();
-      }
-    });
+    // Bật/tắt di chuyển map theo chiều dọc
+    function toggleMapVerticalMovement() {
+      verticalMapMoveAllowed = document.getElementById('map-vertical-move').checked;
+      mapYPositionControl.style.display = verticalMapMoveAllowed ? 'block' : 'none';
+    }
     
-    // Xử lý setting dropdown
-    settingsButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      settingsDropdown.style.display = settingsDropdown.style.display === 'block' ? 'none' : 'block';
-    });
+    // Xử lý sự kiện di chuyển chuột
+    function onMouseMove(e) {
+      // Xử lý tooltip
+      tooltip.style.left = (e.clientX + 10) + 'px';
+      tooltip.style.top = (e.clientY + 10) + 'px';
+    }
     
-    document.addEventListener('click', function(e) {
-      if (e.target !== settingsButton && !settingsDropdown.contains(e.target)) {
-        settingsDropdown.style.display = 'none';
-      }
-    });
+    // Thêm điểm đánh dấu
+    function addWaypoint(e) {
+      const rect = map.getBoundingClientRect();
+      const mapContainerRect = mapContainer.getBoundingClientRect();
+      
+      // Tính tọa độ tương đối với map
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+      
+      // Đảm bảo tọa độ không âm và nằm trong map
+      x = Math.max(0, Math.min(x, rect.width));
+      y = Math.max(0, Math.min(y, rect.height));
+      
+      // Tính tọa độ thực theo cm
+      const realX = (x * cmPerPixel).toFixed(1);
+      const realY = (y * cmPerPixel).toFixed(1);
+      
+      // Tạo marker
+      const marker = document.createElement('div');
+      marker.className = 'waypoint-marker';
+      marker.style.left = (x + rect.left - mapContainerRect.left) + 'px';
+      marker.style.top = (y + rect.top - mapContainerRect.top) + 'px';
+      
+      // Tạo label
+      const label = document.createElement('div');
+      label.className = 'waypoint-label';
+      label.textContent = `X: ${realX} cm, Y: ${realY} cm`;
+      marker.appendChild(label);
+      
+      // Thêm sự kiện hover
+      marker.addEventListener('mouseenter', function() {
+        label.style.display = 'block';
+      });
+      
+      marker.addEventListener('mouseleave', function() {
+        label.style.display = 'none';
+      });
+      
+      // Mặc định ẩn label
+      label.style.display = 'none';
+      
+      // Thêm vào map container
+      mapContainer.appendChild(marker);
+      
+      // Thêm sự kiện click để xóa marker
+      marker.addEventListener('click', function(event) {
+        event.stopPropagation();
+        mapContainer.removeChild(marker);
+      });
+      
+      showNotification(`Đã đánh dấu điểm tại X: ${realX} cm, Y: ${realY} cm`, 'success');
+    }
     
-    // Di chuyển mini-map
-    miniMapContainer.addEventListener('mousedown', function(e) {
-      if (robotState.adjustPositionsMode) {
-        handleMiniMapDrag(e);
-      }
-    });
+    // Cập nhật kích thước bước di chuyển
+    function updateStepSize(value) {
+      stepSize = parseFloat(value);
+      showNotification(`Đã đặt bước di chuyển thành ${stepSize} cm`, 'success');
+    }
     
-    // Di chuyển hiển thị tọa độ
-    coordinatesDisplay.addEventListener('mousedown', function(e) {
-      if (robotState.adjustPositionsMode) {
-        handleCoordinatesDrag(e);
-      }
-    });
+    // Đảo chiều dọc (trên/dưới)
+    function toggleVerticalDirection() {
+      invertVertical = !invertVertical;
+      document.getElementById('toggle-vertical').classList.toggle('active');
+      showNotification(`Đã ${invertVertical ? 'đảo' : 'khôi phục'} chiều trên/dưới`, 'success');
+    }
     
-    // Các nút điều khiển
+    // Đảo chiều ngang (trái/phải)
+    function toggleHorizontalDirection() {
+      invertHorizontal = !invertHorizontal;
+      document.getElementById('toggle-horizontal').classList.toggle('active');
+      showNotification(`Đã ${invertHorizontal ? 'đảo' : 'khôi phục'} chiều trái/phải`, 'success');
+    }
     
-    // Ẩn/hiện lưới
-    gridToggleButton.addEventListener('click', toggleGrid);
+    // Ẩn/hiện robot
+    function toggleRobot() {
+      showRobot = document.getElementById('toggle-robot').checked;
+      robotContainer.style.display = showRobot ? 'block' : 'none';
+    }
     
-    // Chế độ tối
-    themeToggle.addEventListener('click', toggleDarkMode);
-    
-    // Các nút lịch sử
-    document.getElementById('undo-btn').addEventListener('click', undo);
-    document.getElementById('redo-btn').addEventListener('click', redo);
-    document.getElementById('clear-history-btn').addEventListener('click', clearHistory);
-    
-    // Các nút di chuyển
-    document.getElementById('move-up').addEventListener('click', () => moveRobot('up'));
-    document.getElementById('move-down').addEventListener('click', () => moveRobot('down'));
-    document.getElementById('move-left').addEventListener('click', () => moveRobot('left'));
-    document.getElementById('move-right').addEventListener('click', () => moveRobot('right'));
-    document.getElementById('move-upleft').addEventListener('click', () => moveRobot('upleft'));
-    document.getElementById('move-upright').addEventListener('click', () => moveRobot('upright'));
-    document.getElementById('move-downleft').addEventListener('click', () => moveRobot('downleft'));
-    document.getElementById('move-downright').addEventListener('click', () => moveRobot('downright'));
-    
-    // Nút đưa robot về vị trí ban đầu
-    document.getElementById('center-robot').addEventListener('click', centerRobot);
-    
-    // Các nút xoay
-    document.getElementById('rotate-left').addEventListener('click', () => rotateRobot('left'));
-    document.getElementById('rotate-right').addEventListener('click', () => rotateRobot('right'));
-    
-    // Nút xóa tất cả lệnh
-    document.getElementById('clear-commands-btn').addEventListener('click', clearCommands);
-    
-    // Nút thực thi lệnh
-    document.getElementById('execute-commands-btn').addEventListener('click', executeCommands);
-    
-    // Nút lưu lệnh
-    document.getElementById('save-commands-btn').addEventListener('click', function() {
-      showToast('Chức năng lưu lệnh đang được phát triển', 'info');
-    });
-    
-    // Điều chỉnh vị trí
-    adjustPositionsOption.addEventListener('click', function() {
-      toggleAdjustPositionsMode();
-      settingsDropdown.style.display = 'none';
-    });
+    // Ẩn/hiện đường đi
+    function toggleShowPath() {
+      showPath = document.getElementById('show-path').checked;
+      // Xử lý hiển thị đường đi (có thể thêm sau)
+    }
     
     // Ẩn/hiện mini-map
-    toggleMiniMapOption.addEventListener('click', function() {
-      toggleMiniMap();
-      settingsDropdown.style.display = 'none';
+    function toggleMiniMap() {
+      const showMiniMap = document.getElementById('show-mini-map').checked;
+      miniMapContainer.style.display = showMiniMap ? 'block' : 'none';
+    }
+    
+    // Toggle chế độ tối
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      document.getElementById('theme-text').textContent = isDarkMode ? 'Chế độ sáng' : 'Chế độ tối';
+      
+      localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+    }
+    
+    // Hiển thị thông báo
+    function showNotification(message, type = 'info') {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.className = 'notification ' + type;
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Hiển thị tooltip
+    function showTooltip(text) {
+      tooltip.textContent = text;
+      tooltip.style.opacity = 1;
+    }
+    
+    // Ẩn tooltip
+    function hideTooltip() {
+      tooltip.style.opacity = 0;
+    }
+    
+    // Lưu trạng thái hiện tại để undo
+    function saveToHistory() {
+      const state = {
+        robotX,
+        robotY,
+        robotAngle,
+        robotSize,
+        showRobot,
+        mapSize,
+        mapPositionX,
+        mapPositionY,
+        programBlocks: Array.from(programArea.querySelectorAll('.command-block')).map(block => {
+          const input = block.querySelector('input');
+          return {
+            command: block.dataset.command,
+            value: input ? input.value : null,
+            disabled: block.classList.contains('disabled')
+          };
+        })
+      };
+      
+      historyStack.push(JSON.stringify(state));
+      redoStack.length = 0; // Xóa redo stack khi có action mới
+      
+      // Giới hạn kích thước history
+      if (historyStack.length > 50) {
+        historyStack.shift();
+      }
+      
+      // Cập nhật trạng thái nút
+      updateDisplay();
+    }
+    
+    // Quay lại bước trước
+    function undoAction() {
+      if (historyStack.length === 0) return;
+      
+      // Lưu trạng thái hiện tại vào redo stack
+      const currentState = {
+        robotX,
+        robotY,
+        robotAngle,
+        robotSize,
+        showRobot,
+        mapSize,
+        mapPositionX,
+        mapPositionY,
+        programBlocks: Array.from(programArea.querySelectorAll('.command-block')).map(block => {
+          const input = block.querySelector('input');
+          return {
+            command: block.dataset.command,
+            value: input ? input.value : null,
+            disabled: block.classList.contains('disabled')
+          };
+        })
+      };
+      
+      redoStack.push(JSON.stringify(currentState));
+      
+      // Lấy trạng thái trước đó
+      const prevState = JSON.parse(historyStack.pop());
+      
+      // Khôi phục trạng thái
+      robotX = prevState.robotX;
+      robotY = prevState.robotY;
+      robotAngle = prevState.robotAngle;
+      
+      if (prevState.robotSize !== robotSize) {
+        resizeRobot(prevState.robotSize);
+        robotSizeSlider.value = prevState.robotSize;
+      }
+      
+      if (prevState.showRobot !== showRobot) {
+        showRobot = prevState.showRobot;
+        document.getElementById('toggle-robot').checked = showRobot;
+        robotContainer.style.display = showRobot ? 'block' : 'none';
+      }
+      
+      if (prevState.mapSize !== mapSize) {
+        resizeMap(prevState.mapSize);
+        mapSizeSlider.value = prevState.mapSize;
+      }
+      
+      if (prevState.mapPositionX !== mapPositionX) {
+        mapPositionX = prevState.mapPositionX;
+        mapPositionXSlider.value = mapPositionX;
+        mapPositionXDisplay.textContent = mapPositionX;
+      }
+      
+      if (prevState.mapPositionY !== mapPositionY) {
+        mapPositionY = prevState.mapPositionY;
+        mapPositionYSlider.value = mapPositionY;
+        mapPositionYDisplay.textContent = mapPositionY;
+      }
+      
+      map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+      
+      // Khôi phục chương trình
+      restoreProgram(prevState.programBlocks);
+      
+      updateRobotPosition();
+      updateDisplay();
+    }
+    
+    // Tiến lại bước sau
+    function redoAction() {
+      if (redoStack.length === 0) return;
+      
+      // Lưu trạng thái hiện tại vào history stack
+      saveToHistory();
+      
+      // Lấy trạng thái tiếp theo
+      const nextState = JSON.parse(redoStack.pop());
+      
+      // Khôi phục trạng thái
+      robotX = nextState.robotX;
+      robotY = nextState.robotY;
+      robotAngle = nextState.robotAngle;
+      
+      if (nextState.robotSize !== robotSize) {
+        resizeRobot(nextState.robotSize);
+        robotSizeSlider.value = nextState.robotSize;
+      }
+      
+      if (nextState.showRobot !== showRobot) {
+        showRobot = nextState.showRobot;
+        document.getElementById('toggle-robot').checked = showRobot;
+        robotContainer.style.display = showRobot ? 'block' : 'none';
+      }
+      
+      if (nextState.mapSize !== mapSize) {
+        resizeMap(nextState.mapSize);
+        mapSizeSlider.value = nextState.mapSize;
+      }
+      
+      if (nextState.mapPositionX !== mapPositionX) {
+        mapPositionX = nextState.mapPositionX;
+        mapPositionXSlider.value = mapPositionX;
+        mapPositionXDisplay.textContent = mapPositionX;
+      }
+      
+      if (nextState.mapPositionY !== mapPositionY) {
+        mapPositionY = nextState.mapPositionY;
+        mapPositionYSlider.value = mapPositionY;
+        mapPositionYDisplay.textContent = mapPositionY;
+      }
+      
+      map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+      
+      // Khôi phục chương trình
+      restoreProgram(nextState.programBlocks);
+      
+      updateRobotPosition();
+      updateDisplay();
+      
+      // Ngăn không cho thêm vào history stack lần nữa
+      historyStack.pop();
+    }
+    
+    // Khôi phục chương trình từ state
+    function restoreProgram(blocks) {
+      // Xóa tất cả các block hiện tại
+      Array.from(programArea.querySelectorAll('.command-block')).forEach(block => {
+        programArea.removeChild(block);
+      });
+      
+      // Thêm lại các block từ state
+      blocks.forEach(blockData => {
+        // Tìm block mẫu trong library
+        const templateBlock = document.querySelector(`.block-library .command-block[data-command="${blockData.command}"]`);
+        if (!templateBlock) return;
+        
+        // Tạo block mới
+        const newBlock = templateBlock.cloneNode(true);
+        
+        // Set giá trị
+        const input = newBlock.querySelector('input');
+        if (input && blockData.value !== null) {
+          input.value = blockData.value;
+        }
+        
+        // Set trạng thái bật/tắt
+        if (blockData.disabled) {
+          newBlock.classList.add('disabled');
+        }
+        
+        // Thêm controls
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'block-controls';
+        
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'toggle-block';
+        toggleBtn.innerHTML = '✓';
+        toggleBtn.title = 'Bật/tắt lệnh';
+        toggleBtn.onclick = function(e) {
+          e.stopPropagation();
+          toggleBlock(newBlock);
+        };
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-block';
+        deleteBtn.innerHTML = '×';
+        deleteBtn.title = 'Xóa lệnh';
+        deleteBtn.onclick = function(e) {
+          e.stopPropagation();
+          removeBlock(newBlock);
+        };
+        
+        controlsDiv.appendChild(toggleBtn);
+        controlsDiv.appendChild(deleteBtn);
+        newBlock.appendChild(controlsDiv);
+        
+        // Thêm sự kiện
+        newBlock.addEventListener('dragstart', onDragStart);
+        newBlock.addEventListener('dragend', onDragEnd);
+        newBlock.addEventListener('click', function() {
+          if (selectedBlock) {
+            selectedBlock.classList.remove('selected-block');
+          }
+          selectedBlock = this;
+          this.classList.add('selected-block');
+        });
+        
+        // Thêm vào program area
+        programArea.appendChild(newBlock);
+      });
+    }
+    
+    // Hiển thị modal lưu
+    function showSaveDialog(type) {
+      currentSaveType = type;
+      
+      switch(type) {
+        case 'position':
+          saveModalTitle.textContent = 'Lưu vị trí hiện tại';
+          break;
+        case 'size':
+          saveModalTitle.textContent = 'Lưu kích thước robot';
+          break;
+        case 'program':
+          saveModalTitle.textContent = 'Lưu chương trình';
+          break;
+      }
+      
+      saveName.value = '';
+      saveModal.classList.add('active');
+      setTimeout(() => saveName.focus(), 100);
+    }
+    
+    // Hiển thị modal xuất/nhập dữ liệu
+    function showExportDialog() {
+      exportModal.classList.add('active');
+    }
+    
+    // Tạo dữ liệu xuất
+    function generateExportData() {
+      const data = {
+        positions: savedData.positions,
+        sizes: savedData.sizes,
+        programs: savedData.programs,
+        currentState: {
+          robotX,
+          robotY,
+          robotAngle,
+          robotSize,
+          stepSize,
+          cmPerPixel,
+          invertVertical,
+          invertHorizontal,
+          mapSize,
+          mapPositionX,
+          mapPositionY
+        }
+      };
+      
+      exportData.value = JSON.stringify(data, null, 2);
+    }
+    
+    // Nhập dữ liệu
+    function importData() {
+      try {
+        const data = JSON.parse(exportData.value);
+        
+        // Kiểm tra dữ liệu hợp lệ
+        if (!data) throw new Error('Dữ liệu trống');
+        
+        // Nhập các vị trí đã lưu
+        if (data.positions) {
+          savedData.positions = data.positions;
+          localStorage.setItem('savedPositions', JSON.stringify(savedData.positions));
+        }
+        
+        // Nhập các kích thước đã lưu
+        if (data.sizes) {
+          savedData.sizes = data.sizes;
+          localStorage.setItem('savedSizes', JSON.stringify(savedData.sizes));
+        }
+        
+        // Nhập các chương trình đã lưu
+        if (data.programs) {
+          savedData.programs = data.programs;
+          localStorage.setItem('savedPrograms', JSON.stringify(savedData.programs));
+        }
+        
+        // Nhập trạng thái hiện tại nếu có
+        if (data.currentState) {
+          const state = data.currentState;
+          
+          // Lưu trạng thái hiện tại để undo
+          saveToHistory();
+          
+          // Cập nhật các giá trị
+          if (state.robotX !== undefined) robotX = state.robotX;
+          if (state.robotY !== undefined) robotY = state.robotY;
+          if (state.robotAngle !== undefined) robotAngle = state.robotAngle;
+          
+          if (state.robotSize !== undefined) {
+            robotSize = state.robotSize;
+            robotSizeSlider.value = robotSize;
+            sizeDisplay.textContent = robotSize + 'px';
+            robot.style.width = robotSize + 'px';
+          }
+          
+          if (state.stepSize !== undefined) {
+            stepSize = state.stepSize;
+            stepSizeInput.value = stepSize;
+          }
+          
+          if (state.cmPerPixel !== undefined) {
+            cmPerPixel = state.cmPerPixel;
+          }
+          
+          if (state.invertVertical !== undefined) {
+            invertVertical = state.invertVertical;
+            document.getElementById('toggle-vertical').classList.toggle('active', invertVertical);
+          }
+          
+          if (state.invertHorizontal !== undefined) {
+            invertHorizontal = state.invertHorizontal;
+            document.getElementById('toggle-horizontal').classList.toggle('active', invertHorizontal);
+          }
+          
+          if (state.mapSize !== undefined) {
+            mapSize = state.mapSize;
+            mapSizeSlider.value = mapSize;
+            mapSizeDisplay.textContent = mapSize + '%';
+            map.style.width = mapSize + '%';
+            map.style.height = 'auto';
+          }
+          
+          if (state.mapPositionX !== undefined) {
+            mapPositionX = state.mapPositionX;
+            mapPositionXSlider.value = mapPositionX;
+            mapPositionXDisplay.textContent = mapPositionX;
+          }
+          
+          if (state.mapPositionY !== undefined) {
+            mapPositionY = state.mapPositionY;
+            mapPositionYSlider.value = mapPositionY;
+            mapPositionYDisplay.textContent = mapPositionY;
+          }
+          
+          map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+          
+          // Cập nhật hiển thị
+          updateRobotPosition();
+          setTimeout(() => {
+            updateMapBoundary();
+            initGrid();
+            initMiniMap();
+          }, 100);
+        }
+        
+        // Tải lại các mục đã lưu
+        loadSavedItems();
+        
+        closeModal();
+        showNotification('Đã nhập dữ liệu thành công', 'success');
+      } catch (e) {
+        showNotification('Lỗi: Dữ liệu không hợp lệ', 'error');
+        console.error(e);
+      }
+    }
+    
+    // Đóng modal
+    function closeModal() {
+      saveModal.classList.remove('active');
+      exportModal.classList.remove('active');
+    }
+    
+    // Lưu mục
+    function saveItem() {
+      const name = saveName.value.trim();
+      
+      if (!name) {
+        showNotification('Vui lòng nhập tên để lưu', 'error');
+        return;
+      }
+      
+      switch(currentSaveType) {
+        case 'position':
+          savedData.positions[name] = {
+            x: robotX,
+            y: robotY,
+            angle: robotAngle
+          };
+          localStorage.setItem('savedPositions', JSON.stringify(savedData.positions));
+          break;
+        
+        case 'size':
+          savedData.sizes[name] = robotSize;
+          localStorage.setItem('savedSizes', JSON.stringify(savedData.sizes));
+          break;
+        
+        case 'program':
+          const blocks = Array.from(programArea.querySelectorAll('.command-block')).map(block => {
+            const input = block.querySelector('input');
+            return {
+              command: block.dataset.command,
+              value: input ? input.value : null,
+              disabled: block.classList.contains('disabled')
+            };
+          });
+          
+          savedData.programs[name] = blocks;
+          localStorage.setItem('savedPrograms', JSON.stringify(savedData.programs));
+          break;
+      }
+      
+      closeModal();
+      loadSavedItems();
+      showNotification(`Đã lưu ${currentSaveType === 'position' ? 'vị trí' : currentSaveType === 'size' ? 'kích thước' : 'chương trình'} "${name}"`, 'success');
+    }
+    
+    // Tải các mục đã lưu
+    function loadSavedItems() {
+      // Tải vị trí
+      const positionsContainer = document.getElementById('saved-positions');
+      positionsContainer.innerHTML = '';
+      
+      Object.entries(savedData.positions).forEach(([name, position]) => {
+        const item = document.createElement('div');
+        item.className = 'saved-item';
+        item.innerHTML = `
+          <span>${name}</span>
+          <button onclick="deleteSavedItem('position', '${name}')" title="Xóa vị trí này">×</button>
+        `;
+        item.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'BUTTON') {
+            loadPosition(name);
+          }
+        });
+        positionsContainer.appendChild(item);
+      });
+      
+      // Tải kích thước
+      const sizesContainer = document.getElementById('saved-sizes');
+      sizesContainer.innerHTML = '';
+      
+      Object.entries(savedData.sizes).forEach(([name, size]) => {
+        const item = document.createElement('div');
+        item.className = 'saved-item';
+        item.innerHTML = `
+          <span>${name} (${size}px)</span>
+          <button onclick="deleteSavedItem('size', '${name}')" title="Xóa kích thước này">×</button>
+        `;
+        item.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'BUTTON') {
+            loadSize(name);
+          }
+        });
+        sizesContainer.appendChild(item);
+      });
+      
+      // Tải chương trình
+      const programsContainer = document.getElementById('saved-programs');
+      programsContainer.innerHTML = '';
+      
+      Object.entries(savedData.programs).forEach(([name, program]) => {
+        const item = document.createElement('div');
+        item.className = 'saved-item';
+        item.innerHTML = `
+          <span>${name} (${program.length} lệnh)</span>
+          <button onclick="deleteSavedItem('program', '${name}')" title="Xóa chương trình này">×</button>
+        `;
+        item.addEventListener('click', function(e) {
+          if (e.target.tagName !== 'BUTTON') {
+            loadProgram(name);
+          }
+        });
+        programsContainer.appendChild(item);
+      });
+    }
+    
+    // Tải vị trí đã lưu
+    function loadPosition(name) {
+      const position = savedData.positions[name];
+      if (!position) return;
+      
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      robotX = position.x;
+      robotY = position.y;
+      robotAngle = position.angle;
+      
+      updateRobotPosition();
+      showNotification(`Đã tải vị trí "${name}"`, 'success');
+    }
+    
+    // Tải kích thước đã lưu
+    function loadSize(name) {
+      const size = savedData.sizes[name];
+      if (!size) return;
+      
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      resizeRobot(size);
+      robotSizeSlider.value = size;
+      
+      showNotification(`Đã tải kích thước "${name}"`, 'success');
+    }
+    
+    // Tải chương trình đã lưu
+    function loadProgram(name) {
+      const program = savedData.programs[name];
+      if (!program) return;
+      
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      // Khôi phục chương trình
+      restoreProgram(program);
+      
+      showNotification(`Đã tải chương trình "${name}"`, 'success');
+    }
+    
+    // Xóa mục đã lưu
+    function deleteSavedItem(type, name) {
+      if (type === 'position') {
+        delete savedData.positions[name];
+        localStorage.setItem('savedPositions', JSON.stringify(savedData.positions));
+      } else if (type === 'size') {
+        delete savedData.sizes[name];
+        localStorage.setItem('savedSizes', JSON.stringify(savedData.sizes));
+      } else if (type === 'program') {
+        delete savedData.programs[name];
+        localStorage.setItem('savedPrograms', JSON.stringify(savedData.programs));
+      }
+      
+      loadSavedItems();
+      showNotification(`Đã xóa ${type === 'position' ? 'vị trí' : type === 'size' ? 'kích thước' : 'chương trình'} "${name}"`, 'success');
+    }
+    
+    // Xóa tất cả các mục đã lưu
+    function clearSavedItems(type) {
+      if (!confirm(`Bạn có chắc muốn xóa tất cả ${type === 'position' ? 'vị trí' : type === 'size' ? 'kích thước' : 'chương trình'} đã lưu?`)) {
+        return;
+      }
+      
+      if (type === 'position') {
+        savedData.positions = {};
+        localStorage.setItem('savedPositions', JSON.stringify(savedData.positions));
+      } else if (type === 'size') {
+        savedData.sizes = {};
+        localStorage.setItem('savedSizes', JSON.stringify(savedData.sizes));
+      } else if (type === 'program') {
+        savedData.programs = {};
+        localStorage.setItem('savedPrograms', JSON.stringify(savedData.programs));
+      }
+      
+      loadSavedItems();
+      showNotification(`Đã xóa tất cả ${type === 'position' ? 'vị trí' : type === 'size' ? 'kích thước' : 'chương trình'} đã lưu`, 'success');
+    }
+
+// Thêm tính năng keyboard shortcuts help
+document.addEventListener('keydown', function(e) {
+  // Hiển thị trợ giúp khi nhấn F1
+  if (e.key === 'F1') {
+    e.preventDefault();
+    showKeyboardShortcutsHelp();
+  }
+});
+
+// Hiển thị hộp thoại trợ giúp phím tắt
+function showKeyboardShortcutsHelp() {
+  // Tạo modal hiển thị phím tắt
+  const helpModal = document.createElement('div');
+  helpModal.className = 'modal-overlay active';
+  helpModal.innerHTML = `
+    <div class="modal-dialog" style="width: 600px; max-height: 80vh; overflow-y: auto;">
+      <h4 style="color: var(--primary-color);">Phím tắt</h4>
+      
+      <div style="margin-bottom: 20px;">
+        <h5 style="color: var(--secondary-color);">Di chuyển</h5>
+        <ul style="list-style-type: none; padding-left: 10px;">
+          <li><strong>W</strong> - Di chuyển lên</li>
+          <li><strong>A</strong> - Di chuyển trái</li>
+          <li><strong>S</strong> - Di chuyển xuống</li>
+          <li><strong>D</strong> - Di chuyển phải</li>
+          <li><strong>U</strong> - Di chuyển chéo trái lên</li>
+          <li><strong>I</strong> - Di chuyển chéo phải lên</li>
+          <li><strong>J</strong> - Di chuyển chéo trái xuống</li>
+          <li><strong>K</strong> - Di chuyển chéo phải xuống</li>
+        </ul>
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <h5 style="color: var(--secondary-color);">Xoay</h5>
+        <ul style="list-style-type: none; padding-left: 10px;">
+          <li><strong>Q</strong> - Quay trái</li>
+          <li><strong>E</strong> - Quay phải</li>
+          <li><strong>Space</strong> - Xoay tròn</li>
+          <li><strong>R</strong> - Đặt robot về giữa</li>
+        </ul>
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <h5 style="color: var(--secondary-color);">Khác</h5>
+        <ul style="list-style-type: none; padding-left: 10px;">
+          <li><strong>Ctrl+Z</strong> - Quay lại bước trước</li>
+          <li><strong>Ctrl+Y</strong> - Tiến lại bước sau</li>
+          <li><strong>Double-click vào robot</strong> - Bật/tắt chế độ kéo robot</li>
+          <li><strong>Delete</strong> - Xóa khối lệnh đang chọn</li>
+          <li><strong>F1</strong> - Hiển thị trợ giúp này</li>
+        </ul>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="primary" onclick="this.parentNode.parentNode.parentNode.remove()">Đóng</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(helpModal);
+}
+
+// Thêm xử lý chuột phải trên robot
+robotContainer.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+  
+  // Hiển thị menu ngữ cảnh
+  showRobotContextMenu(e.clientX, e.clientY);
+});
+
+// Hiển thị menu ngữ cảnh trên robot
+function showRobotContextMenu(x, y) {
+  // Xóa menu cũ nếu có
+  const oldMenu = document.getElementById('robot-context-menu');
+  if (oldMenu) oldMenu.remove();
+  
+  // Tạo menu mới
+  const menu = document.createElement('div');
+  menu.id = 'robot-context-menu';
+  menu.style.position = 'fixed';
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+  menu.style.backgroundColor = 'white';
+  menu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+  menu.style.borderRadius = '4px';
+  menu.style.padding = '5px 0';
+  menu.style.zIndex = '1000';
+  
+  // Tạo các menu item
+  const items = [
+    { text: 'Thay đổi hình ảnh robot', action: changeRobotImage },
+    { text: 'Về vị trí trung tâm', action: centerRobot },
+    { text: 'Đặt lại góc quay', action: resetRobotAngle },
+    { text: 'Bật/tắt chế độ kéo', action: toggleRobotDrag }
+  ];
+  
+  items.forEach(item => {
+    const menuItem = document.createElement('div');
+    menuItem.textContent = item.text;
+    menuItem.style.padding = '8px 15px';
+    menuItem.style.cursor = 'pointer';
+    
+    // Hover effect
+    menuItem.addEventListener('mouseover', function() {
+      this.style.backgroundColor = '#f0f0f0';
     });
+    
+    menuItem.addEventListener('mouseout', function() {
+      this.style.backgroundColor = 'transparent';
+    });
+    
+    // Click action
+    menuItem.addEventListener('click', function() {
+      document.getElementById('robot-context-menu').remove();
+      item.action();
+    });
+    
+    menu.appendChild(menuItem);
+  });
+  
+  // Thêm menu vào body
+  document.body.appendChild(menu);
+  
+  // Đóng menu khi nhấp ra ngoài
+  setTimeout(() => {
+    document.addEventListener('click', function closeMenu(e) {
+      if (!menu.contains(e.target)) {
+        menu.remove();
+        document.removeEventListener('click', closeMenu);
+      }
+    });
+  }, 0);
+}
+
+// Thay đổi hình ảnh robot
+function changeRobotImage() {
+  // Tạo input file ẩn
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  
+  // Xử lý khi chọn file
+  input.onchange = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      // Cập nhật hình ảnh robot
+      robot.src = event.target.result;
+      
+      // Lưu hình ảnh vào localStorage
+      try {
+        localStorage.setItem('robotImage', event.target.result);
+      } catch (e) {
+        console.error('Không thể lưu hình ảnh (quá lớn):', e);
+      }
+      
+      showNotification('Đã thay đổi hình ảnh robot', 'success');
+    };
+    
+    reader.readAsDataURL(file);
+  };
+  
+  // Trigger click để mở dialog chọn file
+  input.click();
+}
+
+// Đặt lại góc quay
+function resetRobotAngle() {
+  saveToHistory();
+  robotAngle = 0;
+  updateRobotPosition();
+  showNotification('Đã đặt lại góc quay về 0°', 'success');
+}
+
+// Khởi phục dữ liệu từ localStorage
+function restoreDataFromLocalStorage() {
+  // Khôi phục theme
+  const darkMode = localStorage.getItem('darkMode') === 'true';
+  if (darkMode) {
+    document.body.classList.add('dark-mode');
+    document.getElementById('theme-text').textContent = 'Chế độ sáng';
+  }
+  
+  // Khôi phục hình ảnh robot
+  const robotImage = localStorage.getItem('robotImage');
+  if (robotImage) {
+    robot.src = robotImage;
+  }
+  
+  // Khôi phục tỷ lệ
+  const savedScale = localStorage.getItem('cmPerPixel');
+  if (savedScale) {
+    cmPerPixel = parseFloat(savedScale);
+  }
+  
+  // Khôi phục kích thước robot
+  const savedRobotSize = localStorage.getItem('robotSize');
+  if (savedRobotSize) {
+    robotSize = parseInt(savedRobotSize);
+    robotSizeSlider.value = robotSize;
+    robot.style.width = robotSize + 'px';
+    sizeDisplay.textContent = robotSize + 'px';
+  }
+  
+  // Khôi phục kích thước map
+  const savedMapSize = localStorage.getItem('mapSize');
+  if (savedMapSize) {
+    mapSize = parseInt(savedMapSize);
+    mapSizeSlider.value = mapSize;
+    map.style.width = mapSize + '%';
+    map.style.height = 'auto';
+    mapSizeDisplay.textContent = mapSize + '%';
+  }
+  
+  // Khôi phục vị trí map
+  const savedMapX = localStorage.getItem('mapPositionX');
+  const savedMapY = localStorage.getItem('mapPositionY');
+  
+  if (savedMapX) {
+    mapPositionX = parseInt(savedMapX);
+    mapPositionXSlider.value = mapPositionX;
+    mapPositionXDisplay.textContent = mapPositionX;
+  }
+  
+  if (savedMapY) {
+    mapPositionY = parseInt(savedMapY);
+    mapPositionYSlider.value = mapPositionY;
+    mapPositionYDisplay.textContent = mapPositionY;
+  }
+  
+  if (savedMapX || savedMapY) {
+    map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
+  }
+  
+  // Khôi phục phép đảo
+  const savedInvertVertical = localStorage.getItem('invertVertical') === 'true';
+  const savedInvertHorizontal = localStorage.getItem('invertHorizontal') === 'true';
+  
+  if (savedInvertVertical) {
+    invertVertical = true;
+    document.getElementById('toggle-vertical').classList.add('active');
+  }
+  
+  if (savedInvertHorizontal) {
+    invertHorizontal = true;
+    document.getElementById('toggle-horizontal').classList.add('active');
+  }
+}
+
+// Lưu các thiết lập khi window unload
+window.addEventListener('beforeunload', function() {
+  localStorage.setItem('robotSize', robotSize);
+  localStorage.setItem('cmPerPixel', cmPerPixel);
+  localStorage.setItem('mapSize', mapSize);
+  localStorage.setItem('mapPositionX', mapPositionX);
+  localStorage.setItem('mapPositionY', mapPositionY);
+  localStorage.setItem('invertVertical', invertVertical);
+  localStorage.setItem('invertHorizontal', invertHorizontal);
+});
+
+// Tạo hình ảnh path tracing khi robot di chuyển
+function traceRobotPath(fromX, fromY, toX, toY) {
+  if (!showPath) return;
+  
+  // Tạo đường dẫn
+  const pathTrace = document.createElement('div');
+  pathTrace.className = 'path-trace';
+  pathTrace.style.position = 'absolute';
+  
+  // Tính toán độ dài và góc của đường
+  const dx = toX - fromX;
+  const dy = toY - fromY;
+  const length = Math.sqrt(dx * dx + dy * dy);
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+  
+  // Thiết lập style cho đường dẫn
+  pathTrace.style.width = length + 'px';
+  pathTrace.style.height = '2px';
+  pathTrace.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
+  pathTrace.style.transformOrigin = '0 0';
+  pathTrace.style.transform = `translate(${fromX}px, ${fromY}px) rotate(${angle}deg)`;
+  
+  // Thêm vào map container
+  mapContainer.appendChild(pathTrace);
+  
+  // Tự động xóa sau một khoảng thời gian
+  setTimeout(() => {
+    if (pathTrace.parentNode) {
+      pathTrace.style.opacity = '0';
+      setTimeout(() => {
+        if (pathTrace.parentNode) {
+          pathTrace.parentNode.removeChild(pathTrace);
+        }
+      }, 500);
+    }
+  }, 3000);
+}
+
+// Thêm hiệu ứng khi di chuyển robot
+function animateRobotMovement(fromX, fromY, toX, toY, callback) {
+  const startTime = Date.now();
+  const duration = 300; // Thời gian di chuyển (ms)
+  
+  function animate() {
+    const currentTime = Date.now();
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Sử dụng hàm easing để tạo hiệu ứng mượt mà
+    const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease-out
+    
+    // Tính toán vị trí mới
+    robotX = fromX + (toX - fromX) * easeProgress;
+    robotY = fromY + (toY - fromY) * easeProgress;
+    
+    // Cập nhật vị trí
+    updateRobotPosition();
+    
+    // Tiếp tục animation nếu chưa hoàn thành
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      // Gọi callback khi hoàn thành
+      if (callback) callback();
+    }
+  }
+  
+  animate();
+}
+
+// Chuyển đổi tọa độ pixel sang cm và ngược lại
+function pixelToCm(pixels) {
+  return pixels * cmPerPixel;
+}
+
+function cmToPixel(cm) {
+  return cm / cmPerPixel;
+}
+
+// Cập nhật tỷ lệ cm/pixel
+function updateScale(newScale) {
+  // Lưu trạng thái hiện tại để undo
+  saveToHistory();
+  
+  // Lưu vị trí hiện tại theo cm
+  const currentXcm = robotX * cmPerPixel;
+  const currentYcm = robotY * cmPerPixel;
+  
+  // Cập nhật tỷ lệ mới
+  cmPerPixel = newScale;
+  
+  // Cập nhật vị trí robot theo tỷ lệ mới
+  robotX = currentXcm / cmPerPixel;
+  robotY = currentYcm / cmPerPixel;
+  
+  // Cập nhật hiển thị
+  updateRobotPosition();
+  updateDisplay();
+  
+  showNotification(`Đã thay đổi tỷ lệ thành ${cmPerPixel.toFixed(2)} cm/pixel`, 'success');
+}
+
+// Thêm dialog đặt tỷ lệ
+function showScaleDialog() {
+  // Tạo modal
+  const scaleModal = document.createElement('div');
+  scaleModal.className = 'modal-overlay active';
+  scaleModal.innerHTML = `
+    <div class="modal-dialog">
+      <h4 style="color: var(--primary-color);">Đặt tỷ lệ cm/pixel</h4>
+      <p>Tỷ lệ hiện tại: <strong>${cmPerPixel.toFixed(2)} cm/pixel</strong></p>
+      
+      <div style="margin: 15px 0;">
+        <label for="scale-input" style="display: block; margin-bottom: 5px;">Tỷ lệ mới:</label>
+        <input type="number" id="scale-input" step="0.1" min="0.1" value="${cmPerPixel.toFixed(1)}" style="width: 100%; padding: 8px;">
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="secondary" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
+        <button class="primary" onclick="updateScaleFromDialog(this)">Áp dụng</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(scaleModal);
+  setTimeout(() => document.getElementById('scale-input').focus(), 100);
+}
+
+// Cập nhật tỷ lệ từ dialog
+function updateScaleFromDialog(button) {
+  const input = button.closest('.modal-dialog').querySelector('#scale-input');
+  const newScale = parseFloat(input.value);
+  
+  if (isNaN(newScale) || newScale <= 0) {
+    showNotification('Vui lòng nhập giá trị hợp lệ', 'error');
+    return;
+  }
+  
+  updateScale(newScale);
+  button.closest('.modal-overlay').remove();
+}
+
+// Tính toán vùng nhìn thấy hiện tại
+function calculateViewport() {
+  const mapRect = map.getBoundingClientRect();
+  const containerRect = mapContainer.getBoundingClientRect();
+  
+  return {
+    left: (containerRect.left - mapRect.left) / cmPerPixel,
+    top: (containerRect.top - mapRect.top) / cmPerPixel,
+    right: (containerRect.right - mapRect.left) / cmPerPixel,
+    bottom: (containerRect.bottom - mapRect.top) / cmPerPixel,
+    width: containerRect.width / cmPerPixel,
+    height: containerRect.height / cmPerPixel
+  };
+}
+
+// Chức năng export ảnh chụp màn hình
+function captureScreenshot() {
+  // Sử dụng html2canvas để chụp map container
+  html2canvas(mapContainer).then(canvas => {
+    // Tạo link tải xuống
+    const link = document.createElement('a');
+    link.download = 'robot-map-screenshot.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    
+    showNotification('Đã tạo ảnh chụp màn hình', 'success');
+  }).catch(err => {
+    console.error('Lỗi khi chụp màn hình:', err);
+    showNotification('Có lỗi khi tạo ảnh chụp màn hình', 'error');
+  });
+}
+
+// Chức năng báo cáo thông tin hệ thống
+function showSystemInfo() {
+  const infoModal = document.createElement('div');
+  infoModal.className = 'modal-overlay active';
+  infoModal.innerHTML = `
+    <div class="modal-dialog" style="width: 500px;">
+      <h4 style="color: var(--primary-color);">Thông tin hệ thống</h4>
+      
+      <div style="margin: 10px 0; max-height: 300px; overflow-y: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Trình duyệt:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${navigator.userAgent}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Độ phân giải màn hình:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${window.screen.width} x ${window.screen.height}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Kích thước cửa sổ:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${window.innerWidth} x ${window.innerHeight}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Kích thước map:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${map.offsetWidth} x ${map.offsetHeight} px</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Tỷ lệ hiện tại:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${cmPerPixel.toFixed(2)} cm/pixel</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Vị trí robot:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">X: ${(robotX * cmPerPixel).toFixed(1)} cm, Y: ${(robotY * cmPerPixel).toFixed(1)} cm</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Góc quay:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${robotAngle.toFixed(1)}°</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Kích thước robot:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${robotSize} px</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Vị trí map:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">X: ${mapPositionX}%, Y: ${mapPositionY}%</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">LocalStorage:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${(JSON.stringify(localStorage).length / 1024).toFixed(2)} KB</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="primary" onclick="this.closest('.modal-overlay').remove()">Đóng</button>
+        <button class="secondary" onclick="copySystemInfo(this)">Sao chép</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(infoModal);
+}
+
+// Sao chép thông tin hệ thống
+function copySystemInfo(button) {
+  const tableRows = button.closest('.modal-dialog').querySelectorAll('table tr');
+  let text = '';
+  
+  tableRows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    text += `${cells[0].textContent.replace(':', '')} ${cells[1].textContent}\n`;
+  });
+  
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification('Đã sao chép thông tin hệ thống vào clipboard', 'success');
+  }).catch(err => {
+    console.error('Lỗi khi sao chép:', err);
+    showNotification('Có lỗi khi sao chép thông tin', 'error');
+  });
+}
+
+// Thêm menu "Trợ giúp" vào header
+function addHelpMenu() {
+  const headerControls = document.getElementById('header-controls');
+  
+  const helpButton = document.createElement('div');
+  helpButton.className = 'header-button';
+  helpButton.textContent = 'Trợ giúp';
+  helpButton.style.position = 'relative';
+  helpButton.style.cursor = 'pointer';
+  
+  const helpMenu = document.createElement('div');
+  helpMenu.style.position = 'absolute';
+  helpMenu.style.top = '100%';
+  helpMenu.style.right = '0';
+  helpMenu.style.backgroundColor = 'white';
+  helpMenu.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+  helpMenu.style.borderRadius = '4px';
+  helpMenu.style.padding = '5px 0';
+  helpMenu.style.display = 'none';
+  helpMenu.style.zIndex = '1000';
+  helpMenu.style.minWidth = '180px';
+  
+  // Các mục trong menu
+  const menuItems = [
+    { text: 'Phím tắt (F1)', action: showKeyboardShortcutsHelp },
+    { text: 'Đặt tỷ lệ cm/pixel', action: showScaleDialog },
+    { text: 'Chụp màn hình', action: captureScreenshot },
+    { text: 'Thông tin hệ thống', action: showSystemInfo },
+    { text: 'Về ứng dụng', action: showAboutDialog }
+  ];
+  
+  menuItems.forEach(item => {
+    const menuItem = document.createElement('div');
+    menuItem.textContent = item.text;
+    menuItem.style.padding = '8px 15px';
+    menuItem.style.cursor = 'pointer';
+    
+    // Hover effect
+    menuItem.addEventListener('mouseover', function() {
+      this.style.backgroundColor = '#f0f0f0';
+    });
+    
+    menuItem.addEventListener('mouseout', function() {
+      this.style.backgroundColor = 'transparent';
+    });
+    
+    // Click action
+    menuItem.addEventListener('click', function() {
+      helpMenu.style.display = 'none';
+      item.action();
+    });
+    
+    helpMenu.appendChild(menuItem);
+  });
+  
+  // Toggle menu khi click
+  helpButton.addEventListener('click', function(e) {
+    e.stopPropagation();
+    helpMenu.style.display = helpMenu.style.display === 'none' ? 'block' : 'none';
+  });
+  
+  // Đóng menu khi click ra ngoài
+  document.addEventListener('click', function() {
+    helpMenu.style.display = 'none';
+  });
+  
+  helpButton.appendChild(helpMenu);
+  headerControls.appendChild(helpButton);
+}
+
+// Hiển thị dialog About
+function showAboutDialog() {
+  const aboutModal = document.createElement('div');
+  aboutModal.className = 'modal-overlay active';
+  aboutModal.innerHTML = `
+    <div class="modal-dialog">
+      <h4 style="color: var(--primary-color);">Về ứng dụng</h4>
+      <p style="text-align: center; margin: 20px 0;">Robot Map Interface</p>
+      <p style="text-align: center; margin: 10px 0;">Phiên bản 1.0</p>
+      <p style="text-align: center; margin: 10px 0;">© 2025 - Bản quyền thuộc về tác giả</p>
+      
+      <div class="modal-buttons">
+        <button class="primary" onclick="this.closest('.modal-overlay').remove()">Đóng</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(aboutModal);
+}
+
+// Thêm phím tắt và menu trợ giúp khi trang đã tải xong
+document.addEventListener('DOMContentLoaded', function() {
+  // Khởi phục dữ liệu từ localStorage
+  restoreDataFromLocalStorage();
+  
+  // Thêm menu trợ giúp
+  addHelpMenu();
+  
+  // Hiển thị thông báo chào mừng
+  setTimeout(() => {
+    showNotification('Chào mừng đến với Robot Map Interface!', 'success');
+  }, 1000);
+});
+
   </script>
 </body>
 </html>

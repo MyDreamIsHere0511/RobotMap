@@ -149,53 +149,6 @@
       height: 100%;
       padding-top: 40px; /* Để tránh bị header che */
     }
-
-    /* Settings dropdown menu */
-#settings-dropdown {
-  position: absolute;
-  top: 45px;
-  right: 120px;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  z-index: 1001;
-  overflow: hidden;
-  display: none;
-  min-width: 200px;
-}
-
-.dark-mode #settings-dropdown {
-  background-color: var(--dark-bg);
-  color: var(--text-light);
-}
-
-#settings-dropdown .settings-header {
-  padding: 10px 15px;
-  border-bottom: 1px solid var(--border-color);
-  font-weight: 500;
-}
-
-#settings-dropdown .settings-option {
-  padding: 10px 15px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#settings-dropdown .settings-option:hover {
-  background-color: rgba(0,0,0,0.05);
-}
-
-.dark-mode #settings-dropdown .settings-option:hover {
-  background-color: rgba(255,255,255,0.05);
-}
-
-.settings-option i {
-  width: 16px;
-  text-align: center;
-}
     
     #sidebar {
       width: 320px;
@@ -299,11 +252,6 @@
     #coordinates-display div {
       margin: 2px 0;
     }
-
-    #coordinates-display.draggable {
-  cursor: move;
-  box-shadow: 0 0 0 2px var(--accent-color);
-}
     
     /* Mini-map display */
     #mini-map-container {
@@ -325,11 +273,6 @@
       height: 100%;
       position: relative;
     }
-
-    #mini-map-container.draggable {
-  cursor: move;
-  box-shadow: 0 0 0 2px var(--accent-color);
-}
     
     #mini-map-indicator {
       position: absolute;
@@ -376,14 +319,13 @@
     }
     
     #robot {
-  position: absolute;
-  width: 50px; /* Kích thước mặc định */
-  transform-origin: center center; /* Đảm bảo robot quay từ tâm */
-  transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
-  user-select: none;
-  transform: translate(-50%, -50%); /* Canh chỉnh để robot nằm đúng tâm */
-}
+      position: absolute;
+      width: 50px; /* Kích thước mặc định */
+      transform-origin: center center;
+      transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
+      user-select: none;
+    }
     
     /* Waypoint markers */
     .waypoint-marker {
@@ -398,20 +340,6 @@
       cursor: pointer;
       box-shadow: 0 0 5px rgba(0,0,0,0.5);
     }
-
-    /* Robot center point (red dot) */
-#robot-center {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border: 2px solid white;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 6;
-  cursor: nwse-resize;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
     
     .waypoint-marker:hover {
       background-color: #e67e22;
@@ -1239,9 +1167,6 @@
     <div id="header-controls">
       <button id="toggle-grid-btn" class="header-button">Hiện/Ẩn Lưới</button>
       <button id="add-waypoint-btn" class="header-button">Đánh Dấu Điểm</button>
-      <button id="settings-button" class="header-button">
-        <i class="fas fa-cog"></i> Cài đặt
-      </button>
       <div class="theme-toggle" onclick="toggleTheme()">
         <span id="theme-text">Chế độ tối</span>
         <div class="toggle-switch"></div>
@@ -1250,18 +1175,6 @@
   </div>
   
   <div id="main-container">
-      <!-- Settings dropdown menu -->
-    <div id="settings-dropdown">
-      <div class="settings-header">Cài đặt</div>
-      <div class="settings-option" id="adjust-positions">
-        <i class="fas fa-arrows-alt"></i>
-        <span>Điều chỉnh vị trí</span>
-      </div>
-    <div class="settings-option" id="toggle-mini-map">
-      <i class="fas fa-map"></i>
-      <span>Ẩn/Hiện Mini Map</span>
-    </div>
-  </div>
     <div id="sidebar">
       <!-- Phân khu 1: Điều khiển trực tiếp -->
       <div id="control-panel" class="panel-section">
@@ -1296,10 +1209,6 @@
         <div class="rotation-controls">
           <button onclick="rotate(-5)" title="Quay trái 5 độ (Q)">⟲ Quay trái</button>
           <button onclick="rotate(5)" title="Quay phải 5 độ (E)">⟳ Quay phải</button>
-          <label>
-            Góc quay (độ)
-            <input type="number" id="rotation-angle-input" min="1" max="180" value="45">
-          </label>
           <button onclick="centerRobot()" title="Đặt robot về vị trí trung tâm (R)">⟴ Về giữa</button>
         </div>
         
@@ -1520,7 +1429,6 @@
         <div id="robot-container">
           <img id="robot" src="robot.png" alt="Robot">
           <div class="resize-handle" id="robot-resize-handle"></div>
-          <div id="robot-center"></div>
         </div>
         
         <!-- Tọa độ chuột hiện tại -->
@@ -1578,7 +1486,6 @@
     let robotX = 0; // Vị trí X hiện tại (px)
     let robotY = 0; // Vị trí Y hiện tại (px)
     let robotAngle = 0; // Góc quay hiện tại (độ)
-    let robotScale = 1;
     let stepSize = 1; // Bước di chuyển (cm)
     let cmPerPixel = 1; // Tỷ lệ cm/pixel
     let invertVertical = false; // Đảo chiều trên/dưới
@@ -1603,14 +1510,6 @@
     let mapPositionX = 0; // Vị trí X của map
     let mapPositionY = 0; // Vị trí Y của map
     let verticalMapMoveAllowed = false; // Cho phép di chuyển map lên/xuống
-
-    // Biến cho chức năng UI điều chỉnh
-    let adjustPositionsMode = false;
-    let isDraggingMiniMap = false;
-    let isDraggingCoordinates = false;
-    let dragStartX, dragStartY;
-    let miniMapStartLeft, miniMapStartTop;
-    let coordStartLeft, coordStartTop;
     
     // Lưu trữ lịch sử
     const historyStack = [];
@@ -1960,59 +1859,6 @@
       document.getElementById('map-vertical-move').addEventListener('change', function() {
         toggleMapVerticalMovement();
       });
-      // Xử lý setting dropdown
-      document.getElementById('settings-button').addEventListener('click', function(e) {
-        e.stopPropagation();
-        const dropdown = document.getElementById('settings-dropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-      });
-
-      document.addEventListener('click', function(e) {
-        const settingsButton = document.getElementById('settings-button');
-        const settingsDropdown = document.getElementById('settings-dropdown');
-        if (e.target !== settingsButton && !settingsDropdown.contains(e.target)) {
-          settingsDropdown.style.display = 'none';
-        }
-      });
-
-      // Di chuyển mini-map
-      miniMapContainer.addEventListener('mousedown', function(e) {
-        if (adjustPositionsMode) {
-          handleMiniMapDrag(e);
-        }
-      });
-
-      // Di chuyển hiển thị tọa độ
-      coordinatesDisplay.addEventListener('mousedown', function(e) {
-        if (adjustPositionsMode) {
-          handleCoordinatesDrag(e);
-        }
-      });
-
-      // Xử lý mouse move và up cho drag
-      document.addEventListener('mousemove', function(e) {
-        handleMiniMapDrag(e);
-        handleCoordinatesDrag(e);
-      });
-
-      document.addEventListener('mouseup', function() {
-        isDraggingMiniMap = false;
-        isDraggingCoordinates = false;
-      });
-
-      // Thêm xử lý event cho adjust-positions
-      document.getElementById('adjust-positions').addEventListener('click', function() {
-        toggleAdjustPositionsMode();
-        document.getElementById('settings-dropdown').style.display = 'none';
-      });
-
-      // Thêm xử lý event cho toggle-mini-map
-      document.getElementById('toggle-mini-map').addEventListener('click', function() {
-        const isVisible = miniMapContainer.style.display !== 'none';
-        miniMapContainer.style.display = isVisible ? 'none' : 'block';
-        document.getElementById('settings-dropdown').style.display = 'none';
-        showNotification(isVisible ? 'Đã ẩn Mini Map' : 'Đã hiện Mini Map', 'info');
-      });
     }
     
     // Điều khiển robot
@@ -2056,30 +1902,14 @@
     }
     
     // Xoay robot
-    // Đây là vị trí của hàm rotate() trong code của bạn, khoảng line 3122
-    function rotate(direction) {
+    function rotate(angle) {
       // Lưu trạng thái hiện tại để undo
       saveToHistory();
       
-      // Lấy góc xoay từ input
-      const angle = parseInt(document.getElementById('rotation-angle-input').value) || 45;
-      
-      // Xoay robot
-      if (direction === -1 || direction === 'left') {
-        robotAngle -= angle;
-      } else if (direction === 1 || direction === 'right') {
-        robotAngle += angle;
-      } else if (typeof direction === 'number') {
-        // Hỗ trợ ngược với cách gọi cũ (rotate(5), rotate(-5))
-        robotAngle += direction;
-      }
-      
-      // Chuẩn hóa góc về khoảng [0, 360)
-      robotAngle = (robotAngle + 360) % 360;
+      robotAngle = (robotAngle + angle) % 360;
+      if (robotAngle < 0) robotAngle += 360;
       
       updateRobotPosition();
-      // Xóa dòng dưới đây vì không cần thiết, thông tin đã được cập nhật trong updateRobotPosition
-      // updateInfoPanel();
     }
     
     // Xoay tròn robot
@@ -2146,86 +1976,21 @@
         showNotification('Tọa độ nằm ngoài giới hạn của map', 'error');
       }
     }
-
-    // Bật/tắt chế độ điều chỉnh vị trí
-function toggleAdjustPositionsMode() {
-  adjustPositionsMode = !adjustPositionsMode;
-  
-  if (adjustPositionsMode) {
-    // Bật chế độ di chuyển
-    coordinatesDisplay.classList.add('draggable');
-    miniMapContainer.classList.add('draggable');
-    showNotification('Đã bật chế độ điều chỉnh vị trí. Bạn có thể kéo các thành phần để di chuyển.', 'info');
-  } else {
-    // Tắt chế độ di chuyển
-    coordinatesDisplay.classList.remove('draggable');
-    miniMapContainer.classList.remove('draggable');
-    showNotification('Đã tắt chế độ điều chỉnh vị trí', 'info');
-  }
-}
-
-// Xử lý kéo di chuyển mini-map
-function handleMiniMapDrag(e) {
-  if (!adjustPositionsMode) return;
-  
-  if (e.type === 'mousedown') {
-    isDraggingMiniMap = true;
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    miniMapStartLeft = parseInt(window.getComputedStyle(miniMapContainer).left);
-    miniMapStartTop = parseInt(window.getComputedStyle(miniMapContainer).top);
-  } else if (e.type === 'mousemove' && isDraggingMiniMap) {
-    const dx = e.clientX - dragStartX;
-    const dy = e.clientY - dragStartY;
-    
-    miniMapContainer.style.left = `${miniMapStartLeft + dx}px`;
-    miniMapContainer.style.top = `${miniMapStartTop + dy}px`;
-  } else if (e.type === 'mouseup') {
-    isDraggingMiniMap = false;
-  }
-}
-
-// Xử lý kéo di chuyển hiển thị tọa độ
-function handleCoordinatesDrag(e) {
-  if (!adjustPositionsMode) return;
-  
-  if (e.type === 'mousedown') {
-    isDraggingCoordinates = true;
-    dragStartX = e.clientX;
-    dragStartY = e.clientY;
-    coordStartLeft = parseInt(window.getComputedStyle(coordinatesDisplay).left);
-    coordStartTop = parseInt(window.getComputedStyle(coordinatesDisplay).top);
-  } else if (e.type === 'mousemove' && isDraggingCoordinates) {
-    const dx = e.clientX - dragStartX;
-    const dy = e.clientY - dragStartY;
-    
-    coordinatesDisplay.style.left = `${coordStartLeft + dx}px`;
-    coordinatesDisplay.style.top = `${coordStartTop + dy}px`;
-  } else if (e.type === 'mouseup') {
-    isDraggingCoordinates = false;
-  }
-}
     
     // Cập nhật vị trí robot trên giao diện
     function updateRobotPosition() {
-  robotContainer.style.left = robotX + 'px';
-  robotContainer.style.top = robotY + 'px';
-  robot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg) scale(${robotScale})`;
-  
-  // Cập nhật vị trí điểm trung tâm
-  if (document.getElementById('robot-center')) {
-    document.getElementById('robot-center').style.left = '0px';  // Luôn ở trung tâm
-    document.getElementById('robot-center').style.top = '0px';   // Luôn ở trung tâm
-  }
-  
-  // Cập nhật thông tin hiển thị
-  document.getElementById('current-x').textContent = (robotX * cmPerPixel).toFixed(1);
-  document.getElementById('current-y').textContent = (robotY * cmPerPixel).toFixed(1);
-  document.getElementById('current-angle').textContent = robotAngle.toFixed(0);
-  
-  // Cập nhật vị trí robot trên mini-map
-  updateMiniMap();
-}
+      robotContainer.style.left = robotX + 'px';
+      robotContainer.style.top = robotY + 'px';
+      robot.style.transform = `rotate(${robotAngle}deg) translate(-50%, -50%)`;
+      
+      // Cập nhật thông tin hiển thị
+      document.getElementById('current-x').textContent = (robotX * cmPerPixel).toFixed(1);
+      document.getElementById('current-y').textContent = (robotY * cmPerPixel).toFixed(1);
+      document.getElementById('current-angle').textContent = robotAngle.toFixed(0);
+      
+      // Cập nhật vị trí robot trên mini-map
+      updateMiniMap();
+    }
     
     // Cập nhật hiển thị tổng thể
     function updateDisplay() {
@@ -2614,7 +2379,6 @@ function handleCoordinatesDrag(e) {
       }
       
       robotSize = size;
-      robotScale = size / 50; // Tính toán tỷ lệ dựa trên kích thước mặc định 50px
       robot.style.width = size + 'px';
       sizeDisplay.textContent = size + 'px';
       

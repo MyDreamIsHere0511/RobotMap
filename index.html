@@ -104,6 +104,60 @@
       background-color: rgba(255,255,255,0.3);
     }
     
+    /* Thêm icon setting */
+    .header-button i {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+    
+    /* Settings menu */
+    #settings-menu {
+      position: absolute;
+      top: 45px;
+      right: 10px;
+      background-color: white;
+      border-radius: 4px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      min-width: 200px;
+      z-index: 1000;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .dark-mode #settings-menu {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+    
+    #settings-menu .settings-header {
+      padding: 12px 15px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    #settings-menu .settings-option {
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    
+    #settings-menu .settings-option:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode #settings-menu .settings-option:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    #settings-menu .settings-option i {
+      margin-right: 8px;
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+    
     .theme-toggle {
       display: flex;
       align-items: center;
@@ -234,7 +288,7 @@
       background-color: rgba(0, 0, 255, 0.3);
     }
     
-    /* Coordinate display */
+    /* Coordinate display - Thêm thuộc tính draggable */
     #coordinates-display {
       position: absolute;
       bottom: 20px;
@@ -258,7 +312,7 @@
       margin: 2px 0;
     }
     
-    /* Mini-map display */
+    /* Mini-map display - Thêm thuộc tính draggable */
     #mini-map-container {
       position: absolute;
       bottom: 20px;
@@ -331,10 +385,24 @@
     #robot {
       position: absolute;
       width: 50px; /* Kích thước mặc định */
-      transform-origin: center center;
+      transform-origin: center center; /* Quay từ tâm, theo yêu cầu */
       transition: transform 0.1s linear, left 0.1s linear, top 0.1s linear;
       filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
       user-select: none;
+    }
+    
+    /* Điểm chấm đỏ ở tâm robot */
+    #robot-center {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ff0000;
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      cursor: nwse-resize;
+      box-shadow: 0 0 3px rgba(0,0,0,0.5);
     }
     
     /* Waypoint markers */
@@ -371,344 +439,159 @@
       user-select: none;
     }
     
-    /* Angle visualization */
-    .angle-point {
+    /* Marker context menu */
+    #marker-context-menu {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background-color: #3498db;
-      border: 2px solid white;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      cursor: pointer;
-    }
-    
-    .angle-path {
-      position: absolute;
-      border: 2px solid #3498db;
-      z-index: 4;
-      pointer-events: none;
-    }
-    
-    .angle-arc {
-      position: absolute;
-      border: 2px solid #3498db;
-      border-radius: 50%;
-      z-index: 4;
-      pointer-events: none;
-    }
-    
-    .angle-display {
-      position: absolute;
-      background-color: rgba(52, 152, 219, 0.8);
-      color: white;
-      padding: 2px 5px;
-      border-radius: 3px;
-      font-size: 12px;
-      transform: translate(-50%, -50%);
-      z-index: 6;
-      pointer-events: none;
-    }
-    
-    .angle-value-display {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 4px;
-      font-size: 14px;
-      z-index: 1000;
       display: none;
-    }
-    
-    /* Line drawing */
-    .line-point {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background-color: #e74c3c;
-      border: 2px solid white;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      cursor: pointer;
-    }
-    
-    .line-path {
-      position: absolute;
-      height: 2px;
-      background-color: #e74c3c;
-      transform-origin: left center;
-      z-index: 4;
-    }
-    
-    .line-length {
-      position: absolute;
-      background-color: rgba(231, 76, 60, 0.8);
-      color: white;
-      padding: 2px 5px;
-      border-radius: 3px;
-      font-size: 12px;
-      transform: translate(-50%, -50%);
-      z-index: 6;
-      pointer-events: none;
-    }
-    
-    /* Settings panel */
-    .setting-description {
-      font-size: 0.9em;
-      color: var(--text-dark);
-      margin-bottom: 10px;
-    }
-    
-    .setting-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .setting-button {
-      padding: 8px 12px;
-      background-color: var(--light-bg);
-      border: 1px solid var(--border-color);
+      background-color: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
       border-radius: 4px;
+      z-index: 1000;
+      min-width: 180px;
+    }
+    
+    .dark-mode #marker-context-menu {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+    
+    .marker-context-option {
+      padding: 8px 15px;
       cursor: pointer;
-      color: var(--text-dark);
       transition: background-color 0.2s;
     }
     
-    .setting-button:hover {
-      background-color: rgba(52, 152, 219, 0.1);
+    .marker-context-option:hover {
+      background-color: rgba(0,0,0,0.05);
     }
     
-    .setting-button.active {
-      background-color: var(--primary-color);
-      color: white;
-    }
-    /* Resize handle for robot */
-    #robot-resize-handle {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background-color: #ff0000;
-      border: 2px solid white;
-      border-radius: 50%;
-      cursor: nwse-resize;
-      z-index: 6;
-      box-shadow: 0 0 3px rgba(0,0,0,0.5);
+    .dark-mode .marker-context-option:hover {
+      background-color: rgba(255,255,255,0.05);
     }
     
-    /* Settings menu */
-    #settings-menu {
-      position: absolute;
-      width: 250px;
-      background-color: var(--light-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-      padding: 15px;
-      display: none;
-    }
-    
-    #settings-menu h3 {
-      margin-top: 0;
-      padding-bottom: 10px;
+    /* Phân khu 1: Điều khiển */
+    .panel-section {
+      padding: 12px;
       border-bottom: 1px solid var(--border-color);
-    }
-    
-    .settings-option {
-      margin-bottom: 15px;
-    }
-    
-    .settings-option button {
-      padding: 8px 12px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-    }
-    
-    .settings-option button:hover {
-      background-color: #2980b9;
-    }
-    
-    /* Marker menu */
-    #marker-menu {
-      position: absolute;
-      width: 250px;
-      background-color: var(--light-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-      padding: 15px;
-      display: none;
-    }
-    
-    #marker-menu h3 {
-      margin-top: 0;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
-    }
-    
-    .marker-option {
-      margin-bottom: 15px;
-    }
-    
-    .marker-option button {
-      padding: 8px 12px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-    }
-    
-    .marker-option button:hover {
-      background-color: #2980b9;
-    }
-    
-    .submenu {
-      margin-left: 20px;
-      margin-top: 10px;
-      display: none;
-    }
-    
-    .submenu button {
-      background-color: #34495e;
-    }
-    
-    .submenu button:hover {
-      background-color: #2c3e50;
-    }
-    
-    /* Angle display box */
-    #angle-display-box {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(0,0,0,0.7);
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      z-index: 100;
-      display: none;
-    }
-    
-    /* Control panels in sidebar */
-    .control-panel {
-      border-bottom: 1px solid var(--border-color);
-      padding: 15px;
       transition: var(--theme-transition);
     }
     
-    .control-panel:last-child {
-      border-bottom: none;
-    }
-    
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
-    
-    .panel-header h2 {
-      margin: 0;
-      font-size: 1.2em;
-      color: var(--text-dark);
-      transition: var(--theme-transition);
-    }
-    
-    .panel-collapse-icon {
-      transition: transform 0.3s;
-    }
-    
-    .panel-header.collapsed .panel-collapse-icon {
-      transform: rotate(-90deg);
-    }
-    
-    .panel-content {
-      overflow: hidden;
-      transition: max-height 0.3s;
-      max-height: 1000px; /* A large value to ensure content fits */
-    }
-    
-    .panel-header.collapsed + .panel-content {
-      max-height: 0;
-    }
-    
-    .control-group {
-      margin-bottom: 15px;
-    }
-    
-    .control-group:last-child {
-      margin-bottom: 0;
-    }
-    
-    .control-label {
-      display: block;
-      margin-bottom: 5px;
+    .panel-section-title {
+      margin: 0 0 10px 0;
+      color: var(--primary-color);
       font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .controls-title {
+      margin: 8px 0;
       color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       transition: var(--theme-transition);
     }
     
-    .control-buttons {
+    .history-controls {
       display: flex;
-      flex-wrap: wrap;
       gap: 5px;
     }
     
-    .control-button {
-      flex: 1;
-      min-width: 60px;
-      padding: 8px 10px;
+    .history-controls button {
+      padding: 4px 8px;
       background-color: var(--light-bg);
       border: 1px solid var(--border-color);
       border-radius: 4px;
       cursor: pointer;
       color: var(--text-dark);
-      transition: background-color 0.2s, color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9em;
+      transition: var(--theme-transition);
     }
     
-    .control-button:hover {
-      background-color: rgba(52, 152, 219, 0.1);
-    }
-    
-    .control-button.active {
+    .history-controls button:hover:not(:disabled) {
       background-color: var(--primary-color);
       color: white;
     }
     
-    .input-group {
+    .history-controls button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .movement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .movement-grid button {
+      padding: 10px 0;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      border-radius: 4px;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: background-color 0.2s, var(--theme-transition);
+    }
+    
+    .movement-grid button:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .rotation-controls {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .rotation-controls button {
+      flex: 1;
+      padding: 10px 0;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      border-radius: 4px;
+      color: var(--text-dark);
+      font-weight: 500;
+      transition: background-color 0.2s, var(--theme-transition);
+    }
+    
+    .rotation-controls button:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    #move-up { background-color: var(--move-up-bg); }
+    #move-down { background-color: var(--move-down-bg); }
+    #move-left { background-color: var(--move-left-bg); }
+    #move-right { background-color: var(--move-right-bg); }
+    #move-up-left { background-color: var(--move-upleft-bg); }
+    #move-up-right { background-color: var(--move-upright-bg); }
+    #move-down-left { background-color: var(--move-downleft-bg); }
+    #move-down-right { background-color: var(--move-downright-bg); }
+    #rotate-left { background-color: var(--rotate-left-bg); }
+    #rotate-right { background-color: var(--rotate-right-bg); }
+    
+    .move-setting {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
     }
     
-    .input-group:last-child {
-      margin-bottom: 0;
+    .move-setting label {
+      margin-right: 10px;
+      min-width: 100px;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
     }
     
-    .input-group input {
-      flex: 1;
-      padding: 8px 10px;
+    .move-setting input[type="number"] {
+      width: 50px;
+      padding: 5px;
       border: 1px solid var(--border-color);
       border-radius: 4px;
       background-color: var(--light-bg);
@@ -716,62 +599,308 @@
       transition: var(--theme-transition);
     }
     
-    .input-group input:focus {
+    .move-setting input[type="number"]:focus {
       border-color: var(--primary-color);
       outline: none;
     }
     
-    .input-group button {
-      margin-left: 5px;
-      padding: 8px 12px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
+    /* Phân khu 2: Lịch sử */
+    #command-history {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+    
+    .command-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border-left: 4px solid var(--primary-color);
+      background-color: rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: background-color 0.2s, var(--theme-transition);
+    }
+    
+    .dark-mode .command-item {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .command-item:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .command-item:hover {
+      background-color: rgba(255,255,255,0.08);
+    }
+    
+    .command-item.selected {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-left-color: var(--accent-color);
+    }
+    
+    .dark-mode .command-item.selected {
+      background-color: rgba(52, 152, 219, 0.2);
+    }
+    
+    .command-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #777;
+      margin-top: 5px;
+    }
+    
+    .dark-mode .command-meta {
+      color: #aaa;
+    }
+    
+    /* Style cho từng loại lệnh */
+    .command-item[data-command="move-up"] { background-color: var(--move-up-bg); }
+    .command-item[data-command="move-down"] { background-color: var(--move-down-bg); }
+    .command-item[data-command="move-left"] { background-color: var(--move-left-bg); }
+    .command-item[data-command="move-right"] { background-color: var(--move-right-bg); }
+    .command-item[data-command="move-up-left"] { background-color: var(--move-upleft-bg); }
+    .command-item[data-command="move-up-right"] { background-color: var(--move-upright-bg); }
+    .command-item[data-command="move-down-left"] { background-color: var(--move-downleft-bg); }
+    .command-item[data-command="move-down-right"] { background-color: var(--move-downright-bg); }
+    .command-item[data-command="rotate-left"] { background-color: var(--rotate-left-bg); }
+    .command-item[data-command="rotate-right"] { background-color: var(--rotate-right-bg); }
+    .command-item[data-command="spin"] { background-color: var(--spin-bg); }
+    
+    /* Phân khu 3: Công cụ */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    
+    .tool-button {
+      padding: 10px;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.2s, var(--theme-transition);
     }
     
-    .input-group button:hover {
-      background-color: #2980b9;
+    .tool-button i {
+      font-size: 18px;
+      margin-bottom: 5px;
     }
     
-    /* Command buttons with specific colors */
-    .move-up-btn { background-color: var(--move-up-bg); }
-    .move-down-btn { background-color: var(--move-down-bg); }
-    .move-left-btn { background-color: var(--move-left-bg); }
-    .move-right-btn { background-color: var(--move-right-bg); }
-    .move-upleft-btn { background-color: var(--move-upleft-bg); }
-    .move-upright-btn { background-color: var(--move-upright-bg); }
-    .move-downleft-btn { background-color: var(--move-downleft-bg); }
-    .move-downright-btn { background-color: var(--move-downright-bg); }
-    .spin-btn { background-color: var(--spin-bg); }
-    .rotate-left-btn { background-color: var(--rotate-left-bg); }
-    .rotate-right-btn { background-color: var(--rotate-right-bg); }
-    
-    /* Status message */
-    #status-message {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(0, 0, 0, 0.8);
+    .tool-button:hover {
+      background-color: var(--primary-color);
       color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 14px;
+    }
+    
+    .tool-button.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    /* Popup menu cho đánh dấu điểm */
+    .popup-menu {
+      position: absolute;
+      background-color: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      border-radius: 4px;
       z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-      max-width: 90%;
+      min-width: 180px;
+      display: none;
+    }
+    
+    .dark-mode .popup-menu {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+    
+    .popup-menu-header {
+      padding: 10px 15px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .popup-menu-option {
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    
+    .popup-menu-option i {
+      margin-right: 8px;
+      width: 20px;
       text-align: center;
     }
     
-    #status-message.show {
+    .popup-menu-option:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .popup-menu-option:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .popup-submenu {
+      margin-left: 15px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 10px;
+      display: none;
+    }
+    
+    /* Angle display box */
+    #angle-display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      z-index: 11;
+      display: none;
+    }
+    
+    /* Angle arc visualization */
+    .angle-arc {
+      position: absolute;
+      z-index: 4;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    .angle-arc:hover {
+      opacity: 0.8;
+    }
+    
+    .angle-arc.selected {
+      stroke: var(--accent-color);
+      stroke-width: 3;
+    }
+    
+    .angle-point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(0, 100, 255, 0.8);
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: move;
+    }
+    
+    /* Line visualization */
+    .line-segment {
+      position: absolute;
+      height: 3px;
+      background-color: rgba(0, 150, 255, 0.8);
+      transform-origin: left center;
+      z-index: 4;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    .line-segment:hover {
+      background-color: rgba(0, 150, 255, 1);
+    }
+    
+    .line-segment.selected {
+      background-color: var(--accent-color);
+      height: 4px;
+    }
+    
+    .line-endpoint {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(0, 150, 255, 0.8);
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: move;
+    }
+    
+    /* Favicon link */
+    .favicon-link {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      font-size: 12px;
+      color: #666;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      z-index: 1001;
+    }
+    
+    .favicon-link:hover {
       opacity: 1;
     }
     
-    /* Đảm bảo responsiveness */
+    .favicon-link img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
+    
+    /* Loading spinner */
+    .spinner-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      display: none;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    /* Responsive design */
     @media (max-width: 768px) {
       #sidebar {
         width: 250px;
@@ -782,166 +911,173 @@
         left: 250px;
       }
       
-      .control-button {
-        min-width: 50px;
-        padding: 6px 8px;
-        font-size: 0.8em;
+      .tool-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #sidebar {
+        width: 100%;
+        position: absolute;
+        height: 50%;
+        bottom: 0;
+        resize: vertical;
+        min-height: 200px;
+        max-height: 80%;
+        z-index: 100;
       }
       
-      #mini-map-container {
-        width: 100px;
-        height: 100px;
+      #display-area {
+        height: 50%;
+      }
+      
+      #main-container {
+        flex-direction: column;
+      }
+      
+      #sidebar-resizer {
+        width: 100%;
+        height: 8px;
+        left: 0;
+        top: 50%;
+        cursor: ns-resize;
+      }
+      
+      #sidebar-resizer::after {
+        content: "≡";
       }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <!-- Header bar -->
   <div id="header-bar">
     <div class="title">Robot Map Interface</div>
     <div id="header-controls">
-      <button class="header-button" id="toggle-grid-btn">Hiện/Ẩn Lưới</button>
-      <button class="header-button" id="settings-btn">
-        <i>⚙️</i> Cài đặt
+      <button class="header-button" id="toggle-grid">
+        <i class="fas fa-th"></i> Hiện/Ẩn Lưới
       </button>
-      <div class="theme-toggle" id="theme-toggle">
-        <span>Chế độ tối</span>
-        <div class="toggle-switch"></div>
+      <button class="header-button" id="settings-button">
+        <i class="fas fa-cog"></i> Cài đặt
+      </button>
+      <div class="theme-toggle">
+        <span>Giao diện tối</span>
+        <div class="toggle-switch" id="theme-switch"></div>
       </div>
     </div>
   </div>
   
+  <!-- Settings menu -->
+  <div id="settings-menu">
+    <div class="settings-header">Cài đặt</div>
+    <div class="settings-option" id="position-adjust-option">
+      <i class="fas fa-arrows-alt"></i> Điều chỉnh vị trí
+    </div>
+    <div class="settings-option" id="toggle-minimap-option">
+      <i class="fas fa-map"></i> Ẩn/Hiện Mini Map
+    </div>
+  </div>
+  
+  <!-- Main container -->
   <div id="main-container">
+    <!-- Sidebar with controls -->
     <div id="sidebar">
-      <div class="control-panel">
-        <div class="panel-header">
-          <h2>Điều khiển robot</h2>
-          <span class="panel-collapse-icon">▼</span>
+      <!-- Phân khu 1: Điều khiển robot -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Điều khiển Robot</h3>
+        
+        <div class="controls-title">
+          Di chuyển
+          <div class="history-controls">
+            <button id="undo-button" disabled><i class="fas fa-undo"></i></button>
+            <button id="redo-button" disabled><i class="fas fa-redo"></i></button>
+          </div>
         </div>
-        <div class="panel-content">
-          <div class="control-group">
-            <label class="control-label">Di chuyển</label>
-            <div class="control-buttons">
-              <button class="control-button move-upleft-btn" data-command="move-upleft">↖</button>
-              <button class="control-button move-up-btn" data-command="move-up">↑</button>
-              <button class="control-button move-upright-btn" data-command="move-upright">↗</button>
-            </div>
-            <div class="control-buttons">
-              <button class="control-button move-left-btn" data-command="move-left">←</button>
-              <button class="control-button spin-btn" data-command="spin">⟳</button>
-              <button class="control-button move-right-btn" data-command="move-right">→</button>
-            </div>
-            <div class="control-buttons">
-              <button class="control-button move-downleft-btn" data-command="move-downleft">↙</button>
-              <button class="control-button move-down-btn" data-command="move-down">↓</button>
-              <button class="control-button move-downright-btn" data-command="move-downright">↘</button>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Xoay robot</label>
-            <div class="control-buttons">
-              <button class="control-button rotate-left-btn" data-command="rotate-left">⟲ Xoay trái</button>
-              <button class="control-button rotate-right-btn" data-command="rotate-right">⟳ Xoay phải</button>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Bước di chuyển</label>
-            <div class="input-group">
-              <input type="number" id="step-size" value="10" min="1" max="100" />
-              <button id="apply-step-btn">Áp dụng</button>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Góc quay (độ)</label>
-            <div class="input-group">
-              <input type="number" id="rotation-angle" value="15" min="1" max="180" />
-              <button id="apply-angle-btn">Áp dụng</button>
-            </div>
-          </div>
+        
+        <div class="movement-grid">
+          <button id="move-up-left"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-left"></i></button>
+          <button id="move-up"><i class="fas fa-arrow-up"></i></button>
+          <button id="move-up-right"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-right"></i></button>
+          <button id="move-left"><i class="fas fa-arrow-left"></i></button>
+          <button id="spin"><i class="fas fa-sync-alt"></i></button>
+          <button id="move-right"><i class="fas fa-arrow-right"></i></button>
+          <button id="move-down-left"><i class="fas fa-arrow-down"></i><i class="fas fa-arrow-left"></i></button>
+          <button id="move-down"><i class="fas fa-arrow-down"></i></button>
+          <button id="move-down-right"><i class="fas fa-arrow-down"></i><i class="fas fa-arrow-right"></i></button>
+        </div>
+        
+        <div class="rotation-controls">
+          <button id="rotate-left"><i class="fas fa-undo"></i> Quay trái</button>
+          <button id="rotate-right"><i class="fas fa-redo"></i> Quay phải</button>
+        </div>
+        
+        <div class="move-setting">
+          <label for="move-step">Bước di chuyển:</label>
+          <input type="number" id="move-step" min="1" max="100" value="10">
+        </div>
+        
+        <div class="move-setting">
+          <label for="rotation-angle">Góc quay (độ):</label>
+          <input type="number" id="rotation-angle" min="1" max="180" value="45">
         </div>
       </div>
       
-      <div class="control-panel">
-        <div class="panel-header">
-          <h2>Điều chỉnh bản đồ</h2>
-          <span class="panel-collapse-icon">▼</span>
-        </div>
-        <div class="panel-content">
-          <div class="control-group">
-            <label class="control-label">Zoom bản đồ</label>
-            <div class="input-group">
-              <input type="range" id="zoom-level" min="50" max="200" value="100" />
-              <span id="zoom-value">100%</span>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Đánh dấu vị trí</label>
-            <div class="control-buttons">
-              <button class="control-button" id="toggle-marker-mode">Đánh dấu điểm</button>
-              <button class="control-button" id="clear-markers">Xóa điểm đánh dấu</button>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Di chuyển nhanh</label>
-            <div class="setting-description">
-              Nhấp chuột trên bản đồ để di chuyển robot đến vị trí đó.
-            </div>
-            <div class="control-buttons">
-              <button class="control-button" id="toggle-quick-move">Bật/Tắt di chuyển nhanh</button>
-            </div>
-          </div>
-        </div>
+      <!-- Phân khu 2: Lịch sử lệnh -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Lịch sử Lệnh</h3>
+        <ul id="command-history"></ul>
       </div>
       
-      <div class="control-panel">
-        <div class="panel-header">
-          <h2>Thông tin hệ thống</h2>
-          <span class="panel-collapse-icon">▼</span>
-        </div>
-        <div class="panel-content">
-          <div class="control-group">
-            <div id="robot-info">
-              <div>Vị trí X: <span id="robot-x">0</span></div>
-              <div>Vị trí Y: <span id="robot-y">0</span></div>
-              <div>Hướng: <span id="robot-direction">0°</span></div>
-              <div>Kích thước: <span id="robot-size">50px</span></div>
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label">Lịch sử lệnh</label>
-            <div id="command-history" style="max-height: 150px; overflow-y: auto; border: 1px solid var(--border-color); padding: 10px; border-radius: 4px;">
-              <div class="command-item">Khởi động hệ thống</div>
-            </div>
-          </div>
+      <!-- Phân khu 3: Công cụ -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Công cụ</h3>
+        <div class="tool-grid">
+          <button class="tool-button" id="measure-tool">
+            <i class="fas fa-ruler"></i>
+            <span>Đo khoảng cách</span>
+          </button>
+          <button class="tool-button" id="waypoint-tool">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Đánh dấu điểm</span>
+          </button>
+          <button class="tool-button" id="clear-tool">
+            <i class="fas fa-trash-alt"></i>
+            <span>Xóa tất cả</span>
+          </button>
+          <button class="tool-button" id="screenshot-tool">
+            <i class="fas fa-camera"></i>
+            <span>Chụp màn hình</span>
+          </button>
         </div>
       </div>
     </div>
     
+    <!-- Sidebar resizer -->
     <div id="sidebar-resizer"></div>
     
+    <!-- Map display area -->
     <div id="display-area">
       <div id="map-container">
-        <img id="map" src="https://via.placeholder.com/1000x1000/e0e0e0/888888?text=Robot+Map" alt="Robot Map" draggable="false" />
+        <img id="map" src="https://i.imgur.com/ZgZWThp.png" alt="Map">
         <div id="grid-overlay"></div>
         
+        <!-- Robot container -->
         <div id="robot-container">
-          <img id="robot" src="https://cdn-icons-png.flaticon.com/512/2622/2622630.png" alt="Robot" draggable="false" />
-          <div id="robot-resize-handle"></div>
+          <img id="robot" src="https://i.imgur.com/PfUoSSv.png" alt="Robot">
+          <div id="robot-center"></div>
         </div>
       </div>
       
+      <!-- Coordinates display -->
       <div id="coordinates-display">
-        <div>X: <span id="mouse-x">0</span></div>
-        <div>Y: <span id="mouse-y">0</span></div>
-        <div>Robot: (<span id="robot-pos-x">0</span>, <span id="robot-pos-y">0</span>)</div>
-        <div>Góc: <span id="robot-angle">0°</span></div>
+        <div id="mouse-coords">Mouse: X: 0, Y: 0</div>
+        <div id="robot-coords">Robot: X: 0, Y: 0</div>
+        <div id="robot-angle">Angle: 0°</div>
       </div>
       
+      <!-- Mini-map -->
       <div id="mini-map-container">
         <div id="mini-map">
           <div id="mini-map-indicator"></div>
@@ -950,1303 +1086,2125 @@
         </div>
       </div>
       
-      <div id="settings-menu">
-        <h3>Cài đặt</h3>
-        <div class="settings-option">
-          <button id="adjust-position-btn">Điều chỉnh vị trí</button>
-        </div>
-        <div class="settings-option">
-          <button id="toggle-mini-map-btn">Ẩn/Hiện Mini Map</button>
-        </div>
-      </div>
-      
-      <div id="marker-menu">
-        <h3>Đánh dấu điểm</h3>
-        <div class="marker-option">
-          <button id="robot-target-btn">Đánh dấu điểm robot đi</button>
-        </div>
-        <div class="marker-option">
-          <button id="reference-point-btn">Đánh dấu điểm xác định</button>
-        </div>
-        <div class="marker-option">
-          <button id="angle-drawing-btn">Vẽ góc</button>
-          <div class="submenu" id="angle-submenu">
-            <button id="draw-angle-btn">Vẽ góc trên bản đồ</button>
-            <button id="manage-angles-btn">Quản lý góc đã vẽ</button>
-          </div>
-        </div>
-        <div class="marker-option">
-          <button id="line-drawing-btn">Vẽ đường thẳng</button>
-          <div class="submenu" id="line-submenu">
-            <button id="draw-line-btn">Vẽ đường thẳng trên bản đồ</button>
-            <button id="manage-lines-btn">Quản lý đường đã vẽ</button>
-          </div>
-        </div>
-      </div>
-      
-      <div id="angle-display-box"></div>
+      <!-- Angle display box -->
+      <div id="angle-display">Angle: 0°</div>
     </div>
   </div>
   
-  <div id="status-message"></div>
+  <!-- Waypoint popup menu -->
+  <div id="waypoint-popup" class="popup-menu">
+    <div class="popup-menu-header">Chức năng đánh dấu</div>
+    <div class="popup-menu-option" id="mark-target-option">
+      <i class="fas fa-crosshairs"></i> Đánh dấu điểm Robot đi
+    </div>
+    <div class="popup-menu-option" id="mark-waypoint-option">
+      <i class="fas fa-map-marker-alt"></i> Đánh dấu điểm xác định
+    </div>
+    <div class="popup-menu-option" id="angle-drawing-option">
+      <i class="fas fa-drafting-compass"></i> Vẽ góc
+      <div class="popup-submenu" id="angle-submenu">
+        <div class="popup-menu-option" id="draw-angle-option">
+          <i class="fas fa-pencil-alt"></i> Vẽ góc mới
+        </div>
+        <div class="popup-menu-option" id="list-angles-option">
+          <i class="fas fa-list"></i> Danh sách góc đã vẽ
+        </div>
+      </div>
+    </div>
+    <div class="popup-menu-option" id="line-drawing-option">
+      <i class="fas fa-ruler"></i> Vẽ đường thẳng
+      <div class="popup-submenu" id="line-submenu">
+        <div class="popup-menu-option" id="draw-line-option">
+          <i class="fas fa-pencil-alt"></i> Vẽ đường thẳng mới
+        </div>
+        <div class="popup-menu-option" id="list-lines-option">
+          <i class="fas fa-list"></i> Danh sách đường đã vẽ
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Marker context menu -->
+  <div id="marker-context-menu">
+    <div class="marker-context-option" id="rename-marker">
+      <i class="fas fa-edit"></i> Đổi tên
+    </div>
+    <div class="marker-context-option" id="move-to-marker">
+      <i class="fas fa-running"></i> Di chuyển tới
+    </div>
+    <div class="marker-context-option" id="delete-marker">
+      <i class="fas fa-trash-alt"></i> Xóa
+    </div>
+  </div>
+  
+  <!-- Loading spinner -->
+  <div class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Tooltip -->
+  <div class="tooltip"></div>
+  
   <script>
-    // Biến toàn cục
-    let isDragging = false;
-    let robotSize = 50;
-    let robotAngle = 0;
-    let stepSize = 10;
-    let rotationAngle = 15;
-    let markers = [];
-    let isMarkerMode = false;
-    let isQuickMoveEnabled = false;
-    let isGridVisible = false;
-    let isResizingRobot = false;
-    let isPositionAdjustment = false;
-    let isMiniMapDragging = false;
-    let isCoordinatesDragging = false;
-    let mapZoom = 100;
-    let canvasRect;
-    let currentMarkerId = 1;
-    let angles = [];
-    let lines = [];
-    let isAngleDrawingMode = false;
-    let isLineDrawingMode = false;
-    let currentAnglePoints = [];
-    let currentLinePoints = [];
-    let settingsMenuVisible = false;
-    let markerMenuVisible = false;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Các biến toàn cục
+      let isDraggingRobot = false;
+      let isDraggingRobotCenter = false;
+      let robotSize = 50; // Kích thước mặc định
+      let robotAngle = 0; // Góc quay
+      let robotX = 0; // Vị trí X
+      let robotY = 0; // Vị trí Y
+      let moveStep = 10; // Bước di chuyển
+      let rotationAngle = 45; // Góc quay mặc định
+      let dragStartX, dragStartY;
+      let lastRobotX, lastRobotY, lastRobotAngle;
+      let commandHistory = [];
+      let historyIndex = -1;
+      let currentTool = null;
+      let waypoints = [];
+      let waypointCounter = 1;
+      let selectedWaypoint = null;
+      let isDarkMode = false;
+      let measurePoints = [];
+      let isDrawingAngle = false;
+      let anglePoints = [];
+      let angles = [];
+      let angleCounter = 1;
+      let selectedAngle = null;
+      let isDrawingLine = false;
+      let linePoints = [];
+      let lines = [];
+      let lineCounter = 1;
+      let selectedLine = null;
+      let isDraggingCoordinates = false;
+      let isDraggingMiniMap = false;
+      
+      // Elements
+      const robotContainer = document.getElementById('robot-container');
+      const robotElement = document.getElementById('robot');
+      const robotCenterElement = document.getElementById('robot-center');
+      const mapElement = document.getElementById('map');
+      const mapContainer = document.getElementById('map-container');
+      const gridOverlay = document.getElementById('grid-overlay');
+      const toggleGridButton = document.getElementById('toggle-grid');
+      const settingsButton = document.getElementById('settings-button');
+      const settingsMenu = document.getElementById('settings-menu');
+      const positionAdjustOption = document.getElementById('position-adjust-option');
+      const toggleMiniMapOption = document.getElementById('toggle-minimap-option');
+      const moveStepInput = document.getElementById('move-step');
+      const rotationAngleInput = document.getElementById('rotation-angle');
+      const undoButton = document.getElementById('undo-button');
+      const redoButton = document.getElementById('redo-button');
+      const commandHistoryList = document.getElementById('command-history');
+      const sidebarResizer = document.getElementById('sidebar-resizer');
+      const sidebar = document.getElementById('sidebar');
+      const themeSwitch = document.getElementById('theme-switch');
+      const coordsDisplay = document.getElementById('coordinates-display');
+      const mouseCoords = document.getElementById('mouse-coords');
+      const robotCoords = document.getElementById('robot-coords');
+      const robotAngleDisplay = document.getElementById('robot-angle');
+      const miniMapContainer = document.getElementById('mini-map-container');
+      const miniMap = document.getElementById('mini-map');
+      const miniMapIndicator = document.getElementById('mini-map-indicator');
+      const miniMapRobot = document.getElementById('mini-map-robot');
+      const mousePositionIndicator = document.getElementById('mouse-position-indicator');
+      const waypointTool = document.getElementById('waypoint-tool');
+      const clearTool = document.getElementById('clear-tool');
+      const measureTool = document.getElementById('measure-tool');
+      const screenshotTool = document.getElementById('screenshot-tool');
+      const markerContextMenu = document.getElementById('marker-context-menu');
+      const renameMarkerOption = document.getElementById('rename-marker');
+      const moveToMarkerOption = document.getElementById('move-to-marker');
+      const deleteMarkerOption = document.getElementById('delete-marker');
+      const waypointPopup = document.getElementById('waypoint-popup');
+      const markWaypointOption = document.getElementById('mark-waypoint-option');
+      const markTargetOption = document.getElementById('mark-target-option');
+      const angleDrawingOption = document.getElementById('angle-drawing-option');
+      const angleSubmenu = document.getElementById('angle-submenu');
+      const drawAngleOption = document.getElementById('draw-angle-option');
+      const listAnglesOption = document.getElementById('list-angles-option');
+      const lineDrawingOption = document.getElementById('line-drawing-option');
+      const lineSubmenu = document.getElementById('line-submenu');
+      const drawLineOption = document.getElementById('draw-line-option');
+      const listLinesOption = document.getElementById('list-lines-option');
+      const angleDisplay = document.getElementById('angle-display');
+      #move-up { background-color: var(--move-up-bg); }
+    #move-down { background-color: var(--move-down-bg); }
+    #move-left { background-color: var(--move-left-bg); }
+    #move-right { background-color: var(--move-right-bg); }
+    #move-up-left { background-color: var(--move-upleft-bg); }
+    #move-up-right { background-color: var(--move-upright-bg); }
+    #move-down-left { background-color: var(--move-downleft-bg); }
+    #move-down-right { background-color: var(--move-downright-bg); }
+    #rotate-left { background-color: var(--rotate-left-bg); }
+    #rotate-right { background-color: var(--rotate-right-bg); }
     
-    // DOM elements (đã được tham chiếu trước)
-    
-    // Hàm khởi tạo
-    function init() {
-      // Thiết lập vị trí ban đầu của robot
-      updateRobotPosition(window.innerWidth / 2, window.innerHeight / 2);
-      
-      // Cập nhật thông tin hiển thị
-      updateRobotInfo();
-      
-      // Tạo lưới
-      createGrid();
-      
-      // Gán các sự kiện
-      attachEventListeners();
-      
-      // Cập nhật vị trí resize handle
-      updateResizeHandlePosition();
-      
-      // Hiển thị thông báo khởi động
-      showStatusMessage('Hệ thống đã sẵn sàng');
+    .move-setting {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
     }
     
-    // Tạo lưới
-    function createGrid() {
-      const gridSize = 50; // Kích thước ô lưới
-      const mapWidth = map.offsetWidth;
-      const mapHeight = map.offsetHeight;
-      
-      // Xóa lưới cũ
-      gridOverlay.innerHTML = '';
-      
-      // Tạo các đường dọc
-      for (let x = 0; x <= mapWidth; x += gridSize) {
-        const line = document.createElement('div');
-        line.className = 'grid-line';
-        line.style.left = x + 'px';
-        line.style.top = '0';
-        line.style.width = '1px';
-        line.style.height = '100%';
-        gridOverlay.appendChild(line);
+    .move-setting label {
+      margin-right: 10px;
+      min-width: 100px;
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .move-setting input[type="number"] {
+      width: 50px;
+      padding: 5px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      transition: var(--theme-transition);
+    }
+    
+    .move-setting input[type="number"]:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+    
+    /* Phân khu 2: Lịch sử */
+    #command-history {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+    
+    .command-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border-left: 4px solid var(--primary-color);
+      background-color: rgba(0,0,0,0.03);
+      cursor: pointer;
+      transition: background-color 0.2s, var(--theme-transition);
+    }
+    
+    .dark-mode .command-item {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .command-item:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .command-item:hover {
+      background-color: rgba(255,255,255,0.08);
+    }
+    
+    .command-item.selected {
+      background-color: rgba(52, 152, 219, 0.1);
+      border-left-color: var(--accent-color);
+    }
+    
+    .dark-mode .command-item.selected {
+      background-color: rgba(52, 152, 219, 0.2);
+    }
+    
+    .command-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #777;
+      margin-top: 5px;
+    }
+    
+    .dark-mode .command-meta {
+      color: #aaa;
+    }
+    
+    /* Style cho từng loại lệnh */
+    .command-item[data-command="move-up"] { background-color: var(--move-up-bg); }
+    .command-item[data-command="move-down"] { background-color: var(--move-down-bg); }
+    .command-item[data-command="move-left"] { background-color: var(--move-left-bg); }
+    .command-item[data-command="move-right"] { background-color: var(--move-right-bg); }
+    .command-item[data-command="move-up-left"] { background-color: var(--move-upleft-bg); }
+    .command-item[data-command="move-up-right"] { background-color: var(--move-upright-bg); }
+    .command-item[data-command="move-down-left"] { background-color: var(--move-downleft-bg); }
+    .command-item[data-command="move-down-right"] { background-color: var(--move-downright-bg); }
+    .command-item[data-command="rotate-left"] { background-color: var(--rotate-left-bg); }
+    .command-item[data-command="rotate-right"] { background-color: var(--rotate-right-bg); }
+    .command-item[data-command="spin"] { background-color: var(--spin-bg); }
+    
+    /* Phân khu 3: Công cụ */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    
+    .tool-button {
+      padding: 10px;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.2s, var(--theme-transition);
+    }
+    
+    .tool-button i {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    
+    .tool-button:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .tool-button.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    /* Popup menu cho đánh dấu điểm */
+    .popup-menu {
+      position: absolute;
+      background-color: white;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      z-index: 1000;
+      min-width: 180px;
+      display: none;
+    }
+    
+    .dark-mode .popup-menu {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+    
+    .popup-menu-header {
+      padding: 10px 15px;
+      font-weight: bold;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .popup-menu-option {
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+    
+    .popup-menu-option i {
+      margin-right: 8px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .popup-menu-option:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    .dark-mode .popup-menu-option:hover {
+      background-color: rgba(255,255,255,0.05);
+    }
+    
+    .popup-submenu {
+      margin-left: 15px;
+      border-left: 1px solid var(--border-color);
+      padding-left: 10px;
+      display: none;
+    }
+    
+    /* Angle display box */
+    #angle-display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      z-index: 11;
+      display: none;
+    }
+    
+    /* Angle arc visualization */
+    .angle-arc {
+      position: absolute;
+      z-index: 4;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    .angle-arc:hover {
+      opacity: 0.8;
+    }
+    
+    .angle-arc.selected {
+      stroke: var(--accent-color);
+      stroke-width: 3;
+    }
+    
+    .angle-point {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(0, 100, 255, 0.8);
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: move;
+    }
+    
+    /* Line visualization */
+    .line-segment {
+      position: absolute;
+      height: 3px;
+      background-color: rgba(0, 150, 255, 0.8);
+      transform-origin: left center;
+      z-index: 4;
+      pointer-events: all;
+      cursor: pointer;
+    }
+    
+    .line-segment:hover {
+      background-color: rgba(0, 150, 255, 1);
+    }
+    
+    .line-segment.selected {
+      background-color: var(--accent-color);
+      height: 4px;
+    }
+    
+    .line-endpoint {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: rgba(0, 150, 255, 0.8);
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: move;
+    }
+    
+    /* Favicon link */
+    .favicon-link {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      font-size: 12px;
+      color: #666;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+      z-index: 1001;
+    }
+    
+    .favicon-link:hover {
+      opacity: 1;
+    }
+    
+    .favicon-link img {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
+    
+    /* Loading spinner */
+    .spinner-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      display: none;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #sidebar {
+        width: 250px;
+        min-width: 200px;
       }
       
-      // Tạo các đường ngang
-      for (let y = 0; y <= mapHeight; y += gridSize) {
-        const line = document.createElement('div');
-        line.className = 'grid-line';
-        line.style.left = '0';
-        line.style.top = y + 'px';
-        line.style.width = '100%';
-        line.style.height = '1px';
-        gridOverlay.appendChild(line);
+      #sidebar-resizer {
+        left: 250px;
+      }
+      
+      .tool-grid {
+        grid-template-columns: 1fr;
       }
     }
     
-    // Gán các sự kiện
-    function attachEventListeners() {
-      // Sự kiện cơ bản
-      window.addEventListener('resize', handleWindowResize);
-      document.addEventListener('mousemove', handleMouseMove);
-      
-      // Sự kiện điều khiển robot
-      robotContainer.addEventListener('mousedown', startDragRobot);
-      document.addEventListener('mouseup', stopDragRobot);
-      robotResizeHandle.addEventListener('mousedown', startResizeRobot);
-      
-      // Sự kiện các nút điều khiển
-      document.querySelectorAll('.control-button[data-command]').forEach(button => {
-        button.addEventListener('click', handleControlCommand);
-      });
-      
-      // Sự kiện minimap và coordinates
-      miniMapContainer.addEventListener('mousedown', startMiniMapDrag);
-      coordinatesDisplay.addEventListener('mousedown', startCoordinatesDrag);
-      
-      // Sự kiện thanh header
-      toggleGridBtn.addEventListener('click', toggleGrid);
-      settingsBtn.addEventListener('click', toggleSettingsMenu);
-      themeToggle.addEventListener('click', toggleDarkMode);
-      
-      // Sự kiện điều chỉnh tham số
-      applyStepBtn.addEventListener('click', applyStepSize);
-      applyAngleBtn.addEventListener('click', applyRotationAngle);
-      zoomLevel.addEventListener('input', handleZoomChange);
-      
-      // Sự kiện đánh dấu và di chuyển nhanh
-      toggleMarkerMode.addEventListener('click', toggleMarkerMode);
-      clearMarkers.addEventListener('click', clearAllMarkers);
-      toggleQuickMove.addEventListener('click', toggleQuickMoveMode);
-      map.addEventListener('click', handleMapClick);
-      
-      // Sự kiện điều chỉnh kích thước sidebar
-      sidebarResizer.addEventListener('mousedown', startSidebarResize);
-      
-      // Sự kiện thu gọn/mở rộng panel
-      document.querySelectorAll('.panel-header').forEach(header => {
-        header.addEventListener('click', togglePanel);
-      });
-      
-      // Sự kiện settings menu
-      adjustPositionBtn.addEventListener('click', togglePositionAdjustment);
-      toggleMiniMapBtn.addEventListener('click', toggleMiniMap);
-      
-      // Sự kiện marker menu
-      document.getElementById('toggle-marker-mode').addEventListener('click', toggleMarkerMenu);
-      robotTargetBtn.addEventListener('click', activateRobotTargetMode);
-      referencePointBtn.addEventListener('click', activateReferencePointMode);
-      angleDrawingBtn.addEventListener('click', toggleAngleSubmenu);
-      lineDrawingBtn.addEventListener('click', toggleLineSubmenu);
-      drawAngleBtn.addEventListener('click', activateAngleDrawingMode);
-      manageAnglesBtn.addEventListener('click', showAngleManagement);
-      drawLineBtn.addEventListener('click', activateLineDrawingMode);
-      manageLinesBtn.addEventListener('click', showLineManagement);
-      
-      // Đóng menu khi click ra ngoài
-      document.addEventListener('click', handleDocumentClick);
-    }
-    
-    // Xử lý resize cửa sổ
-    function handleWindowResize() {
-      createGrid();
-      canvasRect = map.getBoundingClientRect();
-      updateMiniMap();
-    }
-    
-    // Xử lý di chuyển chuột
-    function handleMouseMove(e) {
-      if (!canvasRect) {
-        canvasRect = map.getBoundingClientRect();
+    @media (max-width: 480px) {
+      #sidebar {
+        width: 100%;
+        position: absolute;
+        height: 50%;
+        bottom: 0;
+        resize: vertical;
+        min-height: 200px;
+        max-height: 80%;
+        z-index: 100;
       }
       
-      // Tính toán tọa độ chuột tương đối so với map
-      const x = e.clientX - canvasRect.left;
-      const y = e.clientY - canvasRect.top;
-      
-      // Cập nhật hiển thị tọa độ
-      mouseX.textContent = Math.round(x);
-      mouseY.textContent = Math.round(y);
-      
-      // Cập nhật vị trí chuột trên mini-map
-      updateMousePositionOnMiniMap(x, y);
-      
-      // Xử lý kéo robot
-      if (isDragging) {
-        updateRobotPosition(x, y);
-        updateRobotInfo();
+      #display-area {
+        height: 50%;
       }
       
-      // Xử lý resize robot
-      if (isResizingRobot) {
-        const robotRect = robotContainer.getBoundingClientRect();
-        const robotCenterX = robotRect.left + robotRect.width / 2;
-        const robotCenterY = robotRect.top + robotRect.height / 2;
+      #main-container {
+        flex-direction: column;
+      }
+      
+      #sidebar-resizer {
+        width: 100%;
+        height: 8px;
+        left: 0;
+        top: 50%;
+        cursor: ns-resize;
+      }
+      
+      #sidebar-resizer::after {
+        content: "≡";
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header bar -->
+  <div id="header-bar">
+    <div class="title">Robot Map Interface</div>
+    <div id="header-controls">
+      <button class="header-button" id="toggle-grid">
+        <i class="fas fa-th"></i> Hiện/Ẩn Lưới
+      </button>
+      <button class="header-button" id="settings-button">
+        <i class="fas fa-cog"></i> Cài đặt
+      </button>
+      <div class="theme-toggle">
+        <span>Giao diện tối</span>
+        <div class="toggle-switch" id="theme-switch"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings menu -->
+  <div id="settings-menu">
+    <div class="settings-header">Cài đặt</div>
+    <div class="settings-option" id="position-adjust-option">
+      <i class="fas fa-arrows-alt"></i> Điều chỉnh vị trí
+    </div>
+    <div class="settings-option" id="toggle-minimap-option">
+      <i class="fas fa-map"></i> Ẩn/Hiện Mini Map
+    </div>
+  </div>
+  
+  <!-- Main container -->
+  <div id="main-container">
+    <!-- Sidebar with controls -->
+    <div id="sidebar">
+      <!-- Phân khu 1: Điều khiển robot -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Điều khiển Robot</h3>
         
-        // Tính khoảng cách từ tâm đến chuột
-        const dx = e.clientX - robotCenterX;
-        const dy = e.clientY - robotCenterY;
-        const distance = Math.sqrt(dx * dx + dy * dy) * 2; // Nhân 2 để điểm resize là bán kính
+        <div class="controls-title">
+          Di chuyển
+          <div class="history-controls">
+            <button id="undo-button" disabled><i class="fas fa-undo"></i></button>
+            <button id="redo-button" disabled><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
         
-        // Cập nhật kích thước robot, giới hạn trong khoảng từ 20px đến 200px
-        robotSize = Math.max(20, Math.min(200, distance));
-        robot.style.width = `${robotSize}px`;
+        <div class="movement-grid">
+          <button id="move-up-left"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-left"></i></button>
+          <button id="move-up"><i class="fas fa-arrow-up"></i></button>
+          <button id="move-up-right"><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-right"></i></button>
+          <button id="move-left"><i class="fas fa-arrow-left"></i></button>
+          <button id="spin"><i class="fas fa-sync-alt"></i></button>
+          <button id="move-right"><i class="fas fa-arrow-right"></i></button>
+          <button id="move-down-left"><i class="fas fa-arrow-down"></i><i class="fas fa-arrow-left"></i></button>
+          <button id="move-down"><i class="fas fa-arrow-down"></i></button>
+          <button id="move-down-right"><i class="fas fa-arrow-down"></i><i class="fas fa-arrow-right"></i></button>
+        </div>
         
-        // Cập nhật vị trí resize handle
-        updateResizeHandlePosition();
+        <div class="rotation-controls">
+          <button id="rotate-left"><i class="fas fa-undo"></i> Quay trái</button>
+          <button id="rotate-right"><i class="fas fa-redo"></i> Quay phải</button>
+        </div>
         
-        // Cập nhật thông tin robot
-        updateRobotInfo();
-      }
+        <div class="move-setting">
+          <label for="move-step">Bước di chuyển:</label>
+          <input type="number" id="move-step" min="1" max="100" value="10">
+        </div>
+        
+        <div class="move-setting">
+          <label for="rotation-angle">Góc quay (độ):</label>
+          <input type="number" id="rotation-angle" min="1" max="180" value="45">
+        </div>
+      </div>
       
-      // Xử lý kéo mini-map
-      if (isMiniMapDragging && isPositionAdjustment) {
-        miniMapContainer.style.right = (window.innerWidth - e.clientX - miniMapContainer.offsetWidth / 2) + 'px';
-        miniMapContainer.style.bottom = (window.innerHeight - e.clientY - miniMapContainer.offsetHeight / 2) + 'px';
-      }
+      <!-- Phân khu 2: Lịch sử lệnh -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Lịch sử Lệnh</h3>
+        <ul id="command-history"></ul>
+      </div>
       
-      // Xử lý kéo coordinates display
-      if (isCoordinatesDragging && isPositionAdjustment) {
-        coordinatesDisplay.style.left = (e.clientX - coordinatesDisplay.offsetWidth / 2) + 'px';
-        coordinatesDisplay.style.bottom = (window.innerHeight - e.clientY - coordinatesDisplay.offsetHeight / 2) + 'px';
-      }
-      
-      // Xử lý resize sidebar
-      if (window.isResizingSidebar) {
-        const newWidth = e.clientX;
-        if (newWidth >= 250 && newWidth <= 500) {
-          sidebar.style.width = newWidth + 'px';
-          sidebarResizer.style.left = newWidth + 'px';
-        }
-      }
-      
-      // Xử lý vẽ góc
-      if (isAngleDrawingMode && currentAnglePoints.length === 2) {
-        updateAngleArc(e.clientX, e.clientY);
-      }
-      
-      // Xử lý vẽ đường thẳng
-      if (isLineDrawingMode && currentLinePoints.length === 1) {
-        updateLine(e.clientX, e.clientY);
-      }
-    }
+      <!-- Phân khu 3: Công cụ -->
+      <div class="panel-section">
+        <h3 class="panel-section-title">Công cụ</h3>
+        <div class="tool-grid">
+          <button class="tool-button" id="measure-tool">
+            <i class="fas fa-ruler"></i>
+            <span>Đo khoảng cách</span>
+          </button>
+          <button class="tool-button" id="waypoint-tool">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Đánh dấu điểm</span>
+          </button>
+          <button class="tool-button" id="clear-tool">
+            <i class="fas fa-trash-alt"></i>
+            <span>Xóa tất cả</span>
+          </button>
+          <button class="tool-button" id="screenshot-tool">
+            <i class="fas fa-camera"></i>
+            <span>Chụp màn hình</span>
+          </button>
+        </div>
+      </div>
+    </div>
     
-    // Cập nhật vị trí chuột trên mini-map
-    function updateMousePositionOnMiniMap(x, y) {
-      // Tính tỷ lệ giữa mini-map và map thực tế
-      const mapWidth = map.offsetWidth;
-      const mapHeight = map.offsetHeight;
-      const miniMapWidth = miniMap.offsetWidth;
-      const miniMapHeight = miniMap.offsetHeight;
-      
-      const xRatio = miniMapWidth / mapWidth;
-      const yRatio = miniMapHeight / mapHeight;
-      
-      // Cập nhật vị trí chỉ báo
-      mousePositionIndicator.style.left = (x * xRatio) + 'px';
-      mousePositionIndicator.style.top = (y * yRatio) + 'px';
-    }
+    <!-- Sidebar resizer -->
+    <div id="sidebar-resizer"></div>
     
-    // Cập nhật mini-map
-    function updateMiniMap() {
-      // Tính tỷ lệ giữa mini-map và map thực tế
-      const mapWidth = map.offsetWidth;
-      const mapHeight = map.offsetHeight;
-      const miniMapWidth = miniMap.offsetWidth;
-      const miniMapHeight = miniMap.offsetHeight;
-      
-      const xRatio = miniMapWidth / mapWidth;
-      const yRatio = miniMapHeight / mapHeight;
-      
-      // Lấy vị trí của robot
-      const robotRect = robotContainer.getBoundingClientRect();
-      const mapRect = map.getBoundingClientRect();
-      
-      const robotX = robotRect.left + robotRect.width / 2 - mapRect.left;
-      const robotY = robotRect.top + robotRect.height / 2 - mapRect.top;
-      
-      // Cập nhật vị trí robot trên mini-map
-      miniMapRobot.style.left = (robotX * xRatio) + 'px';
-      miniMapRobot.style.top = (robotY * yRatio) + 'px';
-      
-      // Cập nhật vị trí chỉ báo viewport
-      const viewportLeft = -parseFloat(map.style.left || 0) || 0;
-      const viewportTop = -parseFloat(map.style.top || 0) || 0;
-      
-      miniMapIndicator.style.left = (viewportLeft * xRatio) + 'px';
-      miniMapIndicator.style.top = (viewportTop * yRatio) + 'px';
-    }
-    
-    // Bắt đầu kéo robot
-    function startDragRobot(e) {
-      if (e.target === robotResizeHandle) return; // Không bắt đầu kéo nếu đang resize
-      
-      isDragging = true;
-      robotContainer.classList.add('dragging');
-      document.body.style.cursor = 'grabbing';
-      
-      // Ngăn chặn hành vi mặc định (như kéo hình ảnh)
-      e.preventDefault();
-    }
-    
-    // Dừng kéo robot
-    function stopDragRobot() {
-      if (isDragging) {
-        isDragging = false;
-        robotContainer.classList.remove('dragging');
-        document.body.style.cursor = 'default';
+    <!-- Map display area -->
+    <div id="display-area">
+      <div id="map-container">
+        <img id="map" src="https://i.imgur.com/ZgZWThp.png" alt="Map">
+        <div id="grid-overlay"></div>
         
-        // Cập nhật thông tin robot
-        updateRobotInfo();
+        <!-- Robot container -->
+        <div id="robot-container">
+          <img id="robot" src="https://i.imgur.com/PfUoSSv.png" alt="Robot">
+          <div id="robot-center"></div>
+        </div>
+      </div>
+      
+      <!-- Coordinates display -->
+      <div id="coordinates-display">
+        <div id="mouse-coords">Mouse: X: 0, Y: 0</div>
+        <div id="robot-coords">Robot: X: 0, Y: 0</div>
+        <div id="robot-angle">Angle: 0°</div>
+      </div>
+      
+      <!-- Mini-map -->
+      <div id="mini-map-container">
+        <div id="mini-map">
+          <div id="mini-map-indicator"></div>
+          <div id="mouse-position-indicator"></div>
+          <div id="mini-map-robot"></div>
+        </div>
+      </div>
+      
+      <!-- Angle display box -->
+      <div id="angle-display">Angle: 0°</div>
+    </div>
+  </div>
+  
+  <!-- Waypoint popup menu -->
+  <div id="waypoint-popup" class="popup-menu">
+    <div class="popup-menu-header">Chức năng đánh dấu</div>
+    <div class="popup-menu-option" id="mark-target-option">
+      <i class="fas fa-crosshairs"></i> Đánh dấu điểm Robot đi
+    </div>
+    <div class="popup-menu-option" id="mark-waypoint-option">
+      <i class="fas fa-map-marker-alt"></i> Đánh dấu điểm xác định
+    </div>
+    <div class="popup-menu-option" id="angle-drawing-option">
+      <i class="fas fa-drafting-compass"></i> Vẽ góc
+      <div class="popup-submenu" id="angle-submenu">
+        <div class="popup-menu-option" id="draw-angle-option">
+          <i class="fas fa-pencil-alt"></i> Vẽ góc mới
+        </div>
+        <div class="popup-menu-option" id="list-angles-option">
+          <i class="fas fa-list"></i> Danh sách góc đã vẽ
+        </div>
+      </div>
+    </div>
+    <div class="popup-menu-option" id="line-drawing-option">
+      <i class="fas fa-ruler"></i> Vẽ đường thẳng
+      <div class="popup-submenu" id="line-submenu">
+        <div class="popup-menu-option" id="draw-line-option">
+          <i class="fas fa-pencil-alt"></i> Vẽ đường thẳng mới
+        </div>
+        <div class="popup-menu-option" id="list-lines-option">
+          <i class="fas fa-list"></i> Danh sách đường đã vẽ
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Marker context menu -->
+  <div id="marker-context-menu">
+    <div class="marker-context-option" id="rename-marker">
+      <i class="fas fa-edit"></i> Đổi tên
+    </div>
+    <div class="marker-context-option" id="move-to-marker">
+      <i class="fas fa-running"></i> Di chuyển tới
+    </div>
+    <div class="marker-context-option" id="delete-marker">
+      <i class="fas fa-trash-alt"></i> Xóa
+    </div>
+  </div>
+  
+  <!-- Loading spinner -->
+  <div class="spinner-container">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Tooltip -->
+  <div class="tooltip"></div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Các biến toàn cục
+      let isDraggingRobot = false;
+      let isDraggingRobotCenter = false;
+      let robotSize = 50; // Kích thước mặc định
+      let robotAngle = 0; // Góc quay
+      let robotX = 0; // Vị trí X
+      let robotY = 0; // Vị trí Y
+      let moveStep = 10; // Bước di chuyển
+      let rotationAngle = 45; // Góc quay mặc định
+      let dragStartX, dragStartY;
+      let lastRobotX, lastRobotY, lastRobotAngle;
+      let commandHistory = [];
+      let historyIndex = -1;
+      let currentTool = null;
+      let waypoints = [];
+      let waypointCounter = 1;
+      let selectedWaypoint = null;
+      let isDarkMode = false;
+      let measurePoints = [];
+      let isDrawingAngle = false;
+      let anglePoints = [];
+      let angles = [];
+      let angleCounter = 1;
+      let selectedAngle = null;
+      let isDrawingLine = false;
+      let linePoints = [];
+      let lines = [];
+      let lineCounter = 1;
+      let selectedLine = null;
+      let isDraggingCoordinates = false;
+      let isDraggingMiniMap = false;
+      
+      // Elements
+      const robotContainer = document.getElementById('robot-container');
+      const robotElement = document.getElementById('robot');
+      const robotCenterElement = document.getElementById('robot-center');
+      const mapElement = document.getElementById('map');
+      const mapContainer = document.getElementById('map-container');
+      const gridOverlay = document.getElementById('grid-overlay');
+      const toggleGridButton = document.getElementById('toggle-grid');
+      const settingsButton = document.getElementById('settings-button');
+      const settingsMenu = document.getElementById('settings-menu');
+      const positionAdjustOption = document.getElementById('position-adjust-option');
+      const toggleMiniMapOption = document.getElementById('toggle-minimap-option');
+      const moveStepInput = document.getElementById('move-step');
+      const rotationAngleInput = document.getElementById('rotation-angle');
+      const undoButton = document.getElementById('undo-button');
+      const redoButton = document.getElementById('redo-button');
+      const commandHistoryList = document.getElementById('command-history');
+      const sidebarResizer = document.getElementById('sidebar-resizer');
+      const sidebar = document.getElementById('sidebar');
+      const themeSwitch = document.getElementById('theme-switch');
+      const coordsDisplay = document.getElementById('coordinates-display');
+      const mouseCoords = document.getElementById('mouse-coords');
+      const robotCoords = document.getElementById('robot-coords');
+      const robotAngleDisplay = document.getElementById('robot-angle');
+      const miniMapContainer = document.getElementById('mini-map-container');
+      const miniMap = document.getElementById('mini-map');
+      const miniMapIndicator = document.getElementById('mini-map-indicator');
+      const miniMapRobot = document.getElementById('mini-map-robot');
+      const mousePositionIndicator = document.getElementById('mouse-position-indicator');
+      const waypointTool = document.getElementById('waypoint-tool');
+      const clearTool = document.getElementById('clear-tool');
+      const measureTool = document.getElementById('measure-tool');
+      const screenshotTool = document.getElementById('screenshot-tool');
+      const markerContextMenu = document.getElementById('marker-context-menu');
+      const renameMarkerOption = document.getElementById('rename-marker');
+      const moveToMarkerOption = document.getElementById('move-to-marker');
+      const deleteMarkerOption = document.getElementById('delete-marker');
+      const waypointPopup = document.getElementById('waypoint-popup');
+      const markWaypointOption = document.getElementById('mark-waypoint-option');
+      const markTargetOption = document.getElementById('mark-target-option');
+      const angleDrawingOption = document.getElementById('angle-drawing-option');
+      const angleSubmenu = document.getElementById('angle-submenu');
+      const drawAngleOption = document.getElementById('draw-angle-option');
+      const listAnglesOption = document.getElementById('list-angles-option');
+      const lineDrawingOption = document.getElementById('line-drawing-option');
+      const lineSubmenu = document.getElementById('line-submenu');
+      const drawLineOption = document.getElementById('draw-line-option');
+      const listLinesOption = document.getElementById('list-lines-option');
+      const angleDisplay = document.getElementById('angle-display');
+      // Khởi tạo robot và bản đồ
+      function initMap() {
+        // Đặt robot vào giữa bản đồ khi tải xong hình ảnh
+        mapElement.onload = function() {
+          const mapRect = mapElement.getBoundingClientRect();
+          robotX = mapRect.width / 2;
+          robotY = mapRect.height / 2;
+          updateRobotPosition();
+          
+          // Tạo lưới nếu cần
+          createGridOverlay();
+        };
         
-        // Cập nhật mini-map
+        // Đặt vị trí mini-map
         updateMiniMap();
-        
-        // Ghi lại lệnh di chuyển
-        addCommandToHistory('Di chuyển robot đến vị trí mới');
       }
-      
-      // Dừng resize robot
-      if (isResizingRobot) {
-        isResizingRobot = false;
-        document.body.style.cursor = 'default';
-        
-        // Ghi lại lệnh resize
-        addCommandToHistory(`Thay đổi kích thước robot thành ${robotSize}px`);
-      }
-      
-      // Dừng kéo mini-map
-      if (isMiniMapDragging) {
-        isMiniMapDragging = false;
-      }
-      
-      // Dừng kéo coordinates display
-      if (isCoordinatesDragging) {
-        isCoordinatesDragging = false;
-      }
-      
-      // Dừng resize sidebar
-      if (window.isResizingSidebar) {
-        window.isResizingSidebar = false;
-      }
-    }
-    
-    // Bắt đầu resize robot
-    function startResizeRobot(e) {
-      isResizingRobot = true;
-      document.body.style.cursor = 'nwse-resize';
-      e.stopPropagation(); // Ngăn sự kiện lan tỏa lên phần tử cha
-      e.preventDefault();
-    }
-    
-    // Cập nhật vị trí resize handle
-    function updateResizeHandlePosition() {
-      // Đặt resize handle vào chính giữa robot
-      robotResizeHandle.style.left = `${robotSize / 2 - 6}px`; // 6px là một nửa kích thước của handle
-      robotResizeHandle.style.top = `${robotSize / 2 - 6}px`;
-    }
-    
-    // Bắt đầu resize sidebar
-    function startSidebarResize(e) {
-      window.isResizingSidebar = true;
-      e.preventDefault();
-    }
-    
-    // Bắt đầu kéo mini-map
-    function startMiniMapDrag(e) {
-      if (isPositionAdjustment) {
-        isMiniMapDragging = true;
-        e.preventDefault();
-      }
-    }
-    
-    // Bắt đầu kéo coordinates display
-    function startCoordinatesDrag(e) {
-      if (isPositionAdjustment) {
-        isCoordinatesDragging = true;
-        e.preventDefault();
-      }
-    }
-    
-    // Cập nhật vị trí robot
-    function updateRobotPosition(x, y) {
-      // Lấy kích thước robot hiện tại
-      const robotWidth = robotSize;
-      const robotHeight = robotSize;
-      
-      // Tính toán vị trí để đặt robot sao cho tâm ở vị trí (x, y)
-      const left = x - robotWidth / 2;
-      const top = y - robotHeight / 2;
       
       // Cập nhật vị trí robot
-      robotContainer.style.left = `${left}px`;
-      robotContainer.style.top = `${top}px`;
+      function updateRobotPosition() {
+        // Cập nhật vị trí trung tâm của robot
+        robotContainer.style.left = `${robotX}px`;
+        robotContainer.style.top = `${robotY}px`;
+        
+        // Cập nhật vị trí của điểm chấm đỏ ở tâm robot
+        const robotRect = robotElement.getBoundingClientRect();
+        robotCenterElement.style.left = `${robotSize / 2}px`;
+        robotCenterElement.style.top = `${robotSize / 2}px`;
+        
+        // Cập nhật góc quay robot (từ tâm, theo yêu cầu)
+        robotElement.style.transform = `rotate(${robotAngle}deg) translate(-50%, -50%)`;
+        
+        // Cập nhật hiển thị tọa độ
+        robotCoords.textContent = `Robot: X: ${Math.round(robotX)}, Y: ${Math.round(robotY)}`;
+        robotAngleDisplay.textContent = `Angle: ${Math.round(robotAngle)}°`;
+        
+        // Cập nhật vị trí robot trên mini-map
+        updateMiniMapRobotPosition();
+      }
       
-      // Cập nhật thông tin hiển thị
-      robotPosX.textContent = Math.round(x);
-      robotPosY.textContent = Math.round(y);
+      // Tạo lưới overlay
+      function createGridOverlay() {
+        const mapRect = mapElement.getBoundingClientRect();
+        const gridSize = 50; // Kích thước ô lưới
+        
+        // Xóa lưới cũ
+        gridOverlay.innerHTML = '';
+        
+        // Tạo đường kẻ ngang
+        for (let y = 0; y < mapRect.height; y += gridSize) {
+          const horizontalLine = document.createElement('div');
+          horizontalLine.className = 'grid-line';
+          horizontalLine.style.left = '0';
+          horizontalLine.style.top = `${y}px`;
+          horizontalLine.style.width = `${mapRect.width}px`;
+          horizontalLine.style.height = '1px';
+          gridOverlay.appendChild(horizontalLine);
+        }
+        
+        // Tạo đường kẻ dọc
+        for (let x = 0; x < mapRect.width; x += gridSize) {
+          const verticalLine = document.createElement('div');
+          verticalLine.className = 'grid-line';
+          verticalLine.style.left = `${x}px`;
+          verticalLine.style.top = '0';
+          verticalLine.style.width = '1px';
+          verticalLine.style.height = `${mapRect.height}px`;
+          gridOverlay.appendChild(verticalLine);
+        }
+      }
       
       // Cập nhật vị trí robot trên mini-map
-      updateMiniMap();
-    }
-    
-    // Cập nhật thông tin robot
-    function updateRobotInfo() {
-      const robotRect = robotContainer.getBoundingClientRect();
-      const x = robotRect.left + robotRect.width / 2;
-      const y = robotRect.top + robotRect.height / 2;
-      
-      robotXInfo.textContent = Math.round(x);
-      robotYInfo.textContent = Math.round(y);
-      robotDirectionInfo.textContent = `${robotAngle}°`;
-      robotSizeInfo.textContent = `${robotSize}px`;
-    }
-    
-    // Xử lý lệnh điều khiển
-    function handleControlCommand(e) {
-      const command = e.target.dataset.command;
-      
-      switch (command) {
-        case 'move-up':
-          moveRobot(0, -stepSize);
-          break;
-        case 'move-down':
-          moveRobot(0, stepSize);
-          break;
-        case 'move-left':
-          moveRobot(-stepSize, 0);
-          break;
-        case 'move-right':
-          moveRobot(stepSize, 0);
-          break;
-        case 'move-upleft':
-          moveRobot(-stepSize, -stepSize);
-          break;
-        case 'move-upright':
-          moveRobot(stepSize, -stepSize);
-          break;
-        case 'move-downleft':
-          moveRobot(-stepSize, stepSize);
-          break;
-        case 'move-downright':
-          moveRobot(stepSize, stepSize);
-          break;
-        case 'spin':
-          spinRobot();
-          break;
-        case 'rotate-left':
-          rotateRobot(-rotationAngle);
-          break;
-        case 'rotate-right':
-          rotateRobot(rotationAngle);
-          break;
-      }
-      
-      // Thêm lệnh vào lịch sử
-      addCommandToHistory(`Thực hiện lệnh: ${command}`);
-    }
-    
-    // Di chuyển robot
-    function moveRobot(dx, dy) {
-      const robotRect = robotContainer.getBoundingClientRect();
-      const x = robotRect.left + robotRect.width / 2 + dx;
-      const y = robotRect.top + robotRect.height / 2 + dy;
-      
-      updateRobotPosition(x, y);
-      updateRobotInfo();
-    }
-    
-    // Xoay robot
-    function rotateRobot(angle) {
-      robotAngle = (robotAngle + angle) % 360;
-      if (robotAngle < 0) robotAngle += 360;
-      
-      // Xoay robot từ tâm
-      robot.style.transform = `rotate(${robotAngle}deg)`;
-      
-      // Cập nhật thông tin robot
-      robotAngleDisplay.textContent = `${robotAngle}°`;
-      robotDirectionInfo.textContent = `${robotAngle}°`;
-    }
-    
-    // Xoay robot theo mô hình quay tròn
-    function spinRobot() {
-      // Tạo hiệu ứng quay tròn
-      let startAngle = robotAngle;
-      const duration = 1000; // 1 giây cho một vòng quay
-      const startTime = performance.now();
-      
-      function animate(currentTime) {
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1);
-        
-        // Tính góc quay hiện tại (quay 360 độ)
-        const currentAngle = startAngle + 360 * progress;
-        
-        // Xoay robot
-        robotAngle = currentAngle % 360;
-        robot.style.transform = `rotate(${robotAngle}deg)`;
-        
-        // Cập nhật thông tin robot
-        robotAngleDisplay.textContent = `${Math.round(robotAngle)}°`;
-        robotDirectionInfo.textContent = `${Math.round(robotAngle)}°`;
-        
-        if (progress < 1) {
-          requestAnimationFrame(animate);
+      function updateMiniMapRobotPosition() {
+        if (!miniMapContainer.style.display || miniMapContainer.style.display !== 'none') {
+          const mapRect = mapElement.getBoundingClientRect();
+          const miniMapRect = miniMap.getBoundingClientRect();
+          
+          // Tính toán vị trí tương đối
+          const relativeX = (robotX / mapRect.width) * miniMapRect.width;
+          const relativeY = (robotY / mapRect.height) * miniMapRect.height;
+          
+          // Cập nhật vị trí
+          miniMapRobot.style.left = `${relativeX}px`;
+          miniMapRobot.style.top = `${relativeY}px`;
+          miniMapRobot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg)`;
         }
       }
       
-      requestAnimationFrame(animate);
-    }
-    // Áp dụng kích thước bước di chuyển
-    function applyStepSize() {
-      const value = parseInt(stepSizeInput.value);
-      if (!isNaN(value) && value > 0 && value <= 100) {
-        stepSize = value;
-        showStatusMessage(`Đã thay đổi bước di chuyển thành ${stepSize}`);
-      } else {
-        showStatusMessage('Kích thước bước không hợp lệ');
-        stepSizeInput.value = stepSize;
-      }
-    }
-    
-    // Áp dụng góc quay
-    function applyRotationAngle() {
-      const value = parseInt(rotationAngleInput.value);
-      if (!isNaN(value) && value > 0 && value <= 180) {
-        rotationAngle = value;
-        showStatusMessage(`Đã thay đổi góc quay thành ${rotationAngle} độ`);
-      } else {
-        showStatusMessage('Góc quay không hợp lệ');
-        rotationAngleInput.value = rotationAngle;
-      }
-    }
-    
-    // Xử lý thay đổi zoom
-    function handleZoomChange() {
-      mapZoom = zoomLevel.value;
-      zoomValue.textContent = `${mapZoom}%`;
-      
-      // Áp dụng zoom cho map
-      map.style.transform = `scale(${mapZoom / 100})`;
-      
-      // Cập nhật grid
-      createGrid();
-    }
-    
-    // Bật/tắt grid
-    function toggleGrid() {
-      isGridVisible = !isGridVisible;
-      gridOverlay.style.display = isGridVisible ? 'block' : 'none';
-      
-      if (isGridVisible) {
-        showStatusMessage('Đã hiển thị lưới');
-      } else {
-        showStatusMessage('Đã ẩn lưới');
-      }
-    }
-    
-    // Bật/tắt chế độ đánh dấu
-    function toggleMarkerMode() {
-      isMarkerMode = !isMarkerMode;
-      toggleMarkerMode.classList.toggle('active', isMarkerMode);
-      
-      if (isMarkerMode) {
-        showStatusMessage('Đã bật chế độ đánh dấu điểm');
-      } else {
-        showStatusMessage('Đã tắt chế độ đánh dấu điểm');
-      }
-    }
-    
-    // Xóa tất cả điểm đánh dấu
-    function clearAllMarkers() {
-      markers.forEach(marker => {
-        mapContainer.removeChild(marker.element);
-        if (marker.label) {
-          mapContainer.removeChild(marker.label);
+      // Cập nhật mini-map khi chuột di chuyển
+      function updateMiniMap() {
+        const mapImage = document.createElement('img');
+        mapImage.src = mapElement.src;
+        mapImage.style.width = '100%';
+        mapImage.style.height = '100%';
+        mapImage.style.objectFit = 'cover';
+        
+        // Xóa nội dung cũ và thêm hình ảnh mới
+        while (miniMap.firstChild !== miniMapIndicator && 
+               miniMap.firstChild !== mousePositionIndicator && 
+               miniMap.firstChild !== miniMapRobot) {
+          miniMap.removeChild(miniMap.firstChild);
         }
-      });
-      
-      markers = [];
-      currentMarkerId = 1;
-      showStatusMessage('Đã xóa tất cả điểm đánh dấu');
-    }
-    
-    // Bật/tắt chế độ di chuyển nhanh
-    function toggleQuickMoveMode() {
-      isQuickMoveEnabled = !isQuickMoveEnabled;
-      toggleQuickMove.classList.toggle('active', isQuickMoveEnabled);
-      
-      if (isQuickMoveEnabled) {
-        showStatusMessage('Đã bật chế độ di chuyển nhanh');
-      } else {
-        showStatusMessage('Đã tắt chế độ di chuyển nhanh');
-      }
-    }
-    
-    // Xử lý click trên map
-    function handleMapClick(e) {
-      if (!canvasRect) {
-        canvasRect = map.getBoundingClientRect();
+        
+        miniMap.insertBefore(mapImage, miniMap.firstChild);
       }
       
-      const x = e.clientX - canvasRect.left;
-      const y = e.clientY - canvasRect.top;
-      
-      // Kiểm tra xem click có trúng robot không
-      const robotRect = robotContainer.getBoundingClientRect();
-      const isClickOnRobot = 
-        e.clientX >= robotRect.left && 
-        e.clientX <= robotRect.right && 
-        e.clientY >= robotRect.top && 
-        e.clientY <= robotRect.bottom;
-      
-      // Nếu đang ở chế độ đánh dấu và không click vào robot
-      if (isMarkerMode && !isClickOnRobot) {
-        addMarker(x, y);
+      // Xử lý di chuyển robot
+      function moveRobot(direction) {
+        // Lưu vị trí cũ để undo
+        lastRobotX = robotX;
+        lastRobotY = robotY;
+        lastRobotAngle = robotAngle;
+        
+        const step = parseInt(moveStepInput.value) || 10;
+        const angle = robotAngle * (Math.PI / 180); // Đổi sang radian
+        
+        switch (direction) {
+          case 'up':
+            robotY -= step;
+            break;
+          case 'down':
+            robotY += step;
+            break;
+          case 'left':
+            robotX -= step;
+            break;
+          case 'right':
+            robotX += step;
+            break;
+          case 'up-left':
+            robotX -= step * Math.cos(angle + Math.PI/4);
+            robotY -= step * Math.sin(angle + Math.PI/4);
+            break;
+          case 'up-right':
+            robotX += step * Math.cos(angle - Math.PI/4);
+            robotY -= step * Math.sin(angle - Math.PI/4);
+            break;
+          case 'down-left':
+            robotX -= step * Math.cos(angle - Math.PI/4);
+            robotY += step * Math.sin(angle - Math.PI/4);
+            break;
+          case 'down-right':
+            robotX += step * Math.cos(angle + Math.PI/4);
+            robotY += step * Math.sin(angle + Math.PI/4);
+            break;
+        }
+        
+        updateRobotPosition();
+        addToHistory(direction);
       }
-      // Nếu đang ở chế độ di chuyển nhanh và không click vào robot
-      else if (isQuickMoveEnabled && !isClickOnRobot) {
-        updateRobotPosition(x, y);
-        updateRobotInfo();
-        addCommandToHistory(`Di chuyển robot đến (${Math.round(x)}, ${Math.round(y)})`);
+      
+      // Xử lý quay robot
+      function rotateRobot(direction) {
+        // Lưu góc cũ để undo
+        lastRobotAngle = robotAngle;
+        lastRobotX = robotX;
+        lastRobotY = robotY;
+        
+        const rotAngle = parseInt(rotationAngleInput.value) || 45;
+        
+        if (direction === 'left') {
+          robotAngle -= rotAngle;
+        } else if (direction === 'right') {
+          robotAngle += rotAngle;
+        } else if (direction === 'spin') {
+          robotAngle += 180;
+        }
+        
+        // Giữ góc trong khoảng 0-360
+        robotAngle = (robotAngle + 360) % 360;
+        
+        updateRobotPosition();
+        addToHistory(`rotate-${direction}`);
       }
-      // Nếu đang ở chế độ vẽ góc
-      else if (isAngleDrawingMode) {
-        handleAngleDrawingClick(e.clientX, e.clientY);
-      }
-      // Nếu đang ở chế độ vẽ đường thẳng
-      else if (isLineDrawingMode) {
-        handleLineDrawingClick(e.clientX, e.clientY);
-      }
-    }
-    
-    // Thêm điểm đánh dấu
-    function addMarker(x, y) {
-      // Tạo phần tử đánh dấu
-      const marker = document.createElement('div');
-      marker.className = 'waypoint-marker';
-      marker.style.left = `${x}px`;
-      marker.style.top = `${y}px`;
-      marker.dataset.id = currentMarkerId;
-      
-      // Tạo nhãn cho điểm đánh dấu
-      const label = document.createElement('div');
-      label.className = 'waypoint-label';
-      label.textContent = `Điểm ${currentMarkerId}`;
-      label.style.left = `${x}px`;
-      label.style.top = `${y}px`;
-      
-      // Thêm vào container
-      mapContainer.appendChild(marker);
-      mapContainer.appendChild(label);
-      
-      // Thêm vào danh sách markers
-      markers.push({
-        id: currentMarkerId,
-        x,
-        y,
-        element: marker,
-        label
-      });
-      
-      // Tăng ID
-      currentMarkerId++;
-      
-      // Hiển thị thông báo
-      showStatusMessage(`Đã thêm điểm đánh dấu tại (${Math.round(x)}, ${Math.round(y)})`);
       
       // Thêm lệnh vào lịch sử
-      addCommandToHistory(`Đánh dấu điểm tại (${Math.round(x)}, ${Math.round(y)})`);
+      function addToHistory(command) {
+        // Nếu đang ở giữa lịch sử (đã undo), cắt bỏ phần phía sau
+        if (historyIndex < commandHistory.length - 1) {
+          commandHistory = commandHistory.slice(0, historyIndex + 1);
+        }
+        
+        // Thêm lệnh vào lịch sử
+        commandHistory.push({
+          command: command,
+          robotX: lastRobotX,
+          robotY: lastRobotY,
+          robotAngle: lastRobotAngle,
+          timestamp: new Date().toLocaleTimeString()
+        });
+        
+        historyIndex = commandHistory.length - 1;
+        
+        // Cập nhật UI lịch sử
+        updateHistoryUI();
+        updateUndoRedoButtons();
+      }
       
-      // Thêm sự kiện click cho marker
-      marker.addEventListener('click', function(e) {
-        if (e.ctrlKey) {
-          // Xóa marker khi nhấn Ctrl + click
+      // Cập nhật giao diện lịch sử
+      function updateHistoryUI() {
+        commandHistoryList.innerHTML = '';
+        
+        commandHistory.forEach((item, index) => {
+          const li = document.createElement('li');
+          li.className = 'command-item';
+          li.dataset.command = item.command;
+          li.dataset.index = index;
+          
+          if (index === historyIndex) {
+            li.classList.add('selected');
+          }
+          
+          let commandText = '';
+          switch (item.command) {
+            case 'up': commandText = 'Di chuyển lên'; break;
+            case 'down': commandText = 'Di chuyển xuống'; break;
+            case 'left': commandText = 'Di chuyển trái'; break;
+            case 'right': commandText = 'Di chuyển phải'; break;
+            case 'up-left': commandText = 'Di chuyển lên trái'; break;
+            case 'up-right': commandText = 'Di chuyển lên phải'; break;
+            case 'down-left': commandText = 'Di chuyển xuống trái'; break;
+            case 'down-right': commandText = 'Di chuyển xuống phải'; break;
+            case 'rotate-left': commandText = 'Quay trái'; break;
+            case 'rotate-right': commandText = 'Quay phải'; break;
+            case 'rotate-spin': commandText = 'Quay 180°'; break;
+            default: commandText = item.command;
+          }
+          
+          li.innerHTML = `
+            ${commandText}
+            <div class="command-meta">
+              <span>X: ${Math.round(item.robotX)}, Y: ${Math.round(item.robotY)}</span>
+              <span>${item.timestamp}</span>
+            </div>
+          `;
+          
+          li.addEventListener('click', () => {
+            goToHistoryState(index);
+          });
+          
+          commandHistoryList.appendChild(li);
+        });
+        
+        // Scroll to the selected item
+        if (commandHistoryList.querySelector('.selected')) {
+          commandHistoryList.querySelector('.selected').scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+          });
+        }
+      }
+      
+      // Cập nhật trạng thái nút Undo/Redo
+      function updateUndoRedoButtons() {
+        undoButton.disabled = historyIndex < 0;
+        redoButton.disabled = historyIndex >= commandHistory.length - 1;
+      }
+      
+      // Di chuyển đến trạng thái lịch sử
+      function goToHistoryState(index) {
+        if (index >= 0 && index < commandHistory.length) {
+          const historyItem = commandHistory[index];
+          
+          // Cập nhật vị trí và góc robot
+          robotX = historyItem.robotX;
+          robotY = historyItem.robotY;
+          robotAngle = historyItem.robotAngle;
+          
+          // Cập nhật giao diện
+          updateRobotPosition();
+          
+          // Cập nhật chỉ số lịch sử
+          historyIndex = index;
+          
+          // Cập nhật giao diện lịch sử
+          updateHistoryUI();
+          updateUndoRedoButtons();
+        }
+      }
+      
+      // Thêm waypoint
+      function addWaypoint(x, y, isTarget = false) {
+        const waypoint = {
+          id: waypointCounter++,
+          x: x,
+          y: y,
+          name: `Điểm ${waypointCounter - 1}`,
+          isTarget: isTarget
+        };
+        
+        waypoints.push(waypoint);
+        createWaypointMarker(waypoint);
+        
+        return waypoint;
+      }
+      
+      // Tạo marker cho waypoint
+      function createWaypointMarker(waypoint) {
+        const marker = document.createElement('div');
+        marker.className = `waypoint-marker${waypoint.isTarget ? ' target-waypoint' : ''}`;
+        marker.dataset.id = waypoint.id;
+        marker.style.left = `${waypoint.x}px`;
+        marker.style.top = `${waypoint.y}px`;
+        
+        const label = document.createElement('div');
+        label.className = 'waypoint-label';
+        label.textContent = waypoint.name;
+        
+        marker.appendChild(label);
+        mapContainer.appendChild(marker);
+        
+        // Thêm event listeners
+        marker.addEventListener('click', (e) => {
+          if (currentTool !== 'measure') {
+            e.stopPropagation();
+            const waypointId = parseInt(marker.dataset.id);
+            const waypoint = waypoints.find(w => w.id === waypointId);
+            
+            if (waypoint) {
+              selectedWaypoint = waypoint;
+              showMarkerContextMenu(e.clientX, e.clientY);
+            }
+          }
+        });
+        
+        return marker;
+      }
+      
+      // Hiển thị context menu cho marker
+      function showMarkerContextMenu(x, y) {
+        markerContextMenu.style.display = 'block';
+        markerContextMenu.style.left = `${x}px`;
+        markerContextMenu.style.top = `${y}px`;
+        
+        // Đảm bảo menu không vượt quá màn hình
+        const rect = markerContextMenu.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+          markerContextMenu.style.left = `${x - rect.width}px`;
+        }
+        if (rect.bottom > window.innerHeight) {
+          markerContextMenu.style.top = `${y - rect.height}px`;
+        }
+      }
+      
+      // Đổi tên waypoint
+      function renameWaypoint(waypoint) {
+        const newName = prompt('Nhập tên mới cho điểm:', waypoint.name);
+        if (newName !== null && newName.trim() !== '') {
+          waypoint.name = newName.trim();
+          
+          // Cập nhật label
+          const marker = document.querySelector(`.waypoint-marker[data-id="${waypoint.id}"]`);
+          if (marker) {
+            const label = marker.querySelector('.waypoint-label');
+            if (label) {
+              label.textContent = newName.trim();
+            }
+          }
+        }
+      }
+      
+      // Xóa waypoint
+      function deleteWaypoint(waypoint) {
+        // Xóa marker
+        const marker = document.querySelector(`.waypoint-marker[data-id="${waypoint.id}"]`);
+        if (marker) {
           mapContainer.removeChild(marker);
-          mapContainer.removeChild(label);
-          markers = markers.filter(m => m.id !== parseInt(marker.dataset.id));
-          showStatusMessage('Đã xóa điểm đánh dấu');
+        }
+        
+        // Xóa khỏi danh sách
+        const index = waypoints.findIndex(w => w.id === waypoint.id);
+        if (index !== -1) {
+          waypoints.splice(index, 1);
+        }
+        
+        selectedWaypoint = null;
+      }
+      
+      // Di chuyển robot đến waypoint
+      function moveRobotToWaypoint(waypoint) {
+        // Lưu vị trí cũ
+        lastRobotX = robotX;
+        lastRobotY = robotY;
+        lastRobotAngle = robotAngle;
+        
+        // Di chuyển
+        robotX = waypoint.x;
+        robotY = waypoint.y;
+        
+        updateRobotPosition();
+        addToHistory('move-to-waypoint');
+      }
+      
+      // Vẽ góc
+      function startAngleDrawing() {
+        isDrawingAngle = true;
+        anglePoints = [];
+        document.body.style.cursor = 'crosshair';
+        
+        // Hiển thị hộp góc
+        angleDisplay.style.display = 'block';
+        angleDisplay.textContent = 'Chọn điểm thứ nhất của góc';
+      }
+      
+      // Thêm điểm góc khi nhấp chuột
+      function addAnglePoint(x, y) {
+        if (anglePoints.length < 3) {
+          anglePoints.push({ x, y });
+          
+          // Hiển thị vị trí trực tiếp
+          const point = document.createElement('div');
+          point.className = 'angle-point';
+          point.style.left = `${x}px`;
+          point.style.top = `${y}px`;
+          mapContainer.appendChild(point);
+          
+          if (anglePoints.length === 1) {
+            angleDisplay.textContent = 'Chọn điểm thứ hai của góc';
+          } else if (anglePoints.length === 2) {
+            angleDisplay.textContent = 'Chọn điểm thứ ba để tạo góc';
+          } else if (anglePoints.length === 3) {
+            // Tính góc và hiển thị
+            const angle = calculateAngle(anglePoints[0], anglePoints[1], anglePoints[2]);
+            angleDisplay.textContent = `Góc: ${angle.toFixed(2)}°`;
+            
+            // Vẽ cung góc
+            drawAngleArc(anglePoints, angle);
+            
+            // Kết thúc vẽ
+            setTimeout(() => {
+              finishAngleDrawing();
+            }, 500);
+          }
+        }
+      }
+      
+      // Tính góc giữa ba điểm
+      function calculateAngle(p1, p2, p3) {
+        const a = Math.sqrt(Math.pow(p2.x - p3.x, 2) + Math.pow(p2.y - p3.y, 2));
+        const b = Math.sqrt(Math.pow(p1.x - p3.x, 2) + Math.pow(p1.y - p3.y, 2));
+        const c = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+        
+        // Sử dụng công thức cosine để tính góc
+        const angle = Math.acos((a*a + c*c - b*b) / (2 * a * c));
+        return angle * (180 / Math.PI); // Đổi sang độ
+      }
+      
+      // Vẽ cung góc
+      function drawAngleArc(points, angle) {
+        const [p1, p2, p3] = points;
+        
+        // Tạo phần tử SVG
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("class", "angle-arc");
+        svg.style.position = "absolute";
+        svg.style.left = "0";
+        svg.style.top = "0";
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+        svg.style.pointerEvents = "none";
+        svg.dataset.id = angleCounter;
+        
+        // Tính bán kính cung
+        const radius = Math.min(
+          Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)),
+          Math.sqrt(Math.pow(p2.x - p3.x, 2) + Math.pow(p2.y - p3.y, 2))
+        ) / 3;
+        
+        // Tính góc bắt đầu và kết thúc
+        const angleP1 = Math.atan2(p1.y - p2.y, p1.x - p2.x);
+        const angleP3 = Math.atan2(p3.y - p2.y, p3.x - p2.x);
+        
+        // Tạo đường cung
+        const arc = document.createElementNS(svgNS, "path");
+        
+        // Xác định hướng vẽ cung (nhỏ hay lớn, thuận hay ngược)
+        const largeArcFlag = angle > 180 ? 1 : 0;
+        
+        // Vẽ cung từ điểm 1 đến điểm 3, tâm tại điểm 2
+        const startX = p2.x + radius * Math.cos(angleP1);
+        const startY = p2.y + radius * Math.sin(angleP1);
+        const endX = p2.x + radius * Math.cos(angleP3);
+        const endY = p2.y + radius * Math.sin(angleP3);
+        
+        const d = [
+          "M", startX, startY,
+          "A", radius, radius, 0, largeArcFlag, 1, endX, endY
+        ].join(" ");
+        
+        arc.setAttribute("d", d);
+        arc.setAttribute("fill", "none");
+        arc.setAttribute("stroke", "rgba(0, 100, 255, 0.8)");
+        arc.setAttribute("stroke-width", "2");
+        arc.style.pointerEvents = "auto";
+        
+        // Tạo text hiển thị số đo góc
+        const text = document.createElementNS(svgNS, "text");
+        const textX = p2.x + radius * 1.5 * Math.cos((angleP1 + angleP3) / 2);
+        const textY = p2.y + radius * 1.5 * Math.sin((angleP1 + angleP3) / 2);
+        
+        text.setAttribute("x", textX);
+        text.setAttribute("y", textY);
+        text.setAttribute("fill", "rgba(0, 100, 255, 0.8)");
+        text.setAttribute("font-size", "12");
+        text.setAttribute("text-anchor", "middle");
+        text.textContent = `${angle.toFixed(1)}°`;
+        
+        svg.appendChild(arc);
+        svg.appendChild(text);
+        mapContainer.appendChild(svg);
+        
+        // Lưu thông tin góc
+        angles.push({
+          id: angleCounter,
+          points: [...points],
+          angle: angle,
+          element: svg
+        });
+        
+        // Thêm sự kiện khi click vào cung góc
+        arc.addEventListener('click', (e) => {
           e.stopPropagation();
-        } else {
-          // Hiển thị thông tin chi tiết
-          showStatusMessage(`Điểm ${marker.dataset.id}: (${Math.round(x)}, ${Math.round(y)})`);
+          const angle = angles.find(a => a.id === parseInt(svg.dataset.id));
+          if (angle) {
+            selectAngle(angle);
+            showAngleValue(angle);
+          }
+        });
+        
+        angleCounter++;
+        
+        // Hiển thị giá trị góc trong ô ở góc trên trái
+        showAngleValue(angles[angles.length - 1]);
+      }
+      
+      // Hiển thị giá trị góc trong ô góc trên trái
+      function showAngleValue(angle) {
+        // Kiểm tra xem đã có ô hiển thị chưa
+        let angleBox = document.getElementById('angle-value-box');
+        if (!angleBox) {
+          // Tạo ô hiển thị giá trị góc
+          angleBox = document.createElement('div');
+          angleBox.id = 'angle-value-box';
+          angleBox.style.position = 'absolute';
+          angleBox.style.top = '10px';
+          angleBox.style.left = '10px';
+          angleBox.style.padding = '8px 12px';
+          angleBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+          angleBox.style.color = 'white';
+          angleBox.style.borderRadius = '4px';
+          angleBox.style.fontSize = '14px';
+          angleBox.style.zIndex = '11';
+          mapContainer.appendChild(angleBox);
+        }
+        
+        // Cập nhật giá trị góc
+        angleBox.textContent = `Góc ${angle.id}: ${angle.angle.toFixed(1)}°`;
+        angleBox.style.display = 'block';
+      }
+      
+      // Chọn góc
+      function selectAngle(angle) {
+        // Bỏ chọn góc trước đó
+        if (selectedAngle) {
+          selectedAngle.element.querySelector('path').classList.remove('selected');
+        }
+        
+        // Chọn góc mới
+        selectedAngle = angle;
+        angle.element.querySelector('path').classList.add('selected');
+      }
+      
+      // Kết thúc vẽ góc
+      function finishAngleDrawing() {
+        isDrawingAngle = false;
+        document.body.style.cursor = 'default';
+        
+        // Xóa các điểm tạm
+        document.querySelectorAll('.angle-point').forEach(point => {
+          mapContainer.removeChild(point);
+        });
+        
+        angleDisplay.style.display = 'none';
+      }
+      
+      // Vẽ đường thẳng
+      function startLineDrawing() {
+        isDrawingLine = true;
+        linePoints = [];
+        document.body.style.cursor = 'crosshair';
+      }
+      
+      // Thêm điểm đường thẳng
+      function addLinePoint(x, y) {
+        function addLinePoint(x, y) {
+        if (linePoints.length < 2) {
+          linePoints.push({ x, y });
+          
+          // Hiển thị điểm ngay lập tức
+          const point = document.createElement('div');
+          point.className = 'line-endpoint';
+          point.style.left = `${x}px`;
+          point.style.top = `${y}px`;
+          mapContainer.appendChild(point);
+          
+          if (linePoints.length === 2) {
+            // Vẽ đường thẳng
+            drawLine(linePoints[0], linePoints[1]);
+            
+            // Kết thúc vẽ
+            setTimeout(() => {
+              finishLineDrawing();
+            }, 500);
+          }
+        }
+      }
+      
+      // Vẽ đường thẳng
+      function drawLine(p1, p2) {
+        // Tính chiều dài và góc của đường thẳng
+        const length = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+        
+        // Tạo đường thẳng
+        const line = document.createElement('div');
+        line.className = 'line-segment';
+        line.dataset.id = lineCounter;
+        line.style.width = `${length}px`;
+        line.style.transform = `translate(${p1.x}px, ${p1.y}px) rotate(${angle}deg)`;
+        mapContainer.appendChild(line);
+        
+        // Tạo điểm đầu và cuối
+        const startPoint = document.createElement('div');
+        startPoint.className = 'line-endpoint';
+        startPoint.dataset.id = `${lineCounter}-start`;
+        startPoint.style.left = `${p1.x}px`;
+        startPoint.style.top = `${p1.y}px`;
+        mapContainer.appendChild(startPoint);
+        
+        const endPoint = document.createElement('div');
+        endPoint.className = 'line-endpoint';
+        endPoint.dataset.id = `${lineCounter}-end`;
+        endPoint.style.left = `${p2.x}px`;
+        endPoint.style.top = `${p2.y}px`;
+        mapContainer.appendChild(endPoint);
+        
+        // Lưu thông tin đường thẳng
+        lines.push({
+          id: lineCounter,
+          start: { x: p1.x, y: p1.y },
+          end: { x: p2.x, y: p2.y },
+          length: length,
+          element: line,
+          startPoint: startPoint,
+          endPoint: endPoint
+        });
+        
+        // Thêm sự kiện click cho đường thẳng
+        line.addEventListener('click', (e) => {
           e.stopPropagation();
+          const line = lines.find(l => l.id === parseInt(e.target.dataset.id));
+          if (line) {
+            selectLine(line);
+          }
+        });
+        
+        lineCounter++;
+      }
+      
+      // Chọn đường thẳng
+      function selectLine(line) {
+        // Bỏ chọn đường trước đó
+        if (selectedLine) {
+          selectedLine.element.classList.remove('selected');
+        }
+        
+        // Chọn đường mới
+        selectedLine = line;
+        line.element.classList.add('selected');
+        
+        // Hiển thị thông tin độ dài
+        showLineLength(line);
+      }
+      
+      // Hiển thị độ dài đường thẳng
+      function showLineLength(line) {
+        // Kiểm tra xem đã có ô hiển thị chưa
+        let lengthBox = document.getElementById('line-length-box');
+        if (!lengthBox) {
+          // Tạo ô hiển thị độ dài
+          lengthBox = document.createElement('div');
+          lengthBox.id = 'line-length-box';
+          lengthBox.style.position = 'absolute';
+          lengthBox.style.top = '10px';
+          lengthBox.style.left = '10px';
+          lengthBox.style.padding = '8px 12px';
+          lengthBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+          lengthBox.style.color = 'white';
+          lengthBox.style.borderRadius = '4px';
+          lengthBox.style.fontSize = '14px';
+          lengthBox.style.zIndex = '11';
+          mapContainer.appendChild(lengthBox);
+        }
+        
+        // Cập nhật giá trị độ dài
+        lengthBox.textContent = `Đường ${line.id}: ${line.length.toFixed(1)} px`;
+        lengthBox.style.display = 'block';
+      }
+      
+      // Kết thúc vẽ đường thẳng
+      function finishLineDrawing() {
+        isDrawingLine = false;
+        document.body.style.cursor = 'default';
+        
+        // Xóa các điểm tạm (những điểm không kết nối với một đường)
+        document.querySelectorAll('.line-endpoint:not([data-id])').forEach(point => {
+          mapContainer.removeChild(point);
+        });
+      }
+      
+      // Xóa tất cả các đối tượng vẽ
+      function clearAllDrawings() {
+        // Xóa waypoints
+        waypoints.forEach(waypoint => {
+          const marker = document.querySelector(`.waypoint-marker[data-id="${waypoint.id}"]`);
+          if (marker) {
+            mapContainer.removeChild(marker);
+          }
+        });
+        waypoints = [];
+        waypointCounter = 1;
+        
+        // Xóa góc
+        angles.forEach(angle => {
+          if (angle.element) {
+            mapContainer.removeChild(angle.element);
+          }
+        });
+        angles = [];
+        angleCounter = 1;
+        
+        // Xóa đường thẳng
+        lines.forEach(line => {
+          if (line.element) mapContainer.removeChild(line.element);
+          if (line.startPoint) mapContainer.removeChild(line.startPoint);
+          if (line.endPoint) mapContainer.removeChild(line.endPoint);
+        });
+        lines = [];
+        lineCounter = 1;
+        
+        // Xóa các ô hiển thị
+        const angleBox = document.getElementById('angle-value-box');
+        if (angleBox) {
+          mapContainer.removeChild(angleBox);
+        }
+        
+        const lengthBox = document.getElementById('line-length-box');
+        if (lengthBox) {
+          mapContainer.removeChild(lengthBox);
+        }
+        
+        // Reset các trạng thái
+        selectedWaypoint = null;
+        selectedAngle = null;
+        selectedLine = null;
+      }
+      
+      // Hiển thị danh sách góc đã vẽ
+      function showAnglesList() {
+        if (angles.length === 0) {
+          alert('Chưa có góc nào được vẽ.');
+          return;
+        }
+        
+        // Tạo danh sách góc
+        let angleList = 'Danh sách góc:\n\n';
+        angles.forEach(angle => {
+          angleList += `Góc ${angle.id}: ${angle.angle.toFixed(1)}°\n`;
+        });
+        
+        // Hiển thị danh sách
+        alert(angleList);
+      }
+      
+      // Hiển thị danh sách đường thẳng đã vẽ
+      function showLinesList() {
+        if (lines.length === 0) {
+          alert('Chưa có đường thẳng nào được vẽ.');
+          return;
+        }
+        
+        // Tạo danh sách đường thẳng
+        let lineList = 'Danh sách đường thẳng:\n\n';
+        lines.forEach(line => {
+          lineList += `Đường ${line.id}: ${line.length.toFixed(1)} px\n`;
+        });
+        
+        // Hiển thị danh sách
+        alert(lineList);
+      }
+      
+      // Chụp màn hình
+      function takeScreenshot() {
+        // Tạm ẩn các menu và tooltip
+        const settingsMenuVisible = settingsMenu.style.display === 'block';
+        const markerContextMenuVisible = markerContextMenu.style.display === 'block';
+        const waypointPopupVisible = waypointPopup.style.display === 'block';
+        
+        if (settingsMenuVisible) settingsMenu.style.display = 'none';
+        if (markerContextMenuVisible) markerContextMenu.style.display = 'none';
+        if (waypointPopupVisible) waypointPopup.style.display = 'none';
+        
+        // Sử dụng html2canvas để chụp màn hình
+        html2canvas(mapContainer).then(canvas => {
+          // Khôi phục hiển thị các menu
+          if (settingsMenuVisible) settingsMenu.style.display = 'block';
+          if (markerContextMenuVisible) markerContextMenu.style.display = 'block';
+          if (waypointPopupVisible) waypointPopup.style.display = 'block';
+          
+          // Tạo link tải xuống
+          const link = document.createElement('a');
+          link.download = `robot-map-${new Date().toISOString().slice(0, 10)}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }
+      
+      // Event Listeners
+      
+      // Di chuyển và quay robot
+      document.getElementById('move-up').addEventListener('click', () => moveRobot('up'));
+      document.getElementById('move-down').addEventListener('click', () => moveRobot('down'));
+      document.getElementById('move-left').addEventListener('click', () => moveRobot('left'));
+      document.getElementById('move-right').addEventListener('click', () => moveRobot('right'));
+      document.getElementById('move-up-left').addEventListener('click', () => moveRobot('up-left'));
+      document.getElementById('move-up-right').addEventListener('click', () => moveRobot('up-right'));
+      document.getElementById('move-down-left').addEventListener('click', () => moveRobot('down-left'));
+      document.getElementById('move-down-right').addEventListener('click', () => moveRobot('down-right'));
+      document.getElementById('rotate-left').addEventListener('click', () => rotateRobot('left'));
+      document.getElementById('rotate-right').addEventListener('click', () => rotateRobot('right'));
+      document.getElementById('spin').addEventListener('click', () => rotateRobot('spin'));
+      
+      // Undo/Redo
+      undoButton.addEventListener('click', () => {
+        if (historyIndex > 0) {
+          goToHistoryState(historyIndex - 1);
         }
       });
-    }
-    
-    // Thu gọn/mở rộng panel
-    function togglePanel(e) {
-      const header = e.currentTarget;
-      header.classList.toggle('collapsed');
-    }
-    
-    // Bật/tắt chế độ tối
-    function toggleDarkMode() {
-      body.classList.toggle('dark-mode');
       
-      if (body.classList.contains('dark-mode')) {
-        showStatusMessage('Đã bật chế độ tối');
-      } else {
-        showStatusMessage('Đã tắt chế độ tối');
-      }
-    }
-    
-    // Thêm lệnh vào lịch sử
-    function addCommandToHistory(command) {
-      const item = document.createElement('div');
-      item.className = 'command-item';
-      item.textContent = command;
-      
-      // Thêm vào đầu danh sách
-      commandHistory.insertBefore(item, commandHistory.firstChild);
-      
-      // Giới hạn lịch sử lệnh (giữ 50 lệnh gần nhất)
-      if (commandHistory.childNodes.length > 50) {
-        commandHistory.removeChild(commandHistory.lastChild);
-      }
-    }
-    
-    // Hiển thị thông báo
-    function showStatusMessage(message) {
-      statusMessage.textContent = message;
-      statusMessage.classList.add('show');
-      
-      // Ẩn sau 3 giây
-      setTimeout(() => {
-        statusMessage.classList.remove('show');
-      }, 3000);
-    }
-    
-    // Bật/tắt menu cài đặt
-    function toggleSettingsMenu(e) {
-      if (settingsMenuVisible) {
-        settingsMenu.style.display = 'none';
-        settingsMenuVisible = false;
-      } else {
-        const buttonRect = e.target.getBoundingClientRect();
-        settingsMenu.style.display = 'block';
-        settingsMenu.style.top = (buttonRect.bottom + 10) + 'px';
-        settingsMenu.style.right = (window.innerWidth - buttonRect.right) + 'px';
-        settingsMenuVisible = true;
-        
-        // Ẩn marker menu nếu đang mở
-        if (markerMenuVisible) {
-          markerMenu.style.display = 'none';
-          markerMenuVisible = false;
+      redoButton.addEventListener('click', () => {
+        if (historyIndex < commandHistory.length - 1) {
+          goToHistoryState(historyIndex + 1);
         }
-      }
+      });
       
-      e.stopPropagation();
-    }
-    
-    // Bật/tắt menu marker
-    function toggleMarkerMenu(e) {
-      if (markerMenuVisible) {
-        markerMenu.style.display = 'none';
-        markerMenuVisible = false;
-      } else {
-        const buttonRect = e.target.getBoundingClientRect();
-        markerMenu.style.display = 'block';
-        markerMenu.style.top = (buttonRect.top) + 'px';
-        markerMenu.style.left = (buttonRect.right + 10) + 'px';
-        markerMenuVisible = true;
+      // Theo dõi tọa độ chuột
+      mapContainer.addEventListener('mousemove', (e) => {
+        const rect = mapContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        // Ẩn settings menu nếu đang mở
-        if (settingsMenuVisible) {
+        // Cập nhật hiển thị tọa độ chuột
+        mouseCoords.textContent = `Mouse: X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+        
+        // Cập nhật vị trí chuột trên mini-map
+        if (!miniMapContainer.style.display || miniMapContainer.style.display !== 'none') {
+          const mapRect = mapElement.getBoundingClientRect();
+          const miniMapRect = miniMap.getBoundingClientRect();
+          
+          // Tính toán vị trí tương đối
+          const relativeX = (x / mapRect.width) * miniMapRect.width;
+          const relativeY = (y / mapRect.height) * miniMapRect.height;
+          
+          // Cập nhật vị trí
+          mousePositionIndicator.style.left = `${relativeX}px`;
+          mousePositionIndicator.style.top = `${relativeY}px`;
+        }
+        
+        // Di chuyển coordinates display khi đang kéo
+        if (isDraggingCoordinates) {
+          coordsDisplay.style.left = `${e.clientX - dragStartX}px`;
+          coordsDisplay.style.top = `${e.clientY - dragStartY}px`;
+        }
+        
+        // Di chuyển mini-map khi đang kéo
+        if (isDraggingMiniMap) {
+          miniMapContainer.style.left = `${e.clientX - dragStartX}px`;
+          miniMapContainer.style.top = `${e.clientY - dragStartY}px`;
+        }
+      });
+      
+      // Kéo robot
+      robotContainer.addEventListener('mousedown', (e) => {
+        if (e.target === robotCenterElement) {
+          // Kéo để điều chỉnh kích thước robot
+          isDraggingRobotCenter = true;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+        } else {
+          // Kéo để di chuyển robot
+          isDraggingRobot = true;
+          robotContainer.classList.add('dragging');
+          
+          // Lưu vị trí ban đầu để undo
+          lastRobotX = robotX;
+          lastRobotY = robotY;
+          lastRobotAngle = robotAngle;
+          
+          // Lưu vị trí chuột ban đầu
+          dragStartX = e.clientX - robotContainer.offsetLeft;
+          dragStartY = e.clientY - robotContainer.offsetTop;
+        }
+        
+        e.preventDefault();
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        if (isDraggingRobot) {
+          // Di chuyển robot theo chuột
+          robotX = e.clientX - dragStartX;
+          robotY = e.clientY - dragStartY;
+          
+          updateRobotPosition();
+        } else if (isDraggingRobotCenter) {
+          // Tính toán khoảng cách từ tâm robot
+          const dx = e.clientX - robotContainer.offsetLeft - robotSize / 2;
+          const dy = e.clientY - robotContainer.offsetTop - robotSize / 2;
+          
+          // Tính toán kích thước mới (khoảng cách từ tâm đến chuột * 2)
+          const newSize = Math.max(20, Math.sqrt(dx * dx + dy * dy) * 2);
+          
+          // Giới hạn kích thước tối đa
+          robotSize = Math.min(newSize, 200);
+          
+          // Cập nhật kích thước
+          robotElement.style.width = `${robotSize}px`;
+          
+          // Cập nhật vị trí
+          updateRobotPosition();
+        }
+      });
+      
+      document.addEventListener('mouseup', () => {
+        if (isDraggingRobot) {
+          isDraggingRobot = false;
+          robotContainer.classList.remove('dragging');
+          
+          // Thêm vào lịch sử
+          addToHistory('move-drag');
+        } else if (isDraggingRobotCenter) {
+          isDraggingRobotCenter = false;
+        }
+        
+        if (isDraggingCoordinates) {
+          isDraggingCoordinates = false;
+          coordsDisplay.setAttribute('data-draggable', 'false');
+        }
+        
+        if (isDraggingMiniMap) {
+          isDraggingMiniMap = false;
+          miniMapContainer.setAttribute('data-draggable', 'false');
+        }
+      });
+      
+      // Event cho công cụ đánh dấu điểm
+      waypointTool.addEventListener('click', () => {
+        // Toggle tool
+        if (currentTool === 'waypoint') {
+          currentTool = null;
+          waypointTool.classList.remove('active');
+        } else {
+          currentTool = 'waypoint';
+          waypointTool.classList.add('active');
+          measureTool.classList.remove('active');
+        }
+      });
+      
+      // Event cho công cụ đo khoảng cách
+      measureTool.addEventListener('click', () => {
+        // Toggle tool
+        if (currentTool === 'measure') {
+          currentTool = null;
+          measureTool.classList.remove('active');
+          measurePoints = [];
+        } else {
+          currentTool = 'measure';
+          measureTool.classList.add('active');
+          waypointTool.classList.remove('active');
+          measurePoints = [];
+        }
+      });
+      
+      // Event cho nút xóa tất cả
+      clearTool.addEventListener('click', () => {
+        if (confirm('Bạn có chắc muốn xóa tất cả đánh dấu và vẽ?')) {
+          clearAllDrawings();
+        }
+      });
+      
+      // Event cho nút chụp màn hình
+      screenshotTool.addEventListener('click', takeScreenshot);
+      
+      // Xử lý click trên map
+      mapContainer.addEventListener('click', (e) => {
+        // Đóng các menu mở
+        settingsMenu.style.display = 'none';
+        markerContextMenu.style.display = 'none';
+        
+        // Kiểm tra xem click có phải vào robot hay marker không
+        if (e.target.closest('#robot-container') || 
+            e.target.closest('.waypoint-marker') ||
+            e.target.closest('.angle-arc') ||
+            e.target.closest('.line-segment') ||
+            e.target.closest('.angle-point') ||
+            e.target.closest('.line-endpoint')) {
+          return;
+        }
+        
+        const rect = mapContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        if (currentTool === 'waypoint') {
+          // Hiển thị menu waypoint
+          waypointPopup.style.display = 'block';
+          waypointPopup.style.left = `${e.clientX}px`;
+          waypointPopup.style.top = `${e.clientY}px`;
+          
+          // Lưu tọa độ tạm thời
+          waypointPopup.dataset.x = x;
+          waypointPopup.dataset.y = y;
+        } else if (currentTool === 'measure') {
+          // Thêm điểm đo
+          measurePoints.push({ x, y });
+          
+          // Nếu đã có 2 điểm, hiển thị khoảng cách
+          if (measurePoints.length === 2) {
+            const distance = Math.sqrt(
+              Math.pow(measurePoints[1].x - measurePoints[0].x, 2) +
+              Math.pow(measurePoints[1].y - measurePoints[0].y, 2)
+            );
+            
+            alert(`Khoảng cách: ${distance.toFixed(2)} px`);
+            
+            // Reset
+            measurePoints = [];
+          }
+        } else if (isDrawingAngle) {
+          // Thêm điểm góc
+          addAnglePoint(x, y);
+        } else if (isDrawingLine) {
+          // Thêm điểm đường thẳng
+          addLinePoint(x, y);
+        }
+      });
+      
+      // Marker context menu options
+      renameMarkerOption.addEventListener('click', () => {
+        if (selectedWaypoint) {
+          renameWaypoint(selectedWaypoint);
+          markerContextMenu.style.display = 'none';
+        }
+      });
+      
+      moveToMarkerOption.addEventListener('click', () => {
+        if (selectedWaypoint) {
+          moveRobotToWaypoint(selectedWaypoint);
+          markerContextMenu.style.display = 'none';
+        }
+      });
+      
+      deleteMarkerOption.addEventListener('click', () => {
+        if (selectedWaypoint) {
+          deleteWaypoint(selectedWaypoint);
+          markerContextMenu.style.display = 'none';
+        }
+      });
+      
+      // Waypoint popup options
+      markWaypointOption.addEventListener('click', () => {
+        const x = parseFloat(waypointPopup.dataset.x);
+        const y = parseFloat(waypointPopup.dataset.y);
+        
+        addWaypoint(x, y, false);
+        waypointPopup.style.display = 'none';
+      });
+      
+      markTargetOption.addEventListener('click', () => {
+        const x = parseFloat(waypointPopup.dataset.x);
+        const y = parseFloat(waypointPopup.dataset.y);
+        
+        const waypoint = addWaypoint(x, y, true);
+        waypointPopup.style.display = 'none';
+        
+        // Tùy chọn di chuyển robot đến điểm đó
+        if (confirm('Bạn có muốn di chuyển robot đến điểm này không?')) {
+          moveRobotToWaypoint(waypoint);
+        }
+      });
+      
+      // Góc và đường thẳng submenu
+      angleDrawingOption.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Toggle submenu
+        if (angleSubmenu.style.display === 'block') {
+          angleSubmenu.style.display = 'none';
+        } else {
+          angleSubmenu.style.display = 'block';
+          lineSubmenu.style.display = 'none';
+        }
+      });
+      
+      lineDrawingOption.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Toggle submenu
+        if (lineSubmenu.style.display === 'block') {
+          lineSubmenu.style.display = 'none';
+        } else {
+          lineSubmenu.style.display = 'block';
+          angleSubmenu.style.display = 'none';
+        }
+      });
+      
+      // Option vẽ góc mới
+      drawAngleOption.addEventListener('click', () => {
+        startAngleDrawing();
+        waypointPopup.style.display = 'none';
+      });
+      
+      // Option xem danh sách góc đã vẽ
+      listAnglesOption.addEventListener('click', () => {
+        showAnglesList();
+        waypointPopup.style.display = 'none';
+      });
+      
+      // Option vẽ đường thẳng mới
+      drawLineOption.addEventListener('click', () => {
+        startLineDrawing();
+        waypointPopup.style.display = 'none';
+      });
+      
+      // Option xem danh sách đường đã vẽ
+      listLinesOption.addEventListener('click', () => {
+        showLinesList();
+        waypointPopup.style.display = 'none';
+      });
+      
+      // Hiện/ẩn lưới
+      toggleGridButton.addEventListener('click', () => {
+        if (gridOverlay.style.display === 'block') {
+          gridOverlay.style.display = 'none';
+        } else {
+          gridOverlay.style.display = 'block';
+          // Cập nhật lại lưới khi hiển thị
+          createGridOverlay();
+        }
+      });
+      
+      // Settings button
+      settingsButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (settingsMenu.style.display === 'block') {
           settingsMenu.style.display = 'none';
-          settingsMenuVisible = false;
-        }
-      }
-      
-      e.stopPropagation();
-    }
-    
-    // Xử lý click trên document để đóng menu
-    function handleDocumentClick(e) {
-      // Đóng settings menu nếu click ngoài menu và nút settings
-      if (settingsMenuVisible && 
-          !settingsMenu.contains(e.target) && 
-          e.target !== settingsBtn && 
-          !settingsBtn.contains(e.target)) {
-        settingsMenu.style.display = 'none';
-        settingsMenuVisible = false;
-      }
-      
-      // Đóng marker menu nếu click ngoài menu và nút toggle marker
-      if (markerMenuVisible && 
-          !markerMenu.contains(e.target) && 
-          e.target !== toggleMarkerMode && 
-          !toggleMarkerMode.contains(e.target)) {
-        markerMenu.style.display = 'none';
-        markerMenuVisible = false;
-      }
-      
-      // Tắt chế độ điều chỉnh vị trí nếu đang bật
-      if (isPositionAdjustment && 
-          e.target !== adjustPositionBtn && 
-          !coordinatesDisplay.contains(e.target) && 
-          !miniMapContainer.contains(e.target)) {
-        togglePositionAdjustment();
-      }
-    }
-    
-    // Bật/tắt chế độ điều chỉnh vị trí
-    function togglePositionAdjustment() {
-      isPositionAdjustment = !isPositionAdjustment;
-      
-      // Đặt trạng thái draggable cho các phần tử
-      coordinatesDisplay.setAttribute('data-draggable', isPositionAdjustment);
-      miniMapContainer.setAttribute('data-draggable', isPositionAdjustment);
-      
-      // Cập nhật nút
-      adjustPositionBtn.textContent = isPositionAdjustment ? 'Hoàn tất điều chỉnh vị trí' : 'Điều chỉnh vị trí';
-      
-      // Hiển thị thông báo
-      if (isPositionAdjustment) {
-        showStatusMessage('Hãy kéo và thả để điều chỉnh vị trí hiển thị');
-      } else {
-        showStatusMessage('Đã hoàn tất điều chỉnh vị trí');
-      }
-      
-      // Đóng settings menu
-      settingsMenu.style.display = 'none';
-      settingsMenuVisible = false;
-    }
-    
-    // Bật/tắt hiển thị mini-map
-    function toggleMiniMap() {
-      if (miniMapContainer.style.display === 'none') {
-        miniMapContainer.style.display = 'block';
-        showStatusMessage('Đã hiển thị Mini Map');
-      } else {
-        miniMapContainer.style.display = 'none';
-        showStatusMessage('Đã ẩn Mini Map');
-      }
-      
-      // Đóng settings menu
-      settingsMenu.style.display = 'none';
-      settingsMenuVisible = false;
-    }
-    
-    // Kích hoạt chế độ đánh dấu mục tiêu cho robot
-    function activateRobotTargetMode() {
-      isMarkerMode = true;
-      toggleMarkerMode.classList.add('active');
-      showStatusMessage('Nhấp chuột để đánh dấu điểm đích cho robot');
-      
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-    }
-    
-    // Kích hoạt chế độ đánh dấu tham chiếu
-    function activateReferencePointMode() {
-      isMarkerMode = true;
-      toggleMarkerMode.classList.add('active');
-      showStatusMessage('Nhấp chuột để đánh dấu điểm tham chiếu');
-      
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-    }
-    
-    // Bật/tắt submenu góc
-    function toggleAngleSubmenu() {
-      if (angleSubmenu.style.display === 'block') {
-        angleSubmenu.style.display = 'none';
-      } else {
-        angleSubmenu.style.display = 'block';
-        lineSubmenu.style.display = 'none';
-      }
-    }
-    
-    // Bật/tắt submenu đường thẳng
-    function toggleLineSubmenu() {
-      if (lineSubmenu.style.display === 'block') {
-        lineSubmenu.style.display = 'none';
-      } else {
-        lineSubmenu.style.display = 'block';
-        angleSubmenu.style.display = 'none';
-      }
-    }
-    
-    // Kích hoạt chế độ vẽ góc
-    function activateAngleDrawingMode() {
-      isAngleDrawingMode = true;
-      isLineDrawingMode = false;
-      isMarkerMode = false;
-      
-      currentAnglePoints = [];
-      showStatusMessage('Nhấp chuột 3 lần để vẽ một góc');
-      
-      // Hiển thị hộp thông tin góc
-      angleDisplayBox.style.display = 'block';
-      angleDisplayBox.textContent = 'Chọn điểm thứ nhất của góc';
-      
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-    }
-    
-    // Xử lý click trong chế độ vẽ góc
-    function handleAngleDrawingClick(x, y) {
-      if (currentAnglePoints.length < 2) {
-        // Thêm điểm đầu tiên hoặc điểm thứ hai
-        const point = document.createElement('div');
-        point.className = 'angle-point';
-        point.style.left = `${x}px`;
-        point.style.top = `${y}px`;
-        mapContainer.appendChild(point);
-        
-        currentAnglePoints.push({ x, y, element: point });
-        
-        if (currentAnglePoints.length === 1) {
-          angleDisplayBox.textContent = 'Chọn điểm thứ hai của góc';
         } else {
-          angleDisplayBox.textContent = 'Chọn điểm thứ ba để hoàn thành góc';
-          
-          // Tạo đường thẳng tạm thời
-          const line = document.createElement('div');
-          line.className = 'angle-path';
-          const dx = currentAnglePoints[1].x - currentAnglePoints[0].x;
-          const dy = currentAnglePoints[1].y - currentAnglePoints[0].y;
-          const length = Math.sqrt(dx * dx + dy * dy);
-          const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-          
-          line.style.width = `${length}px`;
-          line.style.left = `${currentAnglePoints[0].x}px`;
-          line.style.top = `${currentAnglePoints[0].y}px`;
-          line.style.transformOrigin = 'left center';
-          line.style.transform = `rotate(${angle}deg)`;
-          
-          mapContainer.appendChild(line);
-          currentAnglePoints[1].line = line;
+          settingsMenu.style.display = 'block';
+          markerContextMenu.style.display = 'none';
+          waypointPopup.style.display = 'none';
         }
-      } else {
-        // Thêm điểm thứ ba và hoàn thành góc
-        finishAngleDrawing(x, y);
-      }
-    }
-    
-    // Cập nhật cung góc khi di chuyển chuột
-    function updateAngleArc(x, y) {
-      // Xóa cung tạm thời nếu có
-      if (currentAnglePoints[1].arc) {
-        mapContainer.removeChild(currentAnglePoints[1].arc);
-        currentAnglePoints[1].arc = null;
-      }
-      
-      if (currentAnglePoints[1].angleDisplay) {
-        mapContainer.removeChild(currentAnglePoints[1].angleDisplay);
-        currentAnglePoints[1].angleDisplay = null;
-      }
-      
-      // Tính toán góc
-      const p1 = currentAnglePoints[0];
-      const p2 = currentAnglePoints[1];
-      
-      const v1x = p1.x - p2.x;
-      const v1y = p1.y - p2.y;
-      
-      const v2x = x - p2.x;
-      const v2y = y - p2.y;
-      
-      const v1Length = Math.sqrt(v1x * v1x + v1y * v1y);
-      const v2Length = Math.sqrt(v2x * v2x + v2y * v2y);
-      
-      // Tính dot product và góc
-      const dotProduct = v1x * v2x + v1y * v2y;
-      let angleRadians = Math.acos(dotProduct / (v1Length * v2Length));
-      let angleDegrees = (angleRadians * 180 / Math.PI).toFixed(1);
-      
-      // Xác định hướng góc
-      const crossProduct = v1x * v2y - v1y * v2x;
-      if (crossProduct < 0) {
-        angleRadians = 2 * Math.PI - angleRadians;
-        angleDegrees = (360 - parseFloat(angleDegrees)).toFixed(1);
-      }
-      
-      // Tạo cung tạm thời
-      const arc = document.createElement('div');
-      arc.className = 'angle-arc';
-      
-      // Kích thước cung (bán kính)
-      const arcRadius = Math.min(v1Length, v2Length) / 3;
-      
-      arc.style.width = `${arcRadius * 2}px`;
-      arc.style.height = `${arcRadius * 2}px`;
-      arc.style.left = `${p2.x - arcRadius}px`;
-      arc.style.top = `${p2.y - arcRadius}px`;
-      
-      // Clip path để tạo cung
-      const startAngle = Math.atan2(v1y, v1x) * 180 / Math.PI;
-      const endAngle = Math.atan2(v2y, v2x) * 180 / Math.PI;
-      
-      mapContainer.appendChild(arc);
-      currentAnglePoints[1].arc = arc;
-      
-      // Hiển thị giá trị góc
-      const angleDisplay = document.createElement('div');
-      angleDisplay.className = 'angle-display';
-      angleDisplay.textContent = `${angleDegrees}°`;
-      
-      // Vị trí hiển thị góc (ở giữa cung)
-      const displayAngle = (startAngle + endAngle) / 2;
-      const displayRadius = arcRadius * 1.5;
-      const displayX = p2.x + displayRadius * Math.cos(displayAngle * Math.PI / 180);
-      const displayY = p2.y + displayRadius * Math.sin(displayAngle * Math.PI / 180);
-      
-      angleDisplay.style.left = `${displayX}px`;
-      angleDisplay.style.top = `${displayY}px`;
-      
-      mapContainer.appendChild(angleDisplay);
-      currentAnglePoints[1].angleDisplay = angleDisplay;
-      
-      // Cập nhật góc hiển thị
-      angleDisplayBox.textContent = `Góc: ${angleDegrees}°`;
-    }
-    
-    // Hoàn thành vẽ góc
-    function finishAngleDrawing(x, y) {
-      // Tạo điểm thứ ba
-      const point = document.createElement('div');
-      point.className = 'angle-point';
-      point.style.left = `${x}px`;
-      point.style.top = `${y}px`;
-      mapContainer.appendChild(point);
-      
-      // Tính góc cuối cùng
-      const p1 = currentAnglePoints[0];
-      const p2 = currentAnglePoints[1];
-      
-      const v1x = p1.x - p2.x;
-      const v1y = p1.y - p2.y;
-      
-      const v2x = x - p2.x;
-      const v2y = y - p2.y;
-      
-      const v1Length = Math.sqrt(v1x * v1x + v1y * v1y);
-      const v2Length = Math.sqrt(v2x * v2x + v2y * v2y);
-      
-      const dotProduct = v1x * v2x + v1y * v2y;
-      let angleRadians = Math.acos(dotProduct / (v1Length * v2Length));
-      let angleDegrees = (angleRadians * 180 / Math.PI).toFixed(1);
-      
-      // Xác định hướng góc
-      const crossProduct = v1x * v2y - v1y * v2x;
-      if (crossProduct < 0) {
-        angleRadians = 2 * Math.PI - angleRadians;
-        angleDegrees = (360 - parseFloat(angleDegrees)).toFixed(1);
-      }
-      
-      // Tạo đường thẳng thứ hai
-      const line = document.createElement('div');
-      line.className = 'angle-path';
-      const length = Math.min(v1Length, v2Length);
-      const angle = Math.atan2(v2y, v2x) * 180 / Math.PI;
-      
-      line.style.width = `${length}px`;
-      line.style.left = `${p2.x}px`;
-      line.style.top = `${p2.y}px`;
-      line.style.transformOrigin = 'left center';
-      line.style.transform = `rotate(${angle}deg)`;
-      
-      mapContainer.appendChild(line);
-      
-      // Lưu góc vào danh sách
-      angles.push({
-        id: angles.length + 1,
-        points: [
-          { x: p1.x, y: p1.y, element: currentAnglePoints[0].element },
-          { x: p2.x, y: p2.y, element: currentAnglePoints[1].element },
-          { x, y, element: point }
-        ],
-        lines: [currentAnglePoints[1].line, line],
-        arc: currentAnglePoints[1].arc,
-        angleDisplay: currentAnglePoints[1].angleDisplay,
-        value: parseFloat(angleDegrees)
       });
       
-      // Reset trạng thái
-      isAngleDrawingMode = false;
-      currentAnglePoints = [];
-      
-      // Ẩn hộp thông tin góc
-      angleDisplayBox.style.display = 'none';
-      
-      // Hiển thị thông báo
-      showStatusMessage(`Đã vẽ góc ${angleDegrees}°`);
-      
-      // Thêm lệnh vào lịch sử
-      addCommandToHistory(`Vẽ góc ${angleDegrees}°`);
-    }
-    
-    // Hiển thị quản lý góc
-    function showAngleManagement() {
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-      
-      if (angles.length === 0) {
-        showStatusMessage('Chưa có góc nào được vẽ');
-        return;
-      }
-      
-      // Tạo dialog quản lý góc
-      // Trong thực tế bạn sẽ tạo một modal dialog
-      // Ở đây tôi sẽ sử dụng alert để đơn giản
-      let angleList = 'Danh sách góc:\n';
-      angles.forEach(angle => {
-        angleList += `- Góc ${angle.id}: ${angle.value}°\n`;
-      });
-      
-      alert(angleList + '\nNhấn Ctrl + click vào góc để xóa');
-    }
-    
-    // Kích hoạt chế độ vẽ đường thẳng
-    function activateLineDrawingMode() {
-      isLineDrawingMode = true;
-      isAngleDrawingMode = false;
-      isMarkerMode = false;
-      
-      currentLinePoints = [];
-      showStatusMessage('Nhấp chuột 2 lần để vẽ một đường thẳng');
-      
-      // Hiển thị hộp thông tin
-      angleDisplayBox.style.display = 'block';
-      angleDisplayBox.textContent = 'Chọn điểm đầu của đường thẳng';
-      
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-    }
-    
-    // Xử lý click trong chế độ vẽ đường thẳng
-    function handleLineDrawingClick(x, y) {
-      if (currentLinePoints.length === 0) {
-        // Thêm điểm đầu tiên
-        const point = document.createElement('div');
-        point.className = 'line-point';
-        point.style.left = `${x}px`;
-        point.style.top = `${y}px`;
-        mapContainer.appendChild(point);
+      // Position adjust option
+      positionAdjustOption.addEventListener('click', () => {
+        // Toggle trạng thái kéo thả
+        const coordsDraggable = coordsDisplay.getAttribute('data-draggable') === 'true';
+        const miniMapDraggable = miniMapContainer.getAttribute('data-draggable') === 'true';
         
-        currentLinePoints.push({ x, y, element: point });
-        angleDisplayBox.textContent = 'Chọn điểm cuối của đường thẳng';
-      } else {
-        // Thêm điểm thứ hai và hoàn thành đường thẳng
-        finishLineDrawing(x, y);
-      }
-    }
-    
-    // Cập nhật đường thẳng khi di chuyển chuột
-    function updateLine(x, y) {
-      // Xóa đường tạm thời nếu có
-      if (currentLinePoints[0].line) {
-        mapContainer.removeChild(currentLinePoints[0].line);
-        currentLinePoints[0].line = null;
-      }
-      
-      if (currentLinePoints[0].lengthDisplay) {
-        mapContainer.removeChild(currentLinePoints[0].lengthDisplay);
-        currentLinePoints[0].lengthDisplay = null;
-      }
-      
-      // Tạo đường thẳng tạm thời
-      const p1 = currentLinePoints[0];
-      
-      const dx = x - p1.x;
-      const dy = y - p1.y;
-      const length = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-      
-      const line = document.createElement('div');
-      line.className = 'line-path';
-      line.style.width = `${length}px`;
-      line.style.left = `${p1.x}px`;
-      line.style.top = `${p1.y}px`;
-      line.style.transformOrigin = 'left center';
-      line.style.transform = `rotate(${angle}deg)`;
-      
-      mapContainer.appendChild(line);
-      currentLinePoints[0].line = line;
-      
-      // Hiển thị độ dài
-      const lengthDisplay = document.createElement('div');
-      lengthDisplay.className = 'line-length';
-      lengthDisplay.textContent = `${Math.round(length)}px`;
-      
-      // Vị trí hiển thị (giữa đường thẳng)
-      const displayX = p1.x + dx / 2;
-      const displayY = p1.y + dy / 2;
-      
-      lengthDisplay.style.left = `${displayX}px`;
-      lengthDisplay.style.top = `${displayY}px`;
-      
-      mapContainer.appendChild(lengthDisplay);
-      currentLinePoints[0].lengthDisplay = lengthDisplay;
-      
-      // Cập nhật thông tin
-      angleDisplayBox.textContent = `Chiều dài: ${Math.round(length)}px, Góc: ${Math.round(angle)}°`;
-    }
-    
-    // Hoàn thành vẽ đường thẳng
-    function finishLineDrawing(x, y) {
-      // Tạo điểm thứ hai
-      const point = document.createElement('div');
-      point.className = 'line-point';
-      point.style.left = `${x}px`;
-      point.style.top = `${y}px`;
-      mapContainer.appendChild(point);
-      
-      // Tính độ dài và góc
-      const p1 = currentLinePoints[0];
-      
-      const dx = x - p1.x;
-      const dy = y - p1.y;
-      const length = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-      
-      // Lưu đường thẳng vào danh sách
-      lines.push({
-        id: lines.length + 1,
-        points: [
-          { x: p1.x, y: p1.y, element: currentLinePoints[0].element },
-          { x, y, element: point }
-        ],
-        line: currentLinePoints[0].line,
-        lengthDisplay: currentLinePoints[0].lengthDisplay,
-        length: Math.round(length),
-        angle: Math.round(angle)
+        coordsDisplay.setAttribute('data-draggable', !coordsDraggable);
+        miniMapContainer.setAttribute('data-draggable', !miniMapDraggable);
+        
+        if (!coordsDraggable) {
+          alert('Bạn có thể kéo và thả bảng tọa độ và mini-map đến vị trí mong muốn. Nhấn vào nút Cài đặt một lần nữa để kết thúc.');
+        }
+        
+        settingsMenu.style.display = 'none';
       });
       
-      // Reset trạng thái
-      isLineDrawingMode = false;
-      currentLinePoints = [];
-      
-      // Ẩn hộp thông tin
-      angleDisplayBox.style.display = 'none';
-      
-      // Hiển thị thông báo
-      showStatusMessage(`Đã vẽ đường thẳng dài ${Math.round(length)}px, góc ${Math.round(angle)}°`);
-      
-      // Thêm lệnh vào lịch sử
-      addCommandToHistory(`Vẽ đường thẳng dài ${Math.round(length)}px`);
-    }
-    
-    // Hiển thị quản lý đường thẳng
-    function showLineManagement() {
-      // Đóng marker menu
-      markerMenu.style.display = 'none';
-      markerMenuVisible = false;
-      
-      if (lines.length === 0) {
-        showStatusMessage('Chưa có đường thẳng nào được vẽ');
-        return;
-      }
-      
-      // Tạo dialog quản lý đường thẳng
-      // Trong thực tế bạn sẽ tạo một modal dialog
-      // Ở đây tôi sẽ sử dụng alert để đơn giản
-      let lineList = 'Danh sách đường thẳng:\n';
-      lines.forEach(line => {
-        lineList += `- Đường ${line.id}: ${line.length}px, góc ${line.angle}°\n`;
+      // Toggle mini-map option
+      toggleMiniMapOption.addEventListener('click', () => {
+        if (miniMapContainer.style.display === 'none') {
+          miniMapContainer.style.display = 'block';
+          updateMiniMap();
+        } else {
+          miniMapContainer.style.display = 'none';
+        }
+        
+        settingsMenu.style.display = 'none';
       });
       
-      alert(lineList + '\nNhấn Ctrl + click vào đường để xóa');
-    }
-    
-    // Khởi tạo ứng dụng khi trang đã tải xong
-    window.addEventListener('load', init);
+      // Thay đổi theme
+      themeSwitch.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        isDarkMode = document.body.classList.contains('dark-mode');
+      });
+      
+      // Resizer for sidebar
+      let isResizing = false;
+      
+      sidebarResizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.body.style.cursor = 'ew-resize';
+        e.preventDefault();
+      });
+      
+      document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        
+        // Giới hạn kích thước tối thiểu và tối đa
+        const newWidth = Math.max(250, Math.min(500, e.clientX));
+        
+        // Cập nhật kích thước sidebar
+        sidebar.style.width = newWidth + 'px';
+        sidebarResizer.style.left = newWidth + 'px';
+      });
+      
+      document.addEventListener('mouseup', () => {
+        if (isResizing) {
+          isResizing = false;
+          document.body.style.cursor = '';
+        }
+      });
+      
+      // Kéo tọa độ và mini-map
+      coordsDisplay.addEventListener('mousedown', (e) => {
+        if (coordsDisplay.getAttribute('data-draggable') === 'true') {
+          isDraggingCoordinates = true;
+          dragStartX = e.clientX - coordsDisplay.offsetLeft;
+          dragStartY = e.clientY - coordsDisplay.offsetTop;
+          e.preventDefault();
+        }
+      });
+      
+      miniMapContainer.addEventListener('mousedown', (e) => {
+        if (miniMapContainer.getAttribute('data-draggable') === 'true') {
+          isDraggingMiniMap = true;
+          dragStartX = e.clientX - miniMapContainer.offsetLeft;
+          dragStartY = e.clientY - miniMapContainer.offsetTop;
+          e.preventDefault();
+        }
+      });
+      
+      // Đóng menu khi click ra ngoài
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#settings-menu') && !e.target.closest('#settings-button')) {
+          settingsMenu.style.display = 'none';
+        }
+        
+        if (!e.target.closest('#marker-context-menu') && !e.target.closest('.waypoint-marker')) {
+          markerContextMenu.style.display = 'none';
+        }
+        
+        if (!e.target.closest('#waypoint-popup') && !e.target.closest('#waypoint-tool')) {
+          waypointPopup.style.display = 'none';
+        }
+      });
+      
+      // Xử lý phím tắt
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'z') {
+          // Undo
+          if (!undoButton.disabled) {
+            undoButton.click();
+          }
+        } else if (e.ctrlKey && e.key === 'y') {
+          // Redo
+          if (!redoButton.disabled) {
+            redoButton.click();
+          }
+        } else if (e.key === 'Escape') {
+          // Escape: hủy công cụ hiện tại và đóng menu
+          currentTool = null;
+          waypointTool.classList.remove('active');
+          measureTool.classList.remove('active');
+          settingsMenu.style.display = 'none';
+          markerContextMenu.style.display = 'none';
+          waypointPopup.style.display = 'none';
+          
+          // Hủy các trạng thái vẽ
+          if (isDrawingAngle) {
+            finishAngleDrawing();
+          }
+          if (isDrawingLine) {
+            finishLineDrawing();
+          }
+        }
+      });
+      
+      // Khởi tạo
+      initMap();
+      
+      // Fake html2canvas nếu không có thực sự
+      if (typeof html2canvas === 'undefined') {
+        window.html2canvas = function(element) {
+          return new Promise((resolve) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = element.offsetWidth;
+            canvas.height = element.offsetHeight;
+            resolve(canvas);
+          });
+        };
+      }
+    });
   </script>
 </body>
 </html>

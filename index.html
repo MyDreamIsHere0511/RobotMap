@@ -311,6 +311,9 @@
       max-width: 100%;
       height: auto;
       transition: transform 0.3s;
+      position: absolute;
+      left: 0;
+      top: 0;
     }
     
     #robot-container {
@@ -326,6 +329,7 @@
       transform-origin: center;
       transform: translate(-50%, -50%);
       transition: width 0.3s;
+      z-index: 20;
     }
     
     .resize-handle {
@@ -337,7 +341,7 @@
       border-radius: 50%;
       background-color: var(--accent-color);
       cursor: nwse-resize;
-      z-index: 20;
+      z-index: 25;
     }
     
     .dragging {
@@ -358,6 +362,10 @@
       position: absolute;
       pointer-events: none;
       z-index: 5;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
     
     .grid-line {
@@ -423,6 +431,7 @@
       background-color: rgba(0, 0, 0, 0.5);
       transform: translate(-50%, -50%);
       pointer-events: none;
+      z-index: 15;
     }
     
     .waypoint-marker {
@@ -468,6 +477,7 @@
       max-height: 150px;
       overflow-y: auto;
     }
+    
     .command-block {
       padding: 8px;
       border-radius: 4px;
@@ -950,370 +960,395 @@
             <button class="direction-btn" onclick="moveRobotInDirection(0, 1)" title="Di chuyển xuống">↓</button>
             <button class="direction-btn" onclick="moveRobotInDirection(1, 1)" title="Di chuyển chéo phải xuống">↘</button>
           </div>
-                    <!-- Điều khiển góc quay -->
-                    <div class="control-row">
-                      <label>Điều khiển góc quay:</label>
-                      <div class="btn-group">
-                        <button class="btn" onclick="rotateRobot(-15)" title="Quay trái 15°">↺ 15°</button>
-                        <button class="btn" onclick="rotateRobot(15)" title="Quay phải 15°">15° ↻</button>
-                        <button class="btn" onclick="spinRobot()" title="Xoay tròn">🔄</button>
-                      </div>
-                    </div>
-                    
-                    <!-- Hiển thị đánh dấu điểm -->
-                    <div class="control-row">
-                      <label>Hiển thị:</label>
-                      <div>
-                        <label class="toggle-btn">
-                          <input type="checkbox" id="toggle-grid" onchange="toggleGrid()"> Grid
-                        </label>
-                        <label class="toggle-btn">
-                          <input type="checkbox" id="toggle-path" onchange="togglePath()"> Path
-                        </label>
-                      </div>
-                    </div>
-                    
-                    <!-- Nút đảo chiều -->
-                    <div class="control-row">
-                      <label>Đảo chiều:</label>
-                      <div>
-                        <button id="toggle-vertical" class="btn" onclick="toggleInvert('vertical')">↕ Y</button>
-                        <button id="toggle-horizontal" class="btn" onclick="toggleInvert('horizontal')">↔ X</button>
-                      </div>
-                    </div>
-                    
-                    <!-- Xóa hết waypoints -->
-                    <div class="control-row">
-                      <button class="btn danger" onclick="clearAllWaypoints()">Xóa tất cả waypoints</button>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Phân khu 2: Lập trình khối lệnh -->
-                <div id="coding-section" class="panel-section">
-                  <h3 class="panel-section-title">
-                    Lập Trình Robot
-                    <div class="history-controls">
-                      <button id="undo-button-2" onclick="undoAction()" title="Quay lại bước trước (Ctrl+Z)">↩</button>
-                      <button id="redo-button-2" onclick="redoAction()" title="Tiến lại bước sau (Ctrl+Y)">↪</button>
-                    </div>
-                  </h3>
-                  <div class="block-container">
-                    <div class="block-library">
-                      <div class="command-block move-up" draggable="true" ondragstart="dragStart(event)" data-command="moveUp">
-                        Di chuyển lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-down" draggable="true" ondragstart="dragStart(event)" data-command="moveDown">
-                        Di chuyển xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-left" draggable="true" ondragstart="dragStart(event)" data-command="moveLeft">
-                        Di chuyển trái <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-right" draggable="true" ondragstart="dragStart(event)" data-command="moveRight">
-                        Di chuyển phải <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-upleft" draggable="true" ondragstart="dragStart(event)" data-command="moveUpLeft">
-                        Di chuyển chéo trái lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-upright" draggable="true" ondragstart="dragStart(event)" data-command="moveUpRight">
-                        Di chuyển chéo phải lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-downleft" draggable="true" ondragstart="dragStart(event)" data-command="moveDownLeft">
-                        Di chuyển chéo trái xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block move-downright" draggable="true" ondragstart="dragStart(event)" data-command="moveDownRight">
-                        Di chuyển chéo phải xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
-                      </div>
-                      <div class="command-block rotate-left" draggable="true" ondragstart="dragStart(event)" data-command="rotateLeft">
-                        Xoay trái <input type="number" value="15" step="1" min="1"> <span class="unit-label">°</span>
-                      </div>
-                      <div class="command-block rotate-right" draggable="true" ondragstart="dragStart(event)" data-command="rotateRight">
-                        Xoay phải <input type="number" value="15" step="1" min="1"> <span class="unit-label">°</span>
-                      </div>
-                      <div class="command-block spin" draggable="true" ondragstart="dragStart(event)" data-command="spin">
-                        Xoay tròn <input type="number" value="1" step="1" min="1"> <span class="unit-label">vòng</span>
-                      </div>
-                    </div>
-                    
-                    <div class="program-area" 
-                         ondrop="drop(event)" 
-                         ondragover="allowDrop(event)"
-                         ondragenter="dragEnter(event)"
-                         ondragleave="dragLeave(event)">
-                      <div class="drag-indicator"></div>
-                      <!-- Block lệnh sẽ được thêm vào đây -->
-                    </div>
-                    
-                    <button class="run-program" onclick="runProgram()">
-                      <i>▶</i> Chạy chương trình
-                    </button>
-                  </div>
-                </div>
-                
-                <!-- Phân khu 3: Lưu và tải -->
-                <div id="save-section" class="panel-section">
-                  <h3 class="panel-section-title">Lưu/Tải Chương Trình</h3>
-                  <div class="panel-content">
-                    <div class="control-row">
-                      <input type="text" id="program-name" placeholder="Nhập tên chương trình" class="coordinate-input" style="width: 150px;">
-                      <button class="btn secondary" onclick="saveProgram()">Lưu</button>
-                    </div>
-                    
-                    <div class="saved-items" id="saved-programs-list">
-                      <!-- Danh sách chương trình sẽ được hiển thị ở đây -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div id="display-area">
-                <div id="map-container">
-                  <img id="map" src="map.png" alt="Map">
-                  <div id="robot-container">
-                    <img id="robot" src="robot.png" alt="Robot">
-                  </div>
-                  <div id="mouse-position-indicator"></div>
-                  <div id="grid-overlay"></div>
-                </div>
-                
-                <div id="coordinates-display">
-                  <div>X: <span id="mouse-x">0</span> cm, Y: <span id="mouse-y">0</span> cm</div>
-                </div>
-                
-                <div id="mini-map-container">
-                  <div id="mini-map">
-                    <div id="mini-map-indicator"></div>
-                    <div id="mini-map-robot"></div>
-                  </div>
-                </div>
-              </div>
+          
+          <!-- Điều khiển góc quay -->
+          <div class="control-row">
+            <label>Điều khiển góc quay:</label>
+            <div class="btn-group">
+              <button class="btn" onclick="rotateRobot(-15)" title="Quay trái 15°">↺ 15°</button>
+              <button class="btn" onclick="rotateRobot(15)" title="Quay phải 15°">15° ↻</button>
+              <button class="btn" onclick="spinRobot()" title="Xoay tròn">🔄</button>
             </div>
-            
-            <script>
-              // Biến lưu trạng thái
-              let robotX = 0; // Tọa độ X của robot (pixel)
-              let robotY = 0; // Tọa độ Y của robot (pixel)
-              let robotAngle = 0; // Góc quay của robot (độ)
-              let robotSize = 50; // Kích thước robot (pixel)
-              let stepSize = 1.0; // Bước di chuyển (cm)
-              let cmPerPixel = 1.0; // Tỷ lệ cm/pixel
-              let isDragging = false; // Đang kéo robot?
-              let isDraggingEnabled = false; // Cho phép kéo thả robot?
-              let showGrid = false; // Hiển thị lưới?
-              let showPath = false; // Hiển thị path?
-              let invertVertical = false; // Đảo chiều dọc?
-              let invertHorizontal = false; // Đảo chiều ngang?
-              let mapSize = 100; // Kích thước bản đồ (%)
-              let mapPositionX = 0; // Vị trí X của bản đồ (%)
-              let mapPositionY = 0; // Vị trí Y của bản đồ (%)
-              let isRunningProgram = false; // Đang chạy chương trình?
-              let isProgramPaused = false; // Đang tạm dừng chương trình?
-              let currentProgramStepIndex = -1; // Chỉ số bước hiện tại
-              let programRunTimer = null; // Bộ đếm thời gian để chạy chương trình
-              let waypoints = []; // Mảng các waypoints
-              let waypointCounter = 1; // Bộ đếm waypoint
-              let selectedBlockIndex = -1; // Chỉ số của block đang chọn
-              let draggedBlock = null; // Block đang được kéo
-              let draggedBlockIndex = -1; // Chỉ số của block đang kéo
-              let dragIndicator = null; // Dấu hiệu cho vị trí kéo thả
-              let history = []; // Lịch sử thao tác
-              let historyIndex = -1; // Chỉ số vị trí lịch sử hiện tại
-              let lastWaypoint = null; // Waypoint cuối cùng (để xóa khi di chuyển)
-              
-              // Lấy tham chiếu đến các phần tử DOM
-              const robotContainer = document.getElementById('robot-container');
-              const robot = document.getElementById('robot');
-              const map = document.getElementById('map');
-              const mapContainer = document.getElementById('map-container');
-              const robotSizeSlider = document.getElementById('robot-size');
-              const sizeDisplay = document.getElementById('size-display');
-              const currentXDisplay = document.getElementById('current-x');
-              const currentYDisplay = document.getElementById('current-y');
-              const currentAngleDisplay = document.getElementById('current-angle');
-              const targetXInput = document.getElementById('target-x');
-              const targetYInput = document.getElementById('target-y');
-              const gridToggle = document.getElementById('toggle-grid');
-              const pathToggle = document.getElementById('toggle-path');
-              const gridOverlay = document.getElementById('grid-overlay');
-              const stepSizeInput = document.getElementById('step-size');
-              const scaleRatioDisplay = document.getElementById('scale-ratio');
-              const programArea = document.querySelector('.program-area');
-              const mapSizeSlider = document.getElementById('map-size');
-              const mapSizeDisplay = document.getElementById('map-size-display');
-              const mapPositionXSlider = document.getElementById('map-position-x');
-              const mapPositionYSlider = document.getElementById('map-position-y');
-              const mapPositionXDisplay = document.getElementById('map-position-x-display');
-              const mapPositionYDisplay = document.getElementById('map-position-y-display');
-              const mapYPositionControl = document.getElementById('map-y-position-control');
-              const mapVerticalMoveCheckbox = document.getElementById('map-vertical-move');
-              const mousePositionIndicator = document.getElementById('mouse-position-indicator');
-              const coordinatesDisplay = document.getElementById('coordinates-display');
-              const mouseXDisplay = document.getElementById('mouse-x');
-              const mouseYDisplay = document.getElementById('mouse-y');
-              const miniMapContainer = document.getElementById('mini-map-container');
-              const miniMap = document.getElementById('mini-map');
-              const miniMapIndicator = document.getElementById('mini-map-indicator');
-              const miniMapRobot = document.getElementById('mini-map-robot');
-              const undoButton1 = document.getElementById('undo-button-1');
-              const redoButton1 = document.getElementById('redo-button-1');
-              const undoButton2 = document.getElementById('undo-button-2');
-              const redoButton2 = document.getElementById('redo-button-2');
-              const runProgramButton = document.querySelector('.run-program');
-              
-              // Khởi tạo chức năng ban đầu
-              initializeFunctions();
-              
-              function initializeFunctions() {
-                // Tính toán vị trí trung tâm ban đầu
-                centerRobot();
-                
-                // Cập nhật hiển thị ban đầu
-                updateDisplay();
-                
-                // Thêm sự kiện cho việc kéo thả robot
-                initializeDragging();
-                
-                // Thêm sự kiện click cho map
-                initializeMapClickEvents();
-                
-                // Khởi tạo lịch sử
-                saveToHistory();
-                
-                // Thêm sự kiện keyboard shortcuts
-                setupKeyboardShortcuts();
-                
-                // Khởi tạo hiển thị tọa độ chuột
-                initializeCoordinatesDisplay();
-                
-                // Khởi tạo mini-map
-                initializeMiniMap();
-                
-                // Kéo thả cho block lệnh
-                initializeDragAndDrop();
-                
-                // Tải chương trình đã lưu
-                loadSavedPrograms();
-                
-                // Khởi tạo thông báo
-                createNotificationElement();
-                
-                // Hiển thị tooltip
-                setupTooltips();
-              }
-              
-              // Cập nhật thông tin hiển thị
-              function updateDisplay() {
-                // Cập nhật các hiển thị vị trí
-                currentXDisplay.textContent = (robotX * cmPerPixel).toFixed(1);
-                currentYDisplay.textContent = (robotY * cmPerPixel).toFixed(1);
-                currentAngleDisplay.textContent = robotAngle.toFixed(1);
-                
-                // Cập nhật tỷ lệ
-                scaleRatioDisplay.textContent = cmPerPixel.toFixed(2);
-                
-                // Cập nhật trạng thái nút
-                const historyAvailable = history.length > 0 && historyIndex > 0;
-                const redoAvailable = historyIndex < history.length - 1;
-                
-                undoButton1.disabled = !historyAvailable;
-                redoButton1.disabled = !redoAvailable;
-                undoButton2.disabled = !historyAvailable;
-                redoButton2.disabled = !redoAvailable;
-                
-                // Cập nhật mini-map
-                updateMiniMap();
-              }
-              
-              // Cập nhật vị trí và góc quay của robot
-              function updateRobotPosition() {
-                // Giới hạn robot trong phạm vi bản đồ
-                const mapRect = map.getBoundingClientRect();
-                const maxX = mapRect.width;
-                const maxY = mapRect.height;
-                
-                // Đảm bảo robot không ra khỏi map
-                robotX = Math.max(0, Math.min(robotX, maxX));
-                robotY = Math.max(0, Math.min(robotY, maxY));
-                
-                // Cập nhật vị trí và góc quay
-                robotContainer.style.left = robotX + 'px';
-                robotContainer.style.top = robotY + 'px';
-                robot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg)`;
-                
-                // Cập nhật hiển thị
-                updateDisplay();
-                
-                // Cập nhật mini-map
-                updateMiniMap();
-              }
-              
-              // Di chuyển robot đến trung tâm map
-              function centerRobot() {
-                // Lưu trạng thái hiện tại để undo
-                saveToHistory();
-                
-                // Lấy kích thước map
-                const mapRect = map.getBoundingClientRect();
-                
-                // Đặt robot vào trung tâm
-                robotX = mapRect.width / 2;
-                robotY = mapRect.height / 2;
-                
-                // Cập nhật vị trí
-                updateRobotPosition();
-                
-                // Thông báo
-                showNotification('Đã đặt robot về vị trí trung tâm', 'info');
-              }
-              
-              // Thay đổi kích thước robot
-              function resizeRobot(newSize) {
-                robotSize = parseInt(newSize);
-                robot.style.width = robotSize + 'px';
-                sizeDisplay.textContent = robotSize + 'px';
-                
-                // Lưu kích thước vào localStorage
-                localStorage.setItem('robotSize', robotSize);
-              }
-              
-              // Di chuyển theo hướng với bước di chuyển hiện tại
-              function moveRobotInDirection(dirX, dirY) {
-                // Lưu trạng thái hiện tại để undo
-                saveToHistory();
-                
-                // Tính toán khoảng cách di chuyển theo cm
-                const distanceCm = parseFloat(stepSizeInput.value) || 1.0;
-                
-                // Chuyển đổi về pixel
-                const distancePixels = distanceCm / cmPerPixel;
-                
-                // Xác định hướng tùy thuộc vào trạng thái đảo chiều
-                let actualDirX = invertHorizontal ? -dirX : dirX;
-                let actualDirY = invertVertical ? -dirY : dirY;
-                
-                // Vị trí cũ để vẽ path
-                const oldX = robotX;
-                const oldY = robotY;
-                
-                // Di chuyển theo hướng
-                if (actualDirX !== 0 && actualDirY !== 0) {
-                  // Di chuyển chéo (nhân với 0.7071 ~ 1/sqrt(2) để giữ đúng khoảng cách)
-                  robotX += actualDirX * distancePixels * 0.7071;
-                  robotY += actualDirY * distancePixels * 0.7071;
-                } else {
-                  // Di chuyển thẳng
-                  robotX += actualDirX * distancePixels;
-                  robotY += actualDirY * distancePixels;
-                }
-                
-                // Cập nhật vị trí
-                updateRobotPosition();
-                
-                // Vẽ path nếu được bật
-                if (showPath) {
-                  traceRobotPath(oldX, oldY, robotX, robotY);
-                }
-              }
+          </div>
+          
+          <!-- Hiển thị đánh dấu điểm -->
+          <div class="control-row">
+            <label>Hiển thị:</label>
+            <div>
+              <label class="toggle-btn">
+                <input type="checkbox" id="toggle-grid" onchange="toggleGrid()"> Grid
+              </label>
+              <label class="toggle-btn">
+                <input type="checkbox" id="toggle-path" onchange="togglePath()"> Path
+              </label>
+              <label class="toggle-btn">
+                <input type="checkbox" id="toggle-robot" checked onchange="toggleRobot()"> Robot
+              </label>
+            </div>
+          </div>
+          
+          <!-- Nút đánh dấu điểm -->
+          <div class="control-row">
+            <button class="btn secondary" onclick="addWaypoint()" title="Đánh dấu vị trí hiện tại">Đánh dấu điểm</button>
+          </div>
+          
+          <!-- Nút đảo chiều -->
+          <div class="control-row">
+            <label>Đảo chiều:</label>
+            <div>
+              <button id="toggle-vertical" class="btn" onclick="toggleInvert('vertical')">↕ Y</button>
+              <button id="toggle-horizontal" class="btn" onclick="toggleInvert('horizontal')">↔ X</button>
+            </div>
+          </div>
+          
+          <!-- Xóa hết waypoints -->
+          <div class="control-row">
+            <button class="btn danger" onclick="clearAllWaypoints()">Xóa tất cả waypoints</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Phân khu 2: Lập trình khối lệnh -->
+      <div id="coding-section" class="panel-section">
+        <h3 class="panel-section-title">
+          Lập Trình Robot
+          <div class="history-controls">
+            <button id="undo-button-2" onclick="undoAction()" title="Quay lại bước trước (Ctrl+Z)">↩</button>
+            <button id="redo-button-2" onclick="redoAction()" title="Tiến lại bước sau (Ctrl+Y)">↪</button>
+          </div>
+        </h3>
+        <div class="block-container">
+          <div class="block-library">
+            <div class="command-block move-up" draggable="true" ondragstart="dragStart(event)" data-command="moveUp">
+              Di chuyển lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-down" draggable="true" ondragstart="dragStart(event)" data-command="moveDown">
+              Di chuyển xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-left" draggable="true" ondragstart="dragStart(event)" data-command="moveLeft">
+              Di chuyển trái <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-right" draggable="true" ondragstart="dragStart(event)" data-command="moveRight">
+              Di chuyển phải <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-upleft" draggable="true" ondragstart="dragStart(event)" data-command="moveUpLeft">
+              Di chuyển chéo trái lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-upright" draggable="true" ondragstart="dragStart(event)" data-command="moveUpRight">
+              Di chuyển chéo phải lên <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-downleft" draggable="true" ondragstart="dragStart(event)" data-command="moveDownLeft">
+              Di chuyển chéo trái xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block move-downright" draggable="true" ondragstart="dragStart(event)" data-command="moveDownRight">
+              Di chuyển chéo phải xuống <input type="number" value="1.0" step="0.1" min="0.1"> <span class="unit-label">cm</span>
+            </div>
+            <div class="command-block rotate-left" draggable="true" ondragstart="dragStart(event)" data-command="rotateLeft">
+              Xoay trái <input type="number" value="15" step="1" min="1"> <span class="unit-label">°</span>
+            </div>
+            <div class="command-block rotate-right" draggable="true" ondragstart="dragStart(event)" data-command="rotateRight">
+              Xoay phải <input type="number" value="15" step="1" min="1"> <span class="unit-label">°</span>
+            </div>
+            <div class="command-block spin" draggable="true" ondragstart="dragStart(event)" data-command="spin">
+              Xoay tròn <input type="number" value="1" step="1" min="1"> <span class="unit-label">vòng</span>
+            </div>
+          </div>
+          
+          <div class="program-area" 
+               ondrop="drop(event)" 
+               ondragover="allowDrop(event)"
+               ondragenter="dragEnter(event)"
+               ondragleave="dragLeave(event)">
+            <div class="drag-indicator"></div>
+            <!-- Block lệnh sẽ được thêm vào đây -->
+          </div>
+          
+          <button class="run-program" onclick="runProgram()">
+            <i>▶</i> Chạy chương trình
+          </button>
+        </div>
+      </div>
+      
+      <!-- Phân khu 3: Lưu và tải -->
+      <div id="save-section" class="panel-section">
+        <h3 class="panel-section-title">Lưu/Tải Chương Trình</h3>
+        <div class="panel-content">
+          <div class="control-row">
+            <input type="text" id="program-name" placeholder="Nhập tên chương trình" class="coordinate-input" style="width: 150px;">
+            <button class="btn secondary" onclick="saveProgram()">Lưu</button>
+          </div>
+          
+          <div class="saved-items" id="saved-programs-list">
+            <!-- Danh sách chương trình sẽ được hiển thị ở đây -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="display-area">
+      <div id="map-container">
+        <img id="map" src="map.png" alt="Map">
+        <div id="robot-container">
+          <img id="robot" src="robot.png" alt="Robot">
+        </div>
+        <div id="mouse-position-indicator"></div>
+        <div id="grid-overlay"></div>
+      </div>
+      
+      <div id="coordinates-display">
+        <div>X: <span id="mouse-x">0</span> cm, Y: <span id="mouse-y">0</span> cm</div>
+      </div>
+      
+      <div id="mini-map-container">
+        <div id="mini-map">
+          <div id="mini-map-indicator"></div>
+          <div id="mini-map-robot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Biến lưu trạng thái
+    let robotX = 0; // Tọa độ X của robot (pixel)
+    let robotY = 0; // Tọa độ Y của robot (pixel)
+    let robotAngle = 0; // Góc quay của robot (độ)
+    let robotSize = 50; // Kích thước robot (pixel)
+    let robotVisible = true; // Trạng thái hiển thị robot
+    let stepSize = 1.0; // Bước di chuyển (cm)
+    let cmPerPixel = 1.0; // Tỷ lệ cm/pixel
+    let isDragging = false; // Đang kéo robot?
+    let isDraggingEnabled = false; // Cho phép kéo thả robot?
+    let showGrid = false; // Hiển thị lưới?
+    let showPath = false; // Hiển thị path?
+    let invertVertical = false; // Đảo chiều dọc?
+    let invertHorizontal = false; // Đảo chiều ngang?
+    let mapSize = 100; // Kích thước bản đồ (%)
+    let mapPositionX = 0; // Vị trí X của bản đồ (%)
+    let mapPositionY = 0; // Vị trí Y của bản đồ (%)
+    let isRunningProgram = false; // Đang chạy chương trình?
+    let isProgramPaused = false; // Đang tạm dừng chương trình?
+    let currentProgramStepIndex = -1; // Chỉ số bước hiện tại
+    let programRunTimer = null; // Bộ đếm thời gian để chạy chương trình
+    let waypoints = []; // Mảng các waypoints
+    let waypointCounter = 1; // Bộ đếm waypoint
+    let selectedBlockIndex = -1; // Chỉ số của block đang chọn
+    let draggedBlock = null; // Block đang được kéo
+    let draggedBlockIndex = -1; // Chỉ số của block đang kéo
+    let dragIndicator = null; // Dấu hiệu cho vị trí kéo thả
+    let history = []; // Lịch sử thao tác
+    let historyIndex = -1; // Chỉ số vị trí lịch sử hiện tại
+    let lastWaypoint = null; // Waypoint cuối cùng (để xóa khi di chuyển)
+    let doubleClickTimer = null; // Bộ đếm thời gian cho sự kiện double-click
+    let isDraggableRobot = false; // Đang ở chế độ kéo robot?
+    
+    // Lấy tham chiếu đến các phần tử DOM
+    const robotContainer = document.getElementById('robot-container');
+    const robot = document.getElementById('robot');
+    const map = document.getElementById('map');
+    const mapContainer = document.getElementById('map-container');
+    const robotSizeSlider = document.getElementById('robot-size');
+    const sizeDisplay = document.getElementById('size-display');
+    const currentXDisplay = document.getElementById('current-x');
+    const currentYDisplay = document.getElementById('current-y');
+    const currentAngleDisplay = document.getElementById('current-angle');
+    const targetXInput = document.getElementById('target-x');
+    const targetYInput = document.getElementById('target-y');
+    const gridToggle = document.getElementById('toggle-grid');
+    const pathToggle = document.getElementById('toggle-path');
+    const robotToggle = document.getElementById('toggle-robot');
+    const gridOverlay = document.getElementById('grid-overlay');
+    const stepSizeInput = document.getElementById('step-size');
+    const scaleRatioDisplay = document.getElementById('scale-ratio');
+    const programArea = document.querySelector('.program-area');
+    const mapSizeSlider = document.getElementById('map-size');
+    const mapSizeDisplay = document.getElementById('map-size-display');
+    const mapPositionXSlider = document.getElementById('map-position-x');
+    const mapPositionYSlider = document.getElementById('map-position-y');
+    const mapPositionXDisplay = document.getElementById('map-position-x-display');
+    const mapPositionYDisplay = document.getElementById('map-position-y-display');
+    const mapYPositionControl = document.getElementById('map-y-position-control');
+    const mapVerticalMoveCheckbox = document.getElementById('map-vertical-move');
+    const mousePositionIndicator = document.getElementById('mouse-position-indicator');
+    const coordinatesDisplay = document.getElementById('coordinates-display');
+    const mouseXDisplay = document.getElementById('mouse-x');
+    const mouseYDisplay = document.getElementById('mouse-y');
+    const miniMapContainer = document.getElementById('mini-map-container');
+    const miniMap = document.getElementById('mini-map');
+    const miniMapIndicator = document.getElementById('mini-map-indicator');
+    const miniMapRobot = document.getElementById('mini-map-robot');
+    const undoButton1 = document.getElementById('undo-button-1');
+    const redoButton1 = document.getElementById('redo-button-1');
+    const undoButton2 = document.getElementById('undo-button-2');
+    const redoButton2 = document.getElementById('redo-button-2');
+    const runProgramButton = document.querySelector('.run-program');
+    
+    // Khởi tạo chức năng ban đầu
+    initializeFunctions();
+    
+    function initializeFunctions() {
+      // Tính toán vị trí trung tâm ban đầu
+      centerRobot();
+      
+      // Cập nhật hiển thị ban đầu
+      updateDisplay();
+      
+      // Thêm sự kiện cho việc kéo thả robot
+      initializeDragging();
+      
+      // Thêm sự kiện click cho map
+      initializeMapClickEvents();
+      
+      // Khởi tạo lịch sử
+      saveToHistory();
+      
+      // Thêm sự kiện keyboard shortcuts
+      setupKeyboardShortcuts();
+      
+      // Khởi tạo hiển thị tọa độ chuột
+      initializeCoordinatesDisplay();
+      
+      // Khởi tạo mini-map
+      initializeMiniMap();
+      
+      // Kéo thả cho block lệnh
+      initializeDragAndDrop();
+      
+      // Tải chương trình đã lưu
+      loadSavedPrograms();
+      
+      // Khởi tạo thông báo
+      createNotificationElement();
+      
+      // Hiển thị tooltip
+      setupTooltips();
+      
+      // Khởi tạo sự kiện double-click robot
+      initializeRobotDoubleClick();
+    }
+    
+    // Cập nhật thông tin hiển thị
+    function updateDisplay() {
+      // Cập nhật các hiển thị vị trí
+      currentXDisplay.textContent = (robotX * cmPerPixel).toFixed(1);
+      currentYDisplay.textContent = (robotY * cmPerPixel).toFixed(1);
+      currentAngleDisplay.textContent = robotAngle.toFixed(1);
+      
+      // Cập nhật tỷ lệ
+      scaleRatioDisplay.textContent = cmPerPixel.toFixed(2);
+      
+      // Cập nhật trạng thái nút
+      const historyAvailable = history.length > 0 && historyIndex > 0;
+      const redoAvailable = historyIndex < history.length - 1;
+      
+      undoButton1.disabled = !historyAvailable;
+      redoButton1.disabled = !redoAvailable;
+      undoButton2.disabled = !historyAvailable;
+      redoButton2.disabled = !redoAvailable;
+      
+      // Cập nhật mini-map
+      updateMiniMap();
+    }
+    
+    // Cập nhật vị trí và góc quay của robot
+    function updateRobotPosition() {
+      // Giới hạn robot trong phạm vi bản đồ
+      const mapRect = map.getBoundingClientRect();
+      const maxX = mapRect.width;
+      const maxY = mapRect.height;
+      
+      // Đảm bảo robot không ra khỏi map
+      robotX = Math.max(0, Math.min(robotX, maxX));
+      robotY = Math.max(0, Math.min(robotY, maxY));
+      
+      // Cập nhật vị trí và góc quay
+      robotContainer.style.left = robotX + 'px';
+      robotContainer.style.top = robotY + 'px';
+      robot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg)`;
+      
+      // Cập nhật hiển thị
+      updateDisplay();
+      
+      // Cập nhật mini-map
+      updateMiniMap();
+    }
+    
+    // Di chuyển robot đến trung tâm map
+    function centerRobot() {
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      // Lấy kích thước map
+      const mapRect = map.getBoundingClientRect();
+      
+      // Đặt robot vào trung tâm
+      robotX = mapRect.width / 2;
+      robotY = mapRect.height / 2;
+      
+      // Cập nhật vị trí
+      updateRobotPosition();
+      
+      // Thông báo
+      showNotification('Đã đặt robot về vị trí trung tâm', 'info');
+    }
+    
+    // Thay đổi kích thước robot
+    function resizeRobot(newSize) {
+      robotSize = parseInt(newSize);
+      robot.style.width = robotSize + 'px';
+      sizeDisplay.textContent = robotSize + 'px';
+      
+      // Lưu kích thước vào localStorage
+      localStorage.setItem('robotSize', robotSize);
+    }
+    
+    // Bật/tắt hiển thị robot
+    function toggleRobot() {
+      robotVisible = robotToggle.checked;
+      robot.style.display = robotVisible ? 'block' : 'none';
+      
+      // Lưu vào localStorage
+      localStorage.setItem('robotVisible', robotVisible);
+    }
+    
+    // Di chuyển theo hướng với bước di chuyển hiện tại
+    function moveRobotInDirection(dirX, dirY) {
+      // Lưu trạng thái hiện tại để undo
+      saveToHistory();
+      
+      // Tính toán khoảng cách di chuyển theo cm
+      const distanceCm = parseFloat(stepSizeInput.value) || 1.0;
+      
+      // Chuyển đổi về pixel
+      const distancePixels = distanceCm / cmPerPixel;
+      
+      // Xác định hướng tùy thuộc vào trạng thái đảo chiều
+      let actualDirX = invertHorizontal ? -dirX : dirX;
+      let actualDirY = invertVertical ? -dirY : dirY;
+      
+      // Vị trí cũ để vẽ path
+      const oldX = robotX;
+      const oldY = robotY;
+      
+      // Di chuyển theo hướng
+      if (actualDirX !== 0 && actualDirY !== 0) {
+        // Di chuyển chéo (nhân với 0.7071 ~ 1/sqrt(2) để giữ đúng khoảng cách)
+        robotX += actualDirX * distancePixels * 0.7071;
+        robotY += actualDirY * distancePixels * 0.7071;
+      } else {
+        // Di chuyển thẳng
+        robotX += actualDirX * distancePixels;
+        robotY += actualDirY * distancePixels;
+      }
+      
+      // Cập nhật vị trí
+      updateRobotPosition();
+      
+      // Vẽ path nếu được bật
+      if (showPath) {
+        traceRobotPath(oldX, oldY, robotX, robotY);
+      }
+    }
     // Quay góc robot theo một góc nhất định
     function rotateRobot(angle) {
       // Lưu trạng thái hiện tại để undo
@@ -1473,40 +1508,68 @@
       localStorage.setItem('mapVerticalMove', mapVerticalMoveCheckbox.checked);
     }
     
+    // Khởi tạo sự kiện double-click robot
+    function initializeRobotDoubleClick() {
+      robotContainer.addEventListener('dblclick', function(e) {
+        // Khi double-click robot, bật/tắt chế độ kéo thả
+        isDraggableRobot = !isDraggableRobot;
+        
+        if (isDraggableRobot) {
+          robotContainer.style.cursor = 'grab';
+          showNotification('Bật chế độ kéo robot. Click chuột và kéo để di chuyển.', 'info');
+        } else {
+          robotContainer.style.cursor = 'default';
+          showNotification('Tắt chế độ kéo robot.', 'info');
+        }
+      });
+    }
+    
     // Khởi tạo kéo thả robot
     function initializeDragging() {
       robotContainer.addEventListener('mousedown', startDragging);
       document.addEventListener('mousemove', dragRobot);
       document.addEventListener('mouseup', stopDragging);
-      
-      // Đặt chế độ kéo thả ban đầu
-      toggleDragging();
     }
     
     // Bắt đầu kéo robot
     function startDragging(e) {
-      if (isDraggingEnabled) {
+      if (isDraggableRobot) {
         isDragging = true;
         robotContainer.classList.add('dragging');
         
         // Lưu trạng thái trước khi kéo
         saveToHistory();
+        
+        // Ngăn sự kiện mặc định và lan truyền
+        e.preventDefault();
+        e.stopPropagation();
       }
     }
     
     // Kéo robot
     function dragRobot(e) {
-      if (isDragging && isDraggingEnabled) {
+      if (isDragging && isDraggableRobot) {
         // Lấy vị trí cũ để vẽ path
         const oldX = robotX;
         const oldY = robotY;
         
         // Lấy vị trí chuột tương đối với mapContainer
         const rect = mapContainer.getBoundingClientRect();
-        robotX = e.clientX - rect.left;
-        robotY = e.clientY - rect.top;
+        
+        // Tính toán vị trí mới
+        let newX = e.clientX - rect.left;
+        let newY = e.clientY - rect.top;
+        
+        // Giới hạn robot trong phạm vi bản đồ
+        const mapWidth = map.offsetWidth;
+        const mapHeight = map.offsetHeight;
+        
+        newX = Math.max(0, Math.min(newX, mapWidth));
+        newY = Math.max(0, Math.min(newY, mapHeight));
         
         // Cập nhật vị trí
+        robotX = newX;
+        robotY = newY;
         updateRobotPosition();
         
         // Vẽ path nếu được bật
@@ -1521,17 +1584,6 @@
       if (isDragging) {
         isDragging = false;
         robotContainer.classList.remove('dragging');
-      }
-    }
-    
-    // Bật/tắt chế độ kéo thả
-    function toggleDragging() {
-      isDraggingEnabled = !isDraggingEnabled;
-      
-      if (isDraggingEnabled) {
-        robotContainer.style.cursor = 'grab';
-      } else {
-        robotContainer.style.cursor = 'default';
       }
     }
     
@@ -1551,10 +1603,23 @@
             
             // Lấy vị trí click tương đối với mapContainer
             const rect = mapContainer.getBoundingClientRect();
-            robotX = e.clientX - rect.left;
-            robotY = e.clientY - rect.top;
+            
+            // Tính toán vị trí mới
+            let newX = e.clientX - rect.left;
+            let newY = e.clientY - rect.top;
+            
+            // Giới hạn robot trong phạm vi bản đồ
+            const mapWidth = map.offsetWidth;
+            const mapHeight = map.offsetHeight;
+            
+            newX = Math.max(0, Math.min(newX, mapWidth));
+            newY = Math.max(0, Math.min(newY, mapHeight));
             
             // Cập nhật vị trí
+            robotX = newX;
+            robotY = newY;
+            
+            // Cập nhật hiển thị
             updateRobotPosition();
             
             // Vẽ path nếu được bật
@@ -1729,7 +1794,10 @@
       mapContainer.appendChild(marker);
       
       // Thêm sự kiện click để di chuyển đến waypoint
-      marker.addEventListener('click', function() {
+      marker.addEventListener('click', function(e) {
+        // Ngăn chặn sự kiện lan truyền để không kích hoạt sự kiện click của map
+        e.stopPropagation();
+        
         // Lưu vị trí cũ để vẽ path
         const oldX = robotX;
         const oldY = robotY;
@@ -2793,6 +2861,14 @@
       if (savedRobotSize) {
         resizeRobot(savedRobotSize);
         robotSizeSlider.value = savedRobotSize;
+      }
+      
+      // Trạng thái hiển thị robot
+      const savedRobotVisible = localStorage.getItem('robotVisible') !== 'false';
+      if (!savedRobotVisible) {
+        robotVisible = false;
+        robotToggle.checked = false;
+        robot.style.display = 'none';
       }
       
       // Bước di chuyển

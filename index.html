@@ -318,6 +318,7 @@
       z-index: 10;
       overflow: hidden;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      transition: width 0.3s, height 0.3s; /* Thêm transition để animation mượt hơn */
     }
     
     #mini-map {
@@ -507,11 +508,13 @@
       display: flex;
       gap: 5px;
       margin-bottom: 15px;
+      margin-top: 10px; /* Thêm khoảng cách với phần di chuyển ở trên */
+      justify-content: center; /* Căn giữa các nút */
     }
     
     .rotation-controls button {
-      flex: 1;
-      padding: 10px 0;
+      flex: 0 0 auto; /* Không cho các nút giãn đều như trước */
+      padding: 6px 12px; /* Giảm padding để nút nhỏ hơn */
       background-color: var(--light-bg);
       border: 1px solid var(--border-color);
       cursor: pointer;
@@ -519,11 +522,22 @@
       color: var(--text-dark);
       font-weight: 500;
       transition: background-color 0.2s, var(--theme-transition);
+      font-size: 0.9em; /* Giảm kích thước chữ */
+      width: auto; /* Cho phép nút có kích thước tự nhiên */
     }
     
     .rotation-controls button:hover {
       background-color: var(--primary-color);
       color: white;
+    }
+    
+    /* Tạo style riêng cho nút quay */
+    .rotation-button {
+      width: 60px !important; /* Giảm kích thước từ 80px xuống 60px */
+      text-align: center;
+      margin: 0 3px; /* Giảm khoảng cách giữa các nút */
+      font-size: 0.85em; /* Giảm kích thước chữ */
+      padding: 4px 8px !important; /* Giảm padding để nút nhỏ hơn */
     }
     
     /* Position control panel */
@@ -919,6 +933,10 @@
       position: relative;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       transition: transform 0.1s, box-shadow 0.1s;
+      width: calc(100% - 16px); /* Chỉnh lại độ rộng để đảm bảo khối không bị lòi */
+      box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước khối */
+      overflow: hidden; /* Ẩn nội dung bị lòi */
+      flex-wrap: wrap; /* Cho phép các phần tử bên trong xuống dòng nếu cần */
     }
     
     .command-block:hover {
@@ -936,6 +954,9 @@
       background-color: var(--light-bg);
       color: var(--text-dark);
       transition: var(--theme-transition);
+      box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước input */
+      max-width: 60px; /* Giới hạn độ rộng tối đa */
+      overflow: hidden; /* Ẩn nội dung bị lòi */
     }
     
     .unit-label {
@@ -1059,6 +1080,47 @@
       cursor: nwse-resize;
       z-index: 10;
       box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    /* Thêm style cho resize handle cho mini-map và coordinate display */
+    .resizable-handle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: var(--accent-color);
+      border: 2px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      z-index: 11;
+      cursor: nwse-resize;
+    }
+    
+    .resizable-handle.top-left {
+      top: -6px;
+      left: -6px;
+      cursor: nwse-resize;
+    }
+    
+    .resizable-handle.top-right {
+      top: -6px;
+      right: -6px;
+      cursor: nesw-resize;
+    }
+    
+    .resizable-handle.bottom-left {
+      bottom: -6px;
+      left: -6px;
+      cursor: nesw-resize;
+    }
+    
+    .resizable-handle.bottom-right {
+      bottom: -6px;
+      right: -6px;
+      cursor: nwse-resize;
+    }
+    
+    #mini-map-container.resizable, #coordinates-display.resizable {
+      border: 2px dashed var(--accent-color);
     }
     
     /* Input tên lưu */
@@ -1257,11 +1319,15 @@
         <i class="fas fa-arrows-alt"></i>
         <span>Điều chỉnh vị trí</span>
       </div>
-    <div class="settings-option" id="toggle-mini-map">
-      <i class="fas fa-map"></i>
-      <span>Ẩn/Hiện Mini Map</span>
+      <div class="settings-option" id="resize-mini-map">
+        <i class="fas fa-expand-arrows-alt"></i>
+        <span>Điều chỉnh kích thước Mini Map</span>
+      </div>
+      <div class="settings-option" id="toggle-mini-map">
+        <i class="fas fa-map"></i>
+        <span>Ẩn/Hiện Mini Map</span>
+      </div>
     </div>
-  </div>
     <div id="sidebar">
       <!-- Phân khu 1: Điều khiển trực tiếp -->
       <div id="control-panel" class="panel-section">
@@ -1294,8 +1360,8 @@
         </div>
         
         <div class="rotation-controls">
-          <button onclick="rotate(-5)" title="Quay trái 5 độ (Q)">⟲ Quay trái</button>
-          <button onclick="rotate(5)" title="Quay phải 5 độ (E)">⟳ Quay phải</button>
+          <button class="rotation-button" onclick="rotate(-5)" title="Quay trái 5 độ (Q)">⟲ Quay trái</button>
+          <button class="rotation-button" onclick="rotate(5)" title="Quay phải 5 độ (E)">⟳ Quay phải</button>
           <label>
             Góc quay (độ)
             <input type="number" id="rotation-angle-input" min="1" max="180" value="45">
@@ -1446,57 +1512,57 @@
         <div class="block-container">
           <div class="block-library">
             <div class="command-block move-up" draggable="true" data-command="move-up">
-              Di chuyển lên
+              ↑ Lên
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-down" draggable="true" data-command="move-down">
-              Di chuyển xuống
+              ↓ Xuống
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-left" draggable="true" data-command="move-left">
-              Di chuyển trái
+              ← Trái
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-right" draggable="true" data-command="move-right">
-              Di chuyển phải
+              → Phải
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-upleft" draggable="true" data-command="move-upleft">
-              Di chuyển chéo trái lên
+              ↖ Chéo TL
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-upright" draggable="true" data-command="move-upright">
-              Di chuyển chéo phải lên
+              ↗ Chéo PR
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-downleft" draggable="true" data-command="move-downleft">
-              Di chuyển chéo trái xuống
+              ↙ Chéo DL
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block move-downright" draggable="true" data-command="move-downright">
-              Di chuyển chéo phải xuống
+              ↘ Chéo DR
               <input type="number" value="1" min="0.1" step="0.1">
               <span class="unit-label">cm</span>
             </div>
             <div class="command-block rotate-left" draggable="true" data-command="rotate-left">
-              Quay trái
+              ⟲ Quay T
               <input type="number" value="5" min="1" step="1">
               <span class="unit-label">°</span>
             </div>
             <div class="command-block rotate-right" draggable="true" data-command="rotate-right">
-              Quay phải
+              ⟳ Quay P
               <input type="number" value="5" min="1" step="1">
               <span class="unit-label">°</span>
             </div>
             <div class="command-block spin" draggable="true" data-command="spin">
-              Xoay tròn
+              ⥁ Xoay
             </div>
           </div>
           
@@ -1511,6 +1577,9 @@
         </button>
       </div>
     </div>
+    
+    <!-- Thêm thanh điều chỉnh giữa sidebar và display-area -->
+    <div id="sidebar-resizer"></div>
     
     <div id="display-area">
       <div id="map-container">
@@ -1612,6 +1681,11 @@
     let miniMapStartLeft, miniMapStartTop;
     let coordStartLeft, coordStartTop;
     
+    // Biến cho chức năng điều chỉnh độ rộng sidebar
+    let isResizingSidebar = false;
+    let sidebarStartWidth;
+    let sidebarResizeStartX;
+    
     // Lưu trữ lịch sử
     const historyStack = [];
     const redoStack = [];
@@ -1654,11 +1728,17 @@
     const mapPositionYSlider = document.getElementById('map-position-y');
     const mapPositionYDisplay = document.getElementById('map-position-y-display');
     const mapYPositionControl = document.getElementById('map-y-position-control');
+    const sidebar = document.getElementById('sidebar');
+    const displayArea = document.getElementById('display-area');
+    const sidebarResizer = document.getElementById('sidebar-resizer');
     
     // Khởi tạo khi trang được tải
     window.onload = function() {
       // Đặt vị trí ban đầu cho robot ở giữa map
       centerRobot();
+      
+      // Tính toán tỷ lệ tự động
+      calculateScale();
       
       // Khởi tạo sự kiện kéo thả
       initDragEvents();
@@ -1686,9 +1766,8 @@
       
       // Thêm xử lý resize cửa sổ
       window.addEventListener('resize', function() {
-        updateMapBoundary();
-        initGrid();
         initMiniMap();
+        updateSidebarResizerPosition();
       });
       
       // Tải hình ảnh robot
@@ -1696,7 +1775,7 @@
       robotImg.onload = function() {
         // Cập nhật hiển thị sau khi tải xong hình ảnh robot
         updateRobotPosition();
-      };
+      }
       robotImg.src = robot.src;
       
       // Tải hình ảnh map
@@ -1706,6 +1785,13 @@
         updateMapBoundary();
       };
       mapImg.src = map.src;
+      
+      // Khôi phục kích thước sidebar từ localStorage (nếu có)
+      const savedSidebarWidth = localStorage.getItem('sidebarWidth');
+      if (savedSidebarWidth) {
+        sidebar.style.width = savedSidebarWidth + 'px';
+        updateSidebarResizerPosition();
+      }
     };
     
     // Cập nhật giới hạn map để robot không vượt ra ngoài
@@ -1813,6 +1899,70 @@
         document.addEventListener('mousemove', onRobotResize);
         document.addEventListener('mouseup', stopRobotResize);
       });
+      
+      // Khởi tạo sự kiện kéo thanh điều chỉnh sidebar
+      initSidebarResizer();
+    }
+    
+    // Khởi tạo sự kiện kéo để điều chỉnh độ rộng sidebar
+    function initSidebarResizer() {
+      sidebarResizer.addEventListener('mousedown', startResizingSidebar);
+      document.addEventListener('mouseup', stopResizingSidebar);
+      document.addEventListener('mousemove', resizeSidebar);
+      updateSidebarResizerPosition();
+    }
+    
+    // Cập nhật vị trí của thanh điều chỉnh sidebar
+    function updateSidebarResizerPosition() {
+      // Lấy chiều rộng hiện tại của sidebar
+      const sidebarWidth = sidebar.getBoundingClientRect().width;
+      // Cập nhật vị trí của thanh điều chỉnh
+      sidebarResizer.style.left = sidebarWidth + 'px';
+    }
+    
+    // Bắt đầu kéo thanh điều chỉnh sidebar
+    function startResizingSidebar(e) {
+      e.preventDefault();
+      isResizingSidebar = true;
+      sidebarResizeStartX = e.clientX;
+      sidebarStartWidth = sidebar.getBoundingClientRect().width;
+      
+      // Thêm lớp active để thay đổi giao diện khi đang kéo
+      sidebarResizer.classList.add('active');
+      
+      // Thêm lớp resizing cho body để thay đổi cursor trên toàn trang
+      document.body.classList.add('sidebar-resizing');
+    }
+    
+    // Dừng kéo thanh điều chỉnh sidebar
+    function stopResizingSidebar() {
+      if (!isResizingSidebar) return;
+      
+      isResizingSidebar = false;
+      
+      // Xóa lớp active
+      sidebarResizer.classList.remove('active');
+      
+      // Xóa lớp resizing khỏi body
+      document.body.classList.remove('sidebar-resizing');
+      
+      // Lưu chiều rộng sidebar vào localStorage
+      localStorage.setItem('sidebarWidth', sidebar.getBoundingClientRect().width + 'px');
+    }
+    
+    // Xử lý sự kiện kéo thanh điều chỉnh sidebar
+    function resizeSidebar(e) {
+      if (!isResizingSidebar) return;
+      
+      // Tính toán độ rộng mới cho sidebar
+      const delta = e.clientX - sidebarResizeStartX;
+      const newWidth = Math.max(250, Math.min(500, sidebarStartWidth + delta));
+      
+      // Cập nhật độ rộng của sidebar
+      sidebar.style.width = newWidth + 'px';
+      
+      // Cập nhật vị trí của thanh điều chỉnh
+      sidebarResizer.style.left = newWidth + 'px';
     }
     
     // Thêm sự kiện bàn phím
@@ -2013,6 +2163,12 @@
         document.getElementById('settings-dropdown').style.display = 'none';
         showNotification(isVisible ? 'Đã ẩn Mini Map' : 'Đã hiện Mini Map', 'info');
       });
+
+      // Thêm xử lý sự kiện cho nút resize-mini-map
+      document.getElementById('resize-mini-map').addEventListener('click', function() {
+        toggleResizeMode();
+        document.getElementById('settings-dropdown').style.display = 'none';
+      });
     }
     
     // Điều khiển robot
@@ -2056,7 +2212,6 @@
     }
     
     // Xoay robot
-    // Đây là vị trí của hàm rotate() trong code của bạn, khoảng line 3122
     function rotate(direction) {
       // Lưu trạng thái hiện tại để undo
       saveToHistory();
@@ -2064,7 +2219,7 @@
       // Lấy góc xoay từ input
       const angle = parseInt(document.getElementById('rotation-angle-input').value) || 45;
       
-      // Xoay robot
+      // Xoay robot - không sử dụng góc chuẩn hóa khi đang thực hiện xoay
       if (direction === -1 || direction === 'left') {
         robotAngle -= angle;
       } else if (direction === 1 || direction === 'right') {
@@ -2074,12 +2229,28 @@
         robotAngle += direction;
       }
       
-      // Chuẩn hóa góc về khoảng [0, 360)
-      robotAngle = (robotAngle + 360) % 360;
+      // Chỉnh sửa góc cho CSS transform
+      // Không chuẩn hóa góc trong phạm vi [0, 360) khi đang thực hiện animation
+      // Điều này tránh việc robot quay một vòng khi góc vượt qua 360 độ
       
-      updateRobotPosition();
-      // Xóa dòng dưới đây vì không cần thiết, thông tin đã được cập nhật trong updateRobotPosition
-      // updateInfoPanel();
+      // Cập nhật trực tiếp vị trí robot
+      robotContainer.style.left = robotX + 'px';
+      robotContainer.style.top = robotY + 'px';
+      robot.style.transform = `translate(-50%, -50%) rotate(${robotAngle}deg) scale(${robotScale})`;
+      
+      // Cập nhật vị trí điểm trung tâm
+      if (document.getElementById('robot-center')) {
+        document.getElementById('robot-center').style.left = '0px';  // Luôn ở trung tâm
+        document.getElementById('robot-center').style.top = '0px';   // Luôn ở trung tâm
+      }
+      
+      // Cập nhật thông tin hiển thị
+      document.getElementById('current-x').textContent = (robotX * cmPerPixel).toFixed(1);
+      document.getElementById('current-y').textContent = (robotY * cmPerPixel).toFixed(1);
+      document.getElementById('current-angle').textContent = robotAngle.toFixed(0);
+      
+      // Cập nhật vị trí robot trên mini-map
+      updateMiniMap();
     }
     
     // Xoay tròn robot
@@ -2117,6 +2288,32 @@
       robotY = mapRect.height / 2;
       
       updateRobotPosition();
+    }
+    
+    // Tính toán tỷ lệ cmPerPixel dựa trên kích thước thực tế
+    function calculateScale() {
+      const mapRect = map.getBoundingClientRect();
+      
+      // Kích thước thực tế của map là 120cm x 120cm (đã biết trước)
+      const realMapWidth = 120; // cm
+      const realMapHeight = 120; // cm
+      
+      // Tính tỷ lệ cm/pixel
+      const scaleX = realMapWidth / mapRect.width;
+      const scaleY = realMapHeight / mapRect.height;
+      
+      // Sử dụng tỷ lệ trung bình nếu hai giá trị khác nhau
+      const newScale = (scaleX + scaleY) / 2;
+      
+      // Cập nhật tỷ lệ toàn cục
+      cmPerPixel = newScale;
+      
+      console.log("Đã tính toán tỷ lệ: " + cmPerPixel.toFixed(3) + " cm/pixel");
+      
+      // Cập nhật hiển thị
+      document.getElementById('scale-ratio').textContent = cmPerPixel.toFixed(2);
+      
+      return newScale;
     }
     
     // Di chuyển đến tọa độ cụ thể
@@ -2203,6 +2400,36 @@ function handleCoordinatesDrag(e) {
     coordinatesDisplay.style.top = `${coordStartTop + dy}px`;
   } else if (e.type === 'mouseup') {
     isDraggingCoordinates = false;
+  }
+}
+
+// Chế độ điều chỉnh kích thước
+let isResizeMode = false;
+
+// Bật/tắt chế độ điều chỉnh kích thước
+function toggleResizeMode() {
+  isResizeMode = !isResizeMode;
+  
+  if (isResizeMode) {
+    // Thêm resize handles cho cả mini-map và ô hiển thị vị trí chuột
+    addResizeHandlesToElement(miniMapContainer, 'miniMap');
+    addResizeHandlesToElement(coordinatesDisplay, 'coordinates');
+    
+    // Hiển thị rõ rằng đang trong chế độ resize
+    miniMapContainer.classList.add('resizable');
+    coordinatesDisplay.classList.add('resizable');
+    
+    showNotification('Đã bật chế độ điều chỉnh kích thước. Kéo các góc để thay đổi kích thước.', 'info');
+  } else {
+    // Xóa resize handles
+    miniMapContainer.querySelectorAll('.resizable-handle').forEach(handle => handle.remove());
+    coordinatesDisplay.querySelectorAll('.resizable-handle').forEach(handle => handle.remove());
+    
+    // Xóa lớp resizable
+    miniMapContainer.classList.remove('resizable');
+    coordinatesDisplay.classList.remove('resizable');
+    
+    showNotification('Đã tắt chế độ điều chỉnh kích thước', 'info');
   }
 }
     
@@ -2934,14 +3161,14 @@ function handleCoordinatesDrag(e) {
       
       if (nextState.mapPositionX !== mapPositionX) {
         mapPositionX = nextState.mapPositionX;
-        mapPositionXSlider.value = mapPositionX;
-        mapPositionXDisplay.textContent = mapPositionX;
+        mapPositionXSlider.value = nextState.mapPositionX;
+        mapPositionXDisplay.textContent = nextState.mapPositionX;
       }
       
       if (nextState.mapPositionY !== mapPositionY) {
         mapPositionY = nextState.mapPositionY;
-        mapPositionYSlider.value = mapPositionY;
-        mapPositionYDisplay.textContent = mapPositionY;
+        mapPositionYSlider.value = nextState.mapPositionY;
+        mapPositionYDisplay.textContent = nextState.mapPositionY;
       }
       
       map.style.transform = `translateX(${mapPositionX}%) translateY(${mapPositionY}%)`;
@@ -3131,12 +3358,12 @@ function handleCoordinatesDrag(e) {
           
           if (state.invertVertical !== undefined) {
             invertVertical = state.invertVertical;
-            document.getElementById('toggle-vertical').classList.toggle('active', invertVertical);
+            document.getElementById('toggle-vertical').classList.add('active');
           }
           
           if (state.invertHorizontal !== undefined) {
             invertHorizontal = state.invertHorizontal;
-            document.getElementById('toggle-horizontal').classList.toggle('active', invertHorizontal);
+            document.getElementById('toggle-horizontal').classList.add('active');
           }
           
           if (state.mapSize !== undefined) {
@@ -3994,6 +4221,217 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 1000);
 });
 
+// Hàm hiển thị hộp thoại điều chỉnh kích thước mini-map
+function showMiniMapResizeDialog() {
+  // Lấy kích thước hiện tại của mini-map
+  const currentWidth = parseInt(window.getComputedStyle(miniMapContainer).width);
+  const currentHeight = parseInt(window.getComputedStyle(miniMapContainer).height);
+
+  // Tạo modal điều chỉnh kích thước
+  const resizeModal = document.createElement('div');
+  resizeModal.className = 'modal-overlay active';
+  resizeModal.innerHTML = `
+    <div class="modal-dialog">
+      <h4 style="color: var(--primary-color);">Điều chỉnh kích thước Mini Map</h4>
+      
+      <div style="margin: 15px 0;">
+        <label style="display: block; margin-bottom: 5px;">Chiều rộng (px):</label>
+        <input type="range" id="mini-map-width" min="80" max="300" value="${currentWidth}" 
+              style="width: 100%; margin-bottom: 10px;">
+        <span id="mini-map-width-value">${currentWidth}px</span>
+      </div>
+      
+      <div style="margin: 15px 0;">
+        <label style="display: block; margin-bottom: 5px;">Chiều cao (px):</label>
+        <input type="range" id="mini-map-height" min="80" max="300" value="${currentHeight}" 
+              style="width: 100%; margin-bottom: 10px;">
+        <span id="mini-map-height-value">${currentHeight}px</span>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="secondary" onclick="this.closest('.modal-overlay').remove()">Hủy</button>
+        <button class="primary" onclick="applyMiniMapResize(this)">Áp dụng</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(resizeModal);
+  
+  // Cập nhật hiển thị giá trị khi kéo slider
+  document.getElementById('mini-map-width').addEventListener('input', function() {
+    document.getElementById('mini-map-width-value').textContent = this.value + 'px';
+  });
+  
+  document.getElementById('mini-map-height').addEventListener('input', function() {
+    document.getElementById('mini-map-height-value').textContent = this.value + 'px';
+  });
+}
+
+// Hàm áp dụng thay đổi kích thước mini-map
+function applyMiniMapResize(button) {
+  const width = document.getElementById('mini-map-width').value;
+  const height = document.getElementById('mini-map-height').value;
+  
+  // Áp dụng kích thước mới
+  miniMapContainer.style.width = width + 'px';
+  miniMapContainer.style.height = height + 'px';
+  
+  // Lưu vào localStorage
+  localStorage.setItem('miniMapWidth', width);
+  localStorage.setItem('miniMapHeight', height);
+  
+  // Cập nhật lại mini-map
+  updateMiniMap();
+  
+  // Đóng modal
+  button.closest('.modal-overlay').remove();
+  
+  showNotification('Đã điều chỉnh kích thước Mini Map', 'success');
+}
+
+// Thêm chức năng điều chỉnh kích thước bằng các nút kéo góc
+function addResizeHandlesToElement(element, elementName) {
+  // Xóa các nút kéo cũ (nếu có)
+  element.querySelectorAll('.resizable-handle').forEach(handle => handle.remove());
+  
+  // Tạo các nút kéo ở 4 góc
+  const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+  
+  positions.forEach(position => {
+    const handle = document.createElement('div');
+    handle.className = `resizable-handle ${position}`;
+    
+    // Thêm xử lý sự kiện kéo
+    handle.addEventListener('mousedown', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      
+      // Lưu kích thước ban đầu và vị trí của chuột
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const startWidth = parseInt(window.getComputedStyle(element).width);
+      const startHeight = parseInt(window.getComputedStyle(element).height);
+      const startLeft = parseInt(window.getComputedStyle(element).left);
+      const startTop = parseInt(window.getComputedStyle(element).top);
+      
+      // Bắt đầu kéo
+      document.body.style.cursor = window.getComputedStyle(handle).cursor;
+      
+      // Xử lý kéo
+      function handleMouseMove(e) {
+        let newWidth, newHeight, newLeft, newTop;
+        
+        if (position === 'bottom-right') {
+          // Kéo góc phải dưới - chỉ thay đổi width và height
+          newWidth = Math.max(80, startWidth + (e.clientX - startX));
+          newHeight = Math.max(80, startHeight + (e.clientY - startY));
+          newLeft = startLeft;
+          newTop = startTop;
+        } else if (position === 'bottom-left') {
+          // Kéo góc trái dưới - thay đổi width, height, và left
+          newWidth = Math.max(80, startWidth - (e.clientX - startX));
+          newHeight = Math.max(80, startHeight + (e.clientY - startY));
+          newLeft = startLeft + (startWidth - newWidth);
+          newTop = startTop;
+        } else if (position === 'top-right') {
+          // Kéo góc phải trên - thay đổi width, height, và top
+          newWidth = Math.max(80, startWidth + (e.clientX - startX));
+          newHeight = Math.max(80, startHeight - (e.clientY - startY));
+          newLeft = startLeft;
+          newTop = startTop + (startHeight - newHeight);
+        } else if (position === 'top-left') {
+          // Kéo góc trái trên - thay đổi width, height, left, và top
+          newWidth = Math.max(80, startWidth - (e.clientX - startX));
+          newHeight = Math.max(80, startHeight - (e.clientY - startY));
+          newLeft = startLeft + (startWidth - newWidth);
+          newTop = startTop + (startHeight - newHeight);
+        }
+        
+        // Giới hạn kích thước và vị trí
+        newWidth = Math.min(400, newWidth);  // Giới hạn kích thước tối đa
+        newHeight = Math.min(400, newHeight);
+        
+        // Đặt vị trí và kích thước mới
+        element.style.width = newWidth + 'px';
+        element.style.height = newHeight + 'px';
+        element.style.left = newLeft + 'px';
+        element.style.top = newTop + 'px';
+        
+        // Lưu vào localStorage
+        localStorage.setItem(`${elementName}Width`, newWidth);
+        localStorage.setItem(`${elementName}Height`, newHeight);
+        localStorage.setItem(`${elementName}Left`, newLeft);
+        localStorage.setItem(`${elementName}Top`, newTop);
+        
+        // Cập nhật lại mini-map nếu cần
+        if (elementName === 'miniMap') {
+          updateMiniMap();
+        }
+      }
+      
+      // Hủy kéo
+      function handleMouseUp() {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.body.style.cursor = '';
+        
+        showNotification(`Đã điều chỉnh kích thước ${elementName === 'miniMap' ? 'Mini Map' : 'hiển thị vị trí chuột'}`, 'success');
+      }
+      
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    });
+    
+    element.appendChild(handle);
+  });
+}
+
+// Chức năng xử lý sự kiện di chuyển chuột khi đang kéo góc
+function handleResizeMouseMove(e, element, elementName, startX, startY, startWidth, startHeight, startLeft, startTop, position) {
+  let newWidth, newHeight, newLeft, newTop;
+  
+  if (position === 'bottom-right') {
+    // Kéo góc phải dưới - chỉ thay đổi width và height
+    newWidth = Math.max(80, startWidth + (e.clientX - startX));
+    newHeight = Math.max(80, startHeight + (e.clientY - startY));
+    newLeft = startLeft;
+    newTop = startTop;
+  } else if (position === 'bottom-left') {
+    // Kéo góc trái dưới - thay đổi width, height, và left
+    newWidth = Math.max(80, startWidth - (e.clientX - startX));
+    newHeight = Math.max(80, startHeight + (e.clientY - startY));
+    newLeft = startLeft + (startWidth - newWidth);
+    newTop = startTop;
+  } else if (position === 'top-right') {
+    // Kéo góc phải trên - thay đổi width, height, và top
+    newWidth = Math.max(80, startWidth + (e.clientX - startX));
+    newHeight = Math.max(80, startHeight - (e.clientY - startY));
+    newLeft = startLeft;
+    newTop = startTop + (startHeight - newHeight);
+  } else if (position === 'top-left') {
+    // Kéo góc trái trên - thay đổi width, height, left, và top
+    newWidth = Math.max(80, startWidth - (e.clientX - startX));
+    newHeight = Math.max(80, startHeight - (e.clientY - startY));
+    newLeft = startLeft + (startWidth - newWidth);
+    newTop = startTop + (startHeight - newHeight);
+  }
+  
+  // Giới hạn kích thước và vị trí
+  newWidth = Math.min(400, newWidth);  // Giới hạn kích thước tối đa
+  newHeight = Math.min(400, newHeight);
+  
+  // Đặt vị trí và kích thước mới
+  element.style.width = newWidth + 'px';
+  element.style.height = newHeight + 'px';
+  element.style.left = newLeft + 'px';
+  element.style.top = newTop + 'px';
+  
+  // Lưu vào localStorage
+  localStorage.setItem(`${elementName}Width`, newWidth);
+  localStorage.setItem(`${elementName}Height`, newHeight);
+  localStorage.setItem(`${elementName}Left`, newLeft);
+  localStorage.setItem(`${elementName}Top`, newTop);
+}
   </script>
 </body>
 </html>

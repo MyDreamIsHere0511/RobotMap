@@ -1,0 +1,89 @@
+OK đấy rồi chúng ta đã làm một số thay đổi nhỏ bây giờ bạn hãy lưu lại vào file bộ nhớ của bạn sau đó chúng ta sẽ cùng nhau làm việc tiếp
+
+
+bạn phải đọc thật kỹ những yêu cầu của tôi ở bên dưới hãy đọc thật kỹ những lưu ý ban đầu của tôi sau đây chúng ta sẽ có một cuộc cải tiến hết sức là quan trọng và sẽ gây ảnh hưởng rất nhiều nếu bạn không đọc kỹ bạn có thể gây ảnh hưởng tới tôi và trang web tất cả những tính năng bạn phải giữ lại trước khi bạn thay đổi một điều gì đó bạn phải suy nghĩ thật kỹ hãy suy nghĩ những câu nói của tôi nếu không hiểu tôi cho phép bạn đặc quyền bạn có thể hỏi lại tôi nếu bạn không hiểu và ngắt luôn câu trả lời của bạn không được tự ý tùy tiện làm bất cứ điều gì bạn không được tự ý, xoá đi bất cứ tính năng nào trong trang web của tôi chúng ta đang cải tiến trang web nếu tôi không yêu cầu bạn xóa đi bạn không được xóa đi những phần nào bạn cải tiến bạn phải nói rõ với tôi hãy cải tiến rõ và cải tiến đúng những yêu cầu mà tôi nói với bạn không được làm những yêu cầu này một cách liên miên không đúng quy trình
+OK bây giờ tôi lại có thêm 1 số yêu cầu thay đổi đối với đoạn code bạn hãy đọc thật kỹ những yêu cầu của tôi và tập trung 4 duy thật kỹ để chúng ta có thể cùng nhau tạo ra một đoạn code mới có nhiều tính năng hơn
+trước tiên thì tôi thấy ở trong phân khu 1 2 có một ô là hiện quãng đường di chuyển nhưng khi tôi ấn vào ô này thì tôi thấy không có gì thay đổi hết tôi không biết chúng ta có nên để lại ô này hay không tôi nghĩ có thể chúng ta sẽ bỏ ô này đi cũng được
+
+tiếp tục ở thanh tiêu đề có chứ Robot Map Inter Face tôi muốn bạn kéo dài ra xuống dưới hoặc là dịch chữ tiêu đề sang bên phải chúng ta sẽ tạo một ô có icon nhỏ ô này có tác dụng là menu công cụ để chúng ta có thể chọn những thứ chúng ta muốn web hiển thị 
+ô này sẽ có tính năng như sau khi ta click o sẽ hiển thị ra một loạt tùy chọn có nhiều mục khác nhau đầu tiên tôi nghĩ chúng ta nên tạo 3 mục chính như sau
+1// Điều khiển robot
+2// Lập trình robot
+3// Các file đã lưu 
+
+tôi sẽ giải thích thật rõ và chi tiết từng mục mục một đó chính là một điều khiển robot đây chính là phân khu một mà chúng ta vẫn thường dùng khi tôi chọn vào ô mục này thì tất cả phần điều khiển robot sẽ được hiển thị ở phân khu một như chúng ta đã định dạng
+nhưng có sự khác biệt ở đây đó chính là tất cả phần điều khiển robot được hiển thị trong một phần nghĩa là được bao viền xung quanh ở trên góc sẽ có dấu x hoặc dấu thu nhỏ để tôi có thể loại bỏ nó đi hoặc tôi có thể bấm lại vào menu và bật lại
+tính năng này sẽ giúp chúng ta có được không gian ở phân khu 1 2 thoáng đãng hơn người dùng có thể điều chỉnh được những phần mong muốn lên đầu trang hoặc cuối trang
+mục một này vẫn phải đảm bảo giữ lại những tính năng của phần lập trình điều khiển mà chúng ta đã làm chỉ là ta thay đổi lại một chút giao diện một chút tính năng mới để người dùng dễ dàng điều khiển và sử dụng hơn thôi
+
+
+mục 2 phần lập trình robot đó chính là phần lập trình khối mà chúng ta đã biết cũng như mục một khi tôi bấm vào ồ này nó sẽ hiển thị mục 2 vào phân khu 1 2 nếu trước đó chưa có mục nào thì nó sẽ được hiển thị lên đầu nếu có mục nào đó nó sẽ hiển thị sau cùng
+và nó cũng sẽ có được bao viền xung quanh trên góc của phần này cũng sẽ có dấu x và dấu thu nhỏ để người dùng có thể loại bỏ nó khi không cần thiết hoặc có thể thu nhỏ lại để tiết kiệm diện tích trang
+mục 2 này vẫn chứa những tính năng của phần lập trình khối chúng ta đã làm không được xóa đi chỉ là thay đổi một chút giao diện để người dùng dễ dàng điều khiển và sử dụng hơn thôi
+
+tiếp tục tới mục 3 đây chính là các file đã lưu đó chính là 4 phần lưu vị trí lưu kích thước lưu chương trình và nhập xuất dữ liệu tôi muốn khi tôi bấm vào menu tôi click vào mục 3 này nó sẽ hiện ra cho tôi một ô vuông nhỏ ô vuông này không nhất thiết phải nằm trong phân khu 1 2 có thể nằm trên một điểm bất kỳ ở màn hình và tôi có thể điều chỉnh nó giống như tôi điều chỉnh một trang web vậy và tất nhiên nó cũng sẽ có dấu tích và dấu thu nhỏ ở trên góc bên tay phải phía trên để người dùng có thể ít đi sau khi đã chọn đủ những file cần thiết hoặc là thu nhỏ lại để tiết kiệm diện tích
+mục 3 này vẫn giữ lại những tính năng mà chúng ta đã làm chỉ là thay đổi một chút để người dùng dễ dàng điều khiển và sử dụng hơn không được xóa đi những tính năng hiện tại của mục 3 bởi vì những tính năng đó rất quan trọng
+tôi xin nhắc lại mục 3 là từ phần lưu vị trí hiện tại cho tới những cái phần chương trình đã lưu chúng ta sẽ cho tất cả những phần này vào mục 3 để chia ra rõ ràng những tính năng cho trang web mà chúng ta đã tạo
+
+
+chúng ta cần cải tạo thêm 1 số mục nữa bạn hãy đọc kỹ những yêu cầu của tôi để chúng ta có thể hoàn thiện nó một cách tốt nhất tôi thấy phần đánh dấu điểm ý tôi là nút đánh dấu điểm trong trang web đằng hơi có một chút đơn sơ tôi muốn cải tạo lại như sau
+nút đánh dấu điểm này không chỉ đơn thuần là một nút mà nó là một menu giúp tôi đo đạc các kích thước trên bản đồ tôi có thể 
+1// đo một đoạn thẳng trên bản đồ, tôi có thể dựa vào đây để biết được khoảng cách 2 điểm trên bản đồ map 
+2// đo một hình tròn trên  bản đồ map
+3// vẽ ra một góc và đo góc đó
+4// chấm điểm
+ý tôi là tôi muốn có một menu bao gồm tất cả mục này tôi sẽ giải thích thật kỹ về những mục
+mục một đo một đoạn thẳng cho phép tôi chấm Một điểm cố định sau đó tôi sẽ kéo dài ra đến vị trí mong muốn và chấm Một điểm nữa Web sẽ đặt số thứ tự cho đoạn thẳng đã đo và phản hồi kích thước của đoạn thẳng này trong ô chứa các thông tin vị trí chuột ý tôi là sẽ phản hồi kích thước ở phần bên dưới chúng ta sẽ tạo thêm 1 phần để hiển thị kích thước chứ không hiển thị luôn kích thước lên bản đồ
+
+mục 2 đo một hình tròn trên bản đồ map mục này cho phép tôi chấm Một điểm cố định điểm còn lại tôi sẽ di chuột  tới vị trí mong muốn 2 điểm này đó chính là bán kính của đường tròn web sẽ tự vẽ ra một hình tròn dựa trên 2 điểm tôi chấm tất nhiên web cũng sẽ đặt số thứ tự cho đường tròn tôi đã vẽ và sau đó sẽ hiển thị kích thước bán kính của đường tròn trong ô chứa vị trí chuột tức là hiển thị ở phần dưới đó ở đoạn này nếu đã có kích thước đoạn thẳng thì sẽ hiển thị sau phần kích thước đoạn thắng nếu chưa có sẽ hiển thị trước
+
+mục 3 là vẽ ra một góc và đo góc đó mục này cho phép tôi chấm Một điểm cố định trên bản đồ sau đó tôi lại chấm Một điểm cố định nữa bất kỳ trên bản đồ web sẽ tạo ra một cung tròn từ 2 điểm đó cung tròn này có một đặc điểm là có một điểm ở chính giữa một điểm này nằm chính giữa cung tròn đó điểm này có tác dụng giúp tôi điều chỉnh độ to nhỏ của cung tròn khi tôi vuốt chuột hoặc là điều chỉnh vị trí của cung tròn khi tôi quay sang phải hoặc là quay sang trái cung tròn có thể quay theo hướng của tôi điều này giống như là tôi đang vẽ một đường cong vậy bạn hãy tạo ra một thuật toán thật hợp lý để phù hợp nhất
+và lưu ý số đo góc của cung này được hiển thị trong phần vị trí chuột ở dưới cùng và tất nhiên web cũng sẽ đánh số thứ tự cho những cung tròn tôi đã vẽ
+
+mục 4 là mục chấm Điểm mục này hoạt động giống y hệt phần đánh dấu điểm của chúng ta hiện tại chúng ta có thể cho tính năng đánh dấu điểm xuống mục 4
+
+cuối cùng là sau khi tạo xong 4 mục chúng ta sẽ có một menu để đo kích thước và chấm Các tọa độ,
+nếu bạn đã đọc tới đây bạn có câu hỏi nào bạn hay hỏi ngay lại tôi để tôi có kịp thời cung cấp cho bạn và có thể giải thích cho bạn kịp thời bạn có thể ngắt luôn câu trả lời sau khi hỏi tôi để tôi trả lời cho bạn sau đó chúng ta sẽ thực hiện tiếp yêu cầu còn nếu không thì bạn hãy bắt đầu vào quy trình cải tạo map cho chúng tôi tôi rất mong là bạn sẽ hoàn thành tốt nhiệm vụ này nếu có vấn đề gì hãy nói với tôi
+
+
+
+
+NHIỆM VỤ 1: ĐẾN ĐIỂM HỎA HOẠN
+Khu vực xuất phát: Ô START
+Leanbot di chuyển tránh vật cản để đến ô CO2 và gắp bình cứu hỏa.
+Yêu cầu:
+Leanbot cần di chuyển đến ô CO2 mà không chạm vào vật cản (+10 điểm)
+Leanbot gắp được bình cứu hỏa khỏi mặt đất (+10 điểm)
+
+Tôi biết nói qua cho bạn về nhiệm vụ một thì đầu tiên là bắt đầu từ ô start thì inbox sẽ được đi thẳng gọihotline một đoạn nhỏ sau đó sẽ có một vật cản thứ nhất và dò line thêm 1 đoạn nhỏ nữa sẽ có một vật cản thứ 2 và lúc đó linpus sẽ phải tự di chuyển sau đó chúng ta sẽ có một vật cản thứ 3 và tiếp tục là chúng ta phải có một đoạn dò line đến ô CO 2và ở giữa ô d 2 sẽ có một bình cứu hỏa để chúng ta gắp bình cứu hỏa và sau đó là greenbot cần gắp bình cứu hỏa và sau đó là kết thúc nhiệm vụ một
+
+
+NHIỆM VỤ 2: DẬP LỬA KHẨN CẤP
+Khu vực xuất phát: Ô CO2
+Leanbot di chuyển lên tầng 2 và đặt bình cứu hỏa tại khu vực cháy.
+Yêu cầu:
+Leanbot di chuyển lên được tầng 2 (+10 điểm)
+Leanbot đặt bình cứu hỏa nằm trọn trong FIRE ZONE (+10 điểm)
+Tôi sẽ giải thích cho bạn qua nhiệm vụ 2 nhiệm vụ 2 thì đầu tiên là inbox sẽ phải từ oxy o 2 quay một góc bao nhiêu đó và tiếp tục đi thêm 1 đoạn và quay một góc bao nhiêu đó thì sẽ đi lên trên tầng 2 đi lên trên tầng 2 thì lo bot sẽ phải tiến nghĩa là phải dò line dò line theo cái đường line đã xác địnhsau khi dò line đến ngã 4 thì linpus sẽ phải rẽ sang bên tay trái sau khi rẽ sang bên tay trái thì lon post sẽ tiến thêm 1 đoạn và sẽ có 2 bên để lên boss sẽ gắp bình cứu hỏa khi lên boss gắp bình cứu hỏa thì ờ lên bót sẽ phải nhấc sang phòng bên đối diện phòng bên đối diện thì có lẽ là linpus sẽ phải quay 180 độvà sau đó Liên Xô sẽ quay về và đó chính là nhiệm vụ 2 bạn có thể đọc qua codecode
+
+NHIỆM VỤ 3: GIẢI CỨU NẠN NHÂN
+Khu vực xuất phát: Ô FIZE ZONE
+Nạn nhân sẽ được ngẫu nhiên đặt tại Room A hoặc Room B. Leanbot giải cứu nạn nhân đến RESCUE POINT và đến ô SAFE.
+Có 2 phương án giải cứu:
+Đưa nạn nhân theo đường ống tuột cứu hộ.
+Đưa nạn nhân theo đường thang bộ.
+Yêu cầu:
+Nạn nhân về được vị trí RESCUE POINT (+10 điểm)
+Leanbot đến được ô SAFE (+10 điểm)
+Anh em tôi sẽ giải thích cho bạn qua nhiệm vụ 3 nhiệm vụ 3 thì chúng ta phải ờ quay lại và đẩy một cái ô gọi làô để thả người bị thương hay là gọi là ô để cứu hộ đó bạn có thể Xem ở trong code và đọc qua về phần này
+
+
+
+NHIỆM VỤ 4: VỀ ĐÍCH AN TOÀN
+
+
+Khu vực xuất phát: Ô SAFE
+Leanbot di chuyển bám tường gỗ để về Ô FINISH, hoàn thành thử thách.
+Yêu cầu:
+Leanbot di chuyển mà không chạm vào tường gỗ (+20 điểm)
+Tôi sẽ giải thích cho bạn qua về nhiệm vụ 4 nhiệm vụ 4 là sẽ có một đường thẳng và bên đó là có 2 dãy tường việc của limbus là không được va chạm và dãy tường và phải dùng cảm biến cảm biến hồng ngoại để có thể tránh cái dãy tường ra và đi thẳng về vị trí đích gọi là vị trí finish
